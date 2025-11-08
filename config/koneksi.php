@@ -2,7 +2,7 @@
 $host = 'localhost'; 
 $username = 'root'; 
 $password = '';
-$database = 'db_ganyeum';
+$database = 'db_ppn';
 
 $conn = new mysqli($host, $username, $password, $database);
 
