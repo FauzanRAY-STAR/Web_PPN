@@ -1,7 +1,12 @@
-<div class="container-fluid text-center" style="background-color: rgb(59, 72, 133);">
-    <div class="row text-white">
-        <div class="col py-3">
-            © Ganyeum 2024
-        </div>
     </div>
-</div>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('minimized');
+    });
+  </script>
+</body>
+</html>
