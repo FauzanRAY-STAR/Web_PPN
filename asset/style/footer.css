@@ -1,0 +1,93 @@
+.footer {
+    background-color: #1B5930;
+    color: #ffffff;
+    font-family: 'Heebo', sans-serif;
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+.footer-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* ========== BARIS ATAS ========== */
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-logos img {
+    height: 50px;
+    margin-right: 15px;
+    object-fit: contain;
+}
+
+.footer-copy {
+    font-size: 0.9rem;
+    color: #ffffff;
+}
+
+/* ========== GARIS PEMISAH ========== */
+.footer hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 15px 0;
+}
+
+/* ========== BARIS BAWAH ========== */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Link */
+.footer-links a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 25px;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #FFED64; /* warna kuning highlight */
+}
+
+/* Sosial Media */
+.footer-social a {
+    color: #ffffff;
+    font-size: 1.4rem;
+    margin-left: 20px;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.footer-social a:hover {
+    color: #FFED64;
+    transform: scale(1.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer-top, .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-logos img {
+        margin-bottom: 10px;
+    }
+
+    .footer-copy {
+        margin-top: 10px;
+    }
+
+    .footer-social {
+        margin-top: 15px;
+    }
+}
