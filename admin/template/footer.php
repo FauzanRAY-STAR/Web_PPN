@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="<?= $base_url ?>asset/style/footer.css">
 
 <!-- FOOTER -->
-<div class="footer w-100" style="background-color:#2B8D4C; margin:0; padding:0;">
+<div class="footer w-100" style="background-color:#1B5930; margin:0; padding:0;">
   <div class="footer-container text-center w-100 m-0 p-0">
 
     <!-- Baris atas -->
