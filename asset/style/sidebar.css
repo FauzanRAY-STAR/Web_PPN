@@ -1,3 +1,63 @@
+/* ===============================
+   🔍 SEARCH BAR TOP
+=============================== */
+.search-bar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.left-col {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  width: 220px;
+}
+
+.search-box i {
+  color: #888;
+  margin-right: 0.4rem;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+}
+
+.search-btn {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-btn i {
+  font-size: 1rem;
+}
+
+.search-btn:hover {
+  background-color: #0056b3;
+}
+
+/* ===============================
+   🌈 BODY
+=============================== */
 body {
   background-color: #f4f5f7;
   font-family: 'Inter', sans-serif;
@@ -11,25 +71,23 @@ body {
   background: #fff;
   border-right: 1px solid #ddd;
   width: 250px;
-  height: 100vh;
   transition: width 0.3s ease;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100vh;
   position: fixed;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
+/* Saat sidebar diminimize */
 .sidebar.minimized {
   width: 80px;
 }
 
-/* ===============================
-   🏷️ LOGO
-=============================== */
-.logo {
+.sidebar .logo {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,12 +99,26 @@ body {
   height: 36px;
 }
 
+.logo-icon {
+  height: 32px;
+  display: none;
+}
+
+.sidebar.minimized .logo-full {
+  display: none;
+}
+
+.sidebar.minimized .logo-icon {
+  display: block !important;
+}
+
+/* ===============================
+   ⚙️ TOGGLE BUTTON
+=============================== */
 #toggleSidebar {
   background: none;
   border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0;
 }
 
 #toggleSidebar img {
@@ -55,16 +127,12 @@ body {
 }
 
 /* ===============================
-   🔍 SEARCH BOX
+   🔍 SEARCH BOX STYLE
 =============================== */
-.search-container {
-  padding: 12px 20px;
-}
-
 .search-box {
   display: flex;
   align-items: center;
-  background: #fff;
+  background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 6px 10px;
@@ -73,20 +141,25 @@ body {
 }
 
 .search-box i {
-  color: #777;
   font-size: 1rem;
+  color: #777;
 }
 
 .search-box input {
   border: none;
   outline: none;
-  background: none;
+  font-size: 0.9rem;
   flex: 1;
   color: #555;
+  background: none;
 }
 
 .search-box input::placeholder {
   color: #888;
+}
+
+.sidebar .search-container {
+  padding: 12px 20px;
 }
 
 .search-icon-only {
@@ -115,13 +188,11 @@ body {
 .menu-item {
   display: flex;
   align-items: center;
-  padding: 12px 20px;
-  border-radius: 10px;
-  margin-bottom: 6px;
+  padding: 10px 20px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  color: #444;
-  height: 50px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s, all 0.3s ease;
+  margin-bottom: 4px;
 }
 
 .menu-item:hover {
@@ -130,33 +201,50 @@ body {
 
 .menu-item.active {
   background-color: #F9D70B;
-  color: #fff;
-  font-weight: 600;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
-.menu-item i {
-  font-size: 1.3rem;
-  margin-right: 12px;
-  transition: all 0.2s ease;
-}
-
+/* Ikon ikut putih kalau menu aktif */
 .menu-item.active i {
   color: white !important;
 }
 
-/* Saat minimize */
-.sidebar.minimized .menu-item {
-  justify-content: center;
-  padding: 12px 0;
+.menu-item i {
+  margin-right: 12px;
+  font-size: 1.1rem;
+  color: #444;
+  transition: all 0.2s ease;
 }
 
-.sidebar.minimized .menu-item span {
-  display: none;
+.menu-item:hover i {
+  color: #222;
+}
+
+/* ===============================
+   ✅ RAPIHKAN SAAT MINIMIZE
+=============================== */
+.sidebar.minimized .menu-item {
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+  width: 100%;
+  text-align: center;
 }
 
 .sidebar.minimized .menu-item i {
   margin: 0;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.sidebar.minimized .menu-item span {
+  display: none;
 }
 
 /* ===============================
@@ -182,7 +270,7 @@ body {
 }
 
 /* ===============================
-   🧱 MAIN CONTENT (opsional)
+   🧱 MAIN CONTENT
 =============================== */
 .main {
   margin-left: 250px;
@@ -196,122 +284,62 @@ body {
 }
 
 /* ===============================
-   🧭 FIX: Toggle tetap muncul saat minimize
+   📋 MENU PERBAIKAN ALIGNMENT
 =============================== */
-.logo {
-  position: relative;
-}
-
-#toggleSidebar {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-#toggleSidebar img {
-  width: 20px;
-  height: 20px;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-}
-
-#toggleSidebar img:hover {
-  opacity: 1;
-}
-
-/* Saat sidebar di-minimize, logo disembunyikan tapi tombol tetap ada */
-.sidebar.minimized .logo-full {
-  display: none;
-}
-
-.sidebar.minimized #toggleSidebar {
-  right: 50%;
-  transform: translate(50%, -50%);
-}
-
-/* ===============================
-   🎨 FIX: Header logo & toggle area biar proporsional
-=============================== */
-.sidebar .logo {
-  position: relative;
+.menu-item {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 70px;              /* tambahkan tinggi tetap */
-  padding: 0 16px;           /* beri ruang kiri-kanan */
-  border-bottom: 1px solid #ddd;
+  align-items: center;       /* pastikan vertikal sejajar */
+  justify-content: flex-start;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.2s, color 0.2s, all 0.3s ease;
+  margin-bottom: 6px;
+  height: 50px;              /* tinggi konsisten untuk semua item */
   box-sizing: border-box;
 }
 
-/* Saat minimized, tetap tinggi sama tapi ikon toggle di tengah */
-.sidebar.minimized .logo {
-  justify-content: center;
-  padding: 0;
+.menu-item.active {
+  background-color: #F9D70B;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* ikon tepat di tengah */
 }
 
-/* Tombol toggle tampil proporsional */
+/* agar ikon dan teks tidak bergeser */
+.menu-item i {
+  font-size: 1.3rem;
+  color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  transition: all 0.2s ease;
+}
+
+.menu-item.active i {
+  color: white !important;
+}
+
+/* ===============================
+   ⚙️ TOGGLE BUTTON ALIGNMENT
+=============================== */
 #toggleSidebar {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
   background: none;
   border: none;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 8px;
-  transition: background 0.2s ease;
-}
-
-#toggleSidebar:hover {
-  background-color: #f2f2f2;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* agar ikonnya sejajar */
+  height: 50px;              /* samakan tinggi dengan menu-item */
+  width: 100%;
 }
 
 #toggleSidebar img {
   width: 22px;
   height: 22px;
-  opacity: 0.8;
-  transition: opacity 0.2s;
-}
-
-#toggleSidebar img:hover {
-  opacity: 1;
-}
-
-/* Saat minimized, toggle tetap di tengah atas sidebar */
-.sidebar.minimized #toggleSidebar {
-  right: 50%;
-  transform: translate(50%, -50%);
-}
-
-.sidebar .menu-item span {
-  font-size: 13px; /* ubah sesuai selera */
-}
-
-/* ===============================
-   ✅ GESER MAIN KETIKA SIDEBAR MINIMIZE
-=============================== */
-.d-flex {
-  position: relative;
-}
-
-#sidebar {
-  transition: width 0.3s ease;
-}
-
-.main {
-  flex: 1;
-  margin-left: 250px;
-  transition: margin-left 0.3s ease;
-  padding: 20px;
-}
-
-/* Saat sidebar di-minimize, main otomatis bergeser kiri */
-#sidebar.minimized ~ .main {
-  margin-left: 80px;
 }
