@@ -53,14 +53,13 @@
   background-color: #0056b3;
 }
 
+body {
+  background-color: #f4f5f7;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
 
-    body {
-      background-color: #f4f5f7;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-    }
-
-    /* SIDEBAR */
+/* SIDEBAR */
 .sidebar {
   background: #fff;
   border-right: 1px solid #ddd;
@@ -73,120 +72,119 @@
   position: fixed;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); 
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
+.sidebar.minimized {
+  width: 80px;
+}
 
-    .sidebar.minimized {
-      width: 80px;
-    }
+.sidebar .logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+}
 
-    .sidebar .logo {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px;
-      border-bottom: 1px solid #ddd;
-    }
+.logo-full {
+  height: 36px;
+}
 
-    .logo-full {
-      height: 36px;
-    }
+.logo-icon {
+  height: 32px;
+  display: none;
+}
 
-    .logo-icon {
-      height: 32px;
-      display: none;
-    }
+.sidebar.minimized .logo-full {
+  display: none;
+}
 
-    .sidebar.minimized .logo-full {
-      display: none;
-    }
+.sidebar.minimized .logo-icon {
+  display: block !important;
+}
 
-    .sidebar.minimized .logo-icon {
-      display: block !important;
-    }
+/* TOGGLE BUTTON (no animation) */
+#toggleSidebar {
+  background: none;
+  border: none;
+  padding: 0;
+}
 
-    /* TOGGLE BUTTON (no animation) */
-    #toggleSidebar {
-      background: none;
-      border: none;
-      padding: 0;
-    }
+#toggleSidebar img {
+  width: 20px;
+  height: 20px;
+}
 
-    #toggleSidebar img {
-      width: 20px;
-      height: 20px;
-    }
+/* SEARCH BOX STYLE */
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 6px 10px;
+  gap: 8px;
+  height: 40px;
+}
 
-    /* SEARCH BOX STYLE */
-    .search-box {
-      display: flex;
-      align-items: center;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 6px 10px;
-      gap: 8px;
-      height: 40px;
-    }
+.search-box i {
+  font-size: 1rem;
+  color: #777;
+}
 
-    .search-box i {
-      font-size: 1rem;
-      color: #777;
-    }
+.search-box input {
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  flex: 1;
+  color: #555;
+  background: none;
+}
 
-    .search-box input {
-      border: none;
-      outline: none;
-      font-size: 0.9rem;
-      flex: 1;
-      color: #555;
-      background: none;
-    }
+.search-box input::placeholder {
+  color: #888;
+}
 
-    .search-box input::placeholder {
-      color: #888;
-    }
+/* Sidebar search behavior */
+.sidebar .search-container {
+  padding: 12px 20px;
+}
 
-    /* Sidebar search behavior */
-    .sidebar .search-container {
-      padding: 12px 20px;
-    }
+.search-icon-only {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #777;
+}
 
-    .search-icon-only {
-      display: none;
-      justify-content: center;
-      align-items: center;
-      height: 40px;
-      width: 40px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      background-color: #fff;
-      color: #777;
-    }
+.sidebar.minimized .search-box {
+  display: none;
+}
 
-    .sidebar.minimized .search-box {
-      display: none;
-    }
+.sidebar.minimized .search-icon-only {
+  display: flex;
+}
 
-    .sidebar.minimized .search-icon-only {
-      display: flex;
-    }
+/* MENU */
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+  margin-bottom: 4px;
+}
 
-    /* MENU */
-    .menu-item {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      cursor: pointer;
-      border-radius: 6px;
-      transition: background 0.2s;
-      margin-bottom: 4px;
-    }
-
-    .menu-item:hover {
-      background-color: #f3f7ee;
-    }
+.menu-item:hover {
+  background-color: #f3f7ee;
+}
 
 .menu-item.active {
   background-color: #F9D70B;
@@ -195,50 +193,60 @@
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
+/* 🟡 Tambahan baru: ikon ikut putih kalau menu aktif */
+.menu-item.active i {
+  color: white !important;
+}
 
-    .menu-item i {
-      margin-right: 12px;
-      font-size: 1.1rem;
-      color: #444;
-    }
+.menu-item i {
+  margin-right: 12px;
+  font-size: 1.1rem;
+  color: #444;
+}
 
-    .sidebar.minimized .menu-item {
-      justify-content: center;
-      padding: 12px;
-    }
+/* (Opsional) animasi halus saat hover */
+.menu-item:hover i {
+  color: #222;
+  transition: color 0.2s;
+}
 
-    .sidebar.minimized .menu-item span {
-      display: none;
-    }
+.sidebar.minimized .menu-item {
+  justify-content: center;
+  padding: 12px;
+}
 
-    /* FOOTER */
-    .sidebar-footer {
-      border-top: 1px solid #ddd;
-      padding: 12px 20px;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      margin-top: auto;
-    }
+.sidebar.minimized .menu-item span {
+  display: none;
+}
 
-    .sidebar-footer img {
-      width: 28px;
-      height: 28px;
-      margin-right: 10px;
-    }
+/* FOOTER */
+.sidebar-footer {
+  border-top: 1px solid #ddd;
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+}
 
-    .sidebar.minimized .sidebar-footer span {
-      display: none;
-    }
+.sidebar-footer img {
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+}
 
-    /* MAIN */
-    .main {
-      margin-left: 250px;
-      flex: 1;
-      padding: 20px;
-      transition: margin-left 0.3s ease;
-    }
+.sidebar.minimized .sidebar-footer span {
+  display: none;
+}
 
-    .sidebar.minimized ~ .main {
-      margin-left: 80px;
-    }
+/* MAIN */
+.main {
+  margin-left: 250px;
+  flex: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar.minimized ~ .main {
+  margin-left: 80px;
+}
