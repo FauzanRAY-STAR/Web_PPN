@@ -1,6 +1,13 @@
-/* ===============================
-   🔍 SEARCH BAR TOP
-=============================== */
+/* =========================
+   GENERAL STYLE
+========================= */
+body {
+  background-color: #f4f5f7;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* SEARCH BAR */
 .search-bar-top {
   display: flex;
   justify-content: space-between;
@@ -55,18 +62,9 @@
   background-color: #0056b3;
 }
 
-/* ===============================
-   🌈 BODY
-=============================== */
-body {
-  background-color: #f4f5f7;
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-}
-
-/* ===============================
-   📦 SIDEBAR
-=============================== */
+/* =========================
+   SIDEBAR
+========================= */
 .sidebar {
   background: #fff;
   border-right: 1px solid #ddd;
@@ -82,11 +80,11 @@ body {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Saat sidebar diminimize */
 .sidebar.minimized {
   width: 80px;
 }
 
+/* LOGO & TOGGLE */
 .sidebar .logo {
   display: flex;
   align-items: center;
@@ -112,9 +110,27 @@ body {
   display: block !important;
 }
 
-/* ===============================
-   ⚙️ TOGGLE BUTTON
-=============================== */
+/* =========================
+   FIX TOGGLE & LOGO PAS SIDEBAR MINIMIZE
+========================= */
+.sidebar.minimized .logo {
+  display: flex;
+  flex-direction: column;    /* susun vertikal */
+  align-items: center;       /* center horizontal */
+  justify-content: center;   /* center vertikal */
+  height: 50px;              /* rapat ke menu-item */
+  padding: 0;                /* hilangkan padding */
+  gap: 0;                    /* hilangkan gap */
+}
+
+.sidebar.minimized #toggleSidebar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+/* TOGGLE BUTTON */
 #toggleSidebar {
   background: none;
   border: none;
@@ -126,38 +142,7 @@ body {
   height: 20px;
 }
 
-/* ===============================
-   🔍 SEARCH BOX STYLE
-=============================== */
-.search-box {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 6px 10px;
-  gap: 8px;
-  height: 40px;
-}
-
-.search-box i {
-  font-size: 1rem;
-  color: #777;
-}
-
-.search-box input {
-  border: none;
-  outline: none;
-  font-size: 0.9rem;
-  flex: 1;
-  color: #555;
-  background: none;
-}
-
-.search-box input::placeholder {
-  color: #888;
-}
-
+/* SEARCH BOX STYLE */
 .sidebar .search-container {
   padding: 12px 20px;
 }
@@ -182,16 +167,16 @@ body {
   display: flex;
 }
 
-/* ===============================
-   📋 MENU
-=============================== */
+/* =========================
+   MENU
+========================= */
 .menu-item {
   display: flex;
   align-items: center;
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 6px;
-  transition: background 0.2s, color 0.2s, all 0.3s ease;
+  transition: background 0.2s, color 0.2s;
   margin-bottom: 4px;
 }
 
@@ -206,7 +191,6 @@ body {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Ikon ikut putih kalau menu aktif */
 .menu-item.active i {
   color: white !important;
 }
@@ -215,41 +199,35 @@ body {
   margin-right: 12px;
   font-size: 1.1rem;
   color: #444;
-  transition: all 0.2s ease;
 }
 
 .menu-item:hover i {
   color: #222;
+  transition: color 0.2s;
 }
 
-/* ===============================
-   ✅ RAPIHKAN SAAT MINIMIZE
-=============================== */
+/* FIX MENU ITEM VERTICAL CENTER PAS MINIMIZE */
 .sidebar.minimized .menu-item {
-  justify-content: center;
-  align-items: center;
-  padding: 12px 0;
-  width: 100%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;      /* susun vertikal */
+  justify-content: center;     /* center vertikal */
+  align-items: center;         /* center horizontal */
+  gap: 6px;                    /* jarak kecil antar elemen */
+  padding: 10px 0;             /* rapat area klik */
 }
 
 .sidebar.minimized .menu-item i {
   margin: 0;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+  font-size: 1.3rem;
 }
 
 .sidebar.minimized .menu-item span {
   display: none;
 }
 
-/* ===============================
-   👣 FOOTER
-=============================== */
+/* =========================
+   FOOTER
+========================= */
 .sidebar-footer {
   border-top: 1px solid #ddd;
   padding: 12px 20px;
@@ -257,6 +235,7 @@ body {
   display: flex;
   align-items: center;
   margin-top: auto;
+  position: relative;   /* supaya dropup muncul */
 }
 
 .sidebar-footer img {
@@ -269,9 +248,38 @@ body {
   display: none;
 }
 
-/* ===============================
-   🧱 MAIN CONTENT
-=============================== */
+/* DROPUP LOGOUT */
+.sidebar-footer .dropup-menu {
+  display: none;
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 6px;
+  z-index: 10;
+}
+
+.sidebar-footer .dropup-menu button {
+  width: 100%;
+  padding: 6px 0;
+  border: none;
+  background-color: #dc3545;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.sidebar-footer .dropup-menu button:hover {
+  background-color: #b02a37;
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
 .main {
   margin-left: 250px;
   flex: 1;
@@ -283,63 +291,3 @@ body {
   margin-left: 80px;
 }
 
-/* ===============================
-   📋 MENU PERBAIKAN ALIGNMENT
-=============================== */
-.menu-item {
-  display: flex;
-  align-items: center;       /* pastikan vertikal sejajar */
-  justify-content: flex-start;
-  padding: 12px 20px;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: background 0.2s, color 0.2s, all 0.3s ease;
-  margin-bottom: 6px;
-  height: 50px;              /* tinggi konsisten untuk semua item */
-  box-sizing: border-box;
-}
-
-.menu-item.active {
-  background-color: #F9D70B;
-  color: #fff;
-  font-weight: 600;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;   /* ikon tepat di tengah */
-}
-
-/* agar ikon dan teks tidak bergeser */
-.menu-item i {
-  font-size: 1.3rem;
-  color: #444;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  transition: all 0.2s ease;
-}
-
-.menu-item.active i {
-  color: white !important;
-}
-
-/* ===============================
-   ⚙️ TOGGLE BUTTON ALIGNMENT
-=============================== */
-#toggleSidebar {
-  background: none;
-  border: none;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;   /* agar ikonnya sejajar */
-  height: 50px;              /* samakan tinggi dengan menu-item */
-  width: 100%;
-}
-
-#toggleSidebar img {
-  width: 22px;
-  height: 22px;
-}

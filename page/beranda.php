@@ -395,10 +395,6 @@ include('config/koneksi.php');
         </div>
     </div>
 
-   <!-- Footer -->
-    <?php
-    include('admin/template/footer.php');
-    ?>
 
     <!-- ============================================ -->
     <!-- JAVASCRIPT LIBRARIES -->
@@ -421,6 +417,12 @@ include('config/koneksi.php');
             });
         });
     </script>
+
+<!-- Footer -->
+<?php
+include('admin/template/footer.php');
+?>
+
 
 </body>
 

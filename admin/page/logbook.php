@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../auth_check.php';
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -8,6 +11,11 @@
   <!-- Bootstrap & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- Sidebar Style -->
+  <link rel="stylesheet" href="/WEB_PPN/asset/style/sidebar.css">
+
+  <!-- Logbook Style -->
   <link rel="stylesheet" href="../../asset/style/logbook.css">
 
   <!-- Chart.js -->
@@ -15,9 +23,7 @@
 </head>
 <body>
   <div class="d-flex">
-    <?php
-    include('../template/sidebar.php');
-    ?>
+    <?php include('../template/sidebar.php'); ?>
 
     <div class="main w-100">
       <!-- Header -->
@@ -27,7 +33,6 @@
       <div class="row g-3 mb-3">
         <div class="col-md-4 col-lg-3">
           <div class="card-stat">
-            <!-- Chart -->
             <canvas id="chartProduk" height="200"></canvas>
             <span class="chart-label">Rekap Bulanan</span>
           </div>
@@ -134,15 +139,16 @@
         </div>
       </div>
 
-     <!-- Pagination -->
-<div class="pagination-wrapper d-flex justify-content-center mt-3 gap-3">
-  <button class="btn-page nav" style><i class="bi bi-chevron-left"></i></button>
-  <button class="btn-page active">1</button>
-  <button class="btn-page nav"><i class="bi bi-chevron-right"></i></button>
-</div>
+      <!-- Pagination -->
+      <div class="pagination-wrapper d-flex justify-content-center mt-3 gap-3">
+        <button class="btn-page nav"><i class="bi bi-chevron-left"></i></button>
+        <button class="btn-page active">1</button>
+        <button class="btn-page nav"><i class="bi bi-chevron-right"></i></button>
+      </div>
+    </div> <!-- end .main -->
+  </div> <!-- end .d-flex -->
 
-
-
+  <!-- Chart Script -->
   <script>
     const ctx = document.getElementById('chartProduk');
     new Chart(ctx, {
@@ -150,34 +156,10 @@
       data: {
         labels: ['Oktober'],
         datasets: [
-          {
-            label: 'TNS',
-            data: [25],
-            backgroundColor: '#8C8CFF',
-            borderRadius: 5,
-            barThickness: 30
-          },
-          {
-            label: 'TNT',
-            data: [30],
-            backgroundColor: '#FFB2A8',
-            borderRadius: 5,
-            barThickness: 30
-          },
-          {
-            label: 'TNH',
-            data: [10],
-            backgroundColor: '#74D4E0',
-            borderRadius: 5,
-            barThickness: 30
-          },
-          {
-            label: 'TNB',
-            data: [40],
-            backgroundColor: '#FFC56D',
-            borderRadius: 5,
-            barThickness: 30
-          }
+          { label: 'TNS', data: [25], backgroundColor: '#8C8CFF', borderRadius: 5, barThickness: 30 },
+          { label: 'TNT', data: [30], backgroundColor: '#FFB2A8', borderRadius: 5, barThickness: 30 },
+          { label: 'TNH', data: [10], backgroundColor: '#74D4E0', borderRadius: 5, barThickness: 30 },
+          { label: 'TNB', data: [40], backgroundColor: '#FFC56D', borderRadius: 5, barThickness: 30 }
         ]
       },
       options: {
@@ -189,7 +171,9 @@
             labels: {
               usePointStyle: true,
               pointStyle: 'circle',
-              padding: 20,
+              boxWidth: 8,   // lebar buletan legend (default 40)
+              boxHeight: 8, 
+              padding: 10,
               color: '#555',
               font: { size: 13 }
             }
@@ -202,21 +186,8 @@
           }
         },
         scales: {
-          x: {
-            grid: { display: false },
-            ticks: {
-              color: '#666',
-              font: { size: 14 }
-            }
-          },
-          y: {
-            beginAtZero: true,
-            grid: { color: '#f2f2f2' },
-            ticks: {
-              stepSize: 5,
-              color: '#666'
-            }
-          }
+          x: { grid: { display: false }, ticks: { color: '#666', font: { size: 14 } } },
+          y: { beginAtZero: true, grid: { color: '#f2f2f2' }, ticks: { stepSize: 5, color: '#666' } }
         },
         layout: { padding: 10 }
       }

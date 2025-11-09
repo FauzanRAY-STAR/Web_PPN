@@ -15,7 +15,7 @@
 
 <body>
   <div class="d-flex">
-<?php include('../template/sidebar.php'); ?>
+  <?php include('../template/sidebar.php'); ?>
 
     <div class="main">
       <div class="header-section">Testimoni</div>
@@ -147,13 +147,5 @@
       </div>
     </div>
   </div>
-
-  <script>
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleSidebar');
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('minimized');
-    });
-  </script>
 </body>
 </html>

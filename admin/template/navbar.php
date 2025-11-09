@@ -21,6 +21,7 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="<?= $base_url ?>asset/style/navbar.css">
+  <link rel="stylesheet" href="<?= $base_url ?>asset/style/login.css">
 </head>
 
 <body>
@@ -97,12 +98,59 @@
         </ul>
 
         <!-- ICON USER -->
-        <a href="<?= $base_url ?>login" class="nav-link d-flex align-items-center ms-lg-3">
-          <img src="<?= $base_url ?>asset/img/userlog.png" alt="User" height="22" width="22" />
+        <a href="#" class="nav-link d-flex align-items-center ms-lg-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+        <img src="<?= $base_url ?>asset/img/userlog.png" alt="User" height="22" width="22" />
         </a>
+
       </div>
     </div>
   </nav>
+
+<?php
+session_start();
+if (!empty($_SESSION['login_error'])):
+?>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <?= htmlspecialchars($_SESSION['login_error']) ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<?php
+  unset($_SESSION['login_error']);
+endif;
+?>
+
+<!-- ============================================ -->
+<!-- MODAL LOGIN PPN -->
+<!-- ============================================ -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4 p-4">
+
+      <!-- Logo dan Judul -->
+      <div class="text-center mb-4">
+        <img src="<?= $base_url ?>asset/img/Logo.png" alt="Logo PPN" style="height:60px;">
+      </div>
+
+      <!-- Form Login -->
+      <form action="login.php" method="POST" class="px-2">
+        <div class="mb-3">
+          <label for="username" class="form-label fw-medium">Username</label>
+          <input type="text" class="form-control custom-input" id="username" name="username" placeholder="Masukkan username" required>
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label fw-medium">Password</label>
+          <input type="password" class="form-control custom-input" id="password" name="password" placeholder="Masukkan password" required>
+        </div>
+
+        <button type="submit" class="btn btn-gradient w-100 py-2 fw-semibold">Masuk</button>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
 
   <!-- ============================================ -->
   <!-- JAVASCRIPT -->

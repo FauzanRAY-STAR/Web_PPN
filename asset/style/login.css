@@ -1,50 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+/* ===========================
+   LOGIN MODAL - PPN STYLE
+   =========================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-body{
-    font-family: 'Poppins', sans-serif;
-    background: #ececec;
+body {
+  font-family: 'Poppins', sans-serif;
 }
 
-/*------------ Login container ------------*/
-
-.box-area{
-    width: 930px;
+/* Input field dengan border gradient */
+.custom-input {
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background: #fff;
+  border-image: linear-gradient(90deg, #4CAF50, #FFC107) 1;
+  box-shadow: none;
+  transition: all 0.3s ease;
 }
 
-/*------------ Right box ------------*/
-
-.right-box{
-    padding: 40px 30px 40px 40px;
+.custom-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.2);
 }
 
-/*------------ Custom Placeholder ------------*/
-
-::placeholder{
-    font-size: 16px;
+/* Tombol gradient */
+.btn-gradient {
+  background: linear-gradient(90deg, #4CAF50, #FFC107);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  transition: 0.3s ease;
 }
 
-.rounded-4{
-    border-radius: 20px;
-}
-.rounded-5{
-    border-radius: 30px;
+.btn-gradient:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-
-/*------------ For small screens------------*/
-
-@media only screen and (max-width: 768px){
-
-     .box-area{
-        margin: 0 10px;
-
-     }
-     .left-box{
-        height: 100px;
-        overflow: hidden;
-     }
-     .right-box{
-        padding: 20px;
-     }
-
+/* Modal styling */
+.modal-content {
+  border-radius: 20px !important;
 }

@@ -205,7 +205,9 @@ body {
   background-color: #2B8D4C;
   color: #fff;
 }
-
+.btn-page.nav i {
+  color: white;
+}
 
 /* Tombol next/prev */
 .btn-page.nav {
