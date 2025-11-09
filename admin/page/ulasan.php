@@ -70,63 +70,6 @@
       overflow-x: hidden;
     }
 
-    /* SIDEBAR */
-.sidebar {
-  background: #fff;
-  border-right: 1px solid #ddd;
-  width: 250px;
-  transition: width 0.3s ease;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  position: fixed;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); 
-}
-
-
-    .sidebar.minimized {
-      width: 80px;
-    }
-
-    .sidebar .logo {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .logo-full {
-      height: 36px;
-    }
-
-    .logo-icon {
-      height: 32px;
-      display: none;
-    }
-
-    .sidebar.minimized .logo-full {
-      display: none;
-    }
-
-    .sidebar.minimized .logo-icon {
-      display: block !important;
-    }
-
-    /* TOGGLE BUTTON (no animation) */
-    #toggleSidebar {
-      background: none;
-      border: none;
-      padding: 0;
-    }
-
-    #toggleSidebar img {
-      width: 20px;
-      height: 20px;
-    }
 
     /* SEARCH BOX STYLE */
     .search-box {
@@ -183,75 +126,7 @@
       display: flex;
     }
 
-    /* MENU */
-    .menu-item {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      cursor: pointer;
-      border-radius: 6px;
-      transition: background 0.2s;
-      margin-bottom: 4px;
-    }
 
-    .menu-item:hover {
-      background-color: #f3f7ee;
-    }
-
-.menu-item.active {
-  background-color: #F9D70B;
-  color: white;
-  font-weight: 500;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-}
-
-
-    .menu-item i {
-      margin-right: 12px;
-      font-size: 1.1rem;
-      color: #444;
-    }
-
-    .sidebar.minimized .menu-item {
-      justify-content: center;
-      padding: 12px;
-    }
-
-    .sidebar.minimized .menu-item span {
-      display: none;
-    }
-
-    /* FOOTER */
-    .sidebar-footer {
-      border-top: 1px solid #ddd;
-      padding: 12px 20px;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      margin-top: auto;
-    }
-
-    .sidebar-footer img {
-      width: 28px;
-      height: 28px;
-      margin-right: 10px;
-    }
-
-    .sidebar.minimized .sidebar-footer span {
-      display: none;
-    }
-
-    /* MAIN */
-    .main {
-      margin-left: 250px;
-      flex: 1;
-      padding: 20px;
-      transition: margin-left 0.3s ease;
-    }
-
-    .sidebar.minimized ~ .main {
-      margin-left: 80px;
-    }
 
     .header-section {
       background: url('../../asset/img/HeadBanner.png') center/cover;
@@ -346,43 +221,9 @@
 
 <body>
   <div class="d-flex">
-    <!-- SIDEBAR -->
-    <div id="sidebar" class="sidebar">
-      <div class="logo">
-        <img src="../../asset/img/Logo.png" alt="PPN Logo" class="logo-full">
-        <button class="btn btn-sm" id="toggleSidebar" style="background: none; border: none; padding: 0;">
-          <img src="../../asset/img/Sidebar.png" alt="Toggle Sidebar" style="width: 20px; height: 20px;">
-        </button>
-      </div>
-
-      <!-- SEARCH -->
-      <div class="search-container">
-        <div class="search-box">
-          <i class="bi bi-search"></i>
-          <input type="text" placeholder="Search">
-        </div>
-        <div class="search-icon-only">
-          <i class="bi bi-search"></i>
-        </div>
-      </div>
-
-      <!-- MENU -->
-      <div class="p-3">
-        <p class="text-secondary small fw-semibold">Menu</p>
-        <div class="menu-item"><i class="bi bi-box-seam" ></i><span>Manajemen Produk</span></div>
-        <div class="menu-item"><i class="bi bi-journal-text"></i><span>Logbook</span></div>
-        <div class="menu-item active"><i class="bi bi-chat-dots" style="color: white;"></i><span>Testimoni</span></div>
-        <div class="menu-item"><i class="bi bi-image"></i><span>Galeri</span></div>
-        <div class="menu-item"><i class="bi bi-question-circle"></i><span>FAQ</span></div>
-      </div>
-
-      <!-- FOOTER -->
-      <div class="sidebar-footer">
-        <img src="../../asset/img/userlog.png" alt="Admin">
-        <span>Administrator</span>
-      </div>
-    </div>
-
+<?php
+    include('../template/sidebar.php');
+    ?>
     <div class="main">
   <div class="header-section">Testimoni</div>
 

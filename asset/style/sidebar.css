@@ -292,3 +292,26 @@ body {
 .sidebar .menu-item span {
   font-size: 13px; /* ubah sesuai selera */
 }
+
+/* ===============================
+   ✅ GESER MAIN KETIKA SIDEBAR MINIMIZE
+=============================== */
+.d-flex {
+  position: relative;
+}
+
+#sidebar {
+  transition: width 0.3s ease;
+}
+
+.main {
+  flex: 1;
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+  padding: 20px;
+}
+
+/* Saat sidebar di-minimize, main otomatis bergeser kiri */
+#sidebar.minimized ~ .main {
+  margin-left: 80px;
+}
