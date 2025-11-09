@@ -87,11 +87,11 @@ include('config/koneksi.php');
                             <img src="asset/img/produk2.png" class="img-fluid" alt="Silika Plus" style="max-width: 300px;">
                         </div>
                         <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
-                            <h4 class="fw-bold" style="color: #2B8D4C;">Silika Plus</h4>
+                            <h4 class="fw-bold" style="color: #2B8D4C;">Tera Nusa Maxi-D</h4>
                             <p style="color: #2B8D4C;">
                                 Kombinasi silika aktif dan nutrisi mikro untuk pertumbuhan optimal tanaman.
                             </p>
-                            <a href="#" class="btn-selengkapnya mt-2">Selengkapnya</a>
+                            <a href="page/detail_produk.php" class="btn-selengkapnya mt-2">Selengkapnya</a>
                         </div>
                     </div>
                 </div>

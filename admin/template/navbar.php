@@ -51,13 +51,13 @@
       <!-- NAV LINKS -->
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-          <li class="nav-item"><a href="<?= $base_url ?>page/beranda.php" class="nav-link active">Beranda</a></li>
+          <li class="nav-item"><a href="<?= $base_url ?>beranda" class="nav-link active">Beranda</a></li>
           <li class="nav-item"><a href="<?= $base_url ?>shop" class="nav-link">Shop</a></li>
 
           <!-- Dropdown Tentang Kami -->
           <li class="nav-item dropdown position-static">
             <a
-              href="#"
+              href="page/tentang_kami.php"
               class="nav-link dropdown-toggle"
               id="tentangKamiDropdown"
               role="button"
@@ -82,10 +82,10 @@
                 <div class="dropdown-divider-vert"></div>
 
                 <div class="col-lg-6 col-md-12">
-                  <a href="<?= $base_url ?>profil-perusahaan" class="d-block py-2 fw-semibold text-link">
+                  <a href="<?= $base_url ?>page/tentang_kami.php" class="d-block py-2 fw-semibold text-link">
                     Sekilas Pramudita Pupuk Nusantara
                   </a>
-                  <a href="<?= $base_url ?>visi-misi" class="d-block py-2 fw-semibold text-link">Visi & Misi</a>
+                  <a href="<?= $base_url ?>page/visi_misi.php" class="d-block py-2 fw-semibold text-link">Visi & Misi</a>
                   <a href="<?= $base_url ?>tim-kami" class="d-block py-2 fw-semibold text-link">Jangkauan Pengguna</a>
                 </div>
               </div>
