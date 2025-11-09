@@ -3,6 +3,19 @@
 /* ============================================ */
 
 /* ===== GLOBAL STYLES ===== */
+
+.container-fluid.py-5:last-of-type {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+footer,
+.footer {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+
 body {
   overflow-x: hidden;
 }
@@ -527,3 +540,103 @@ img {
     font-size: 1.5rem;
   }
 }
+
+/* ===== FIX FULL WIDTH & NO GAP BETWEEN SECTIONS ===== */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+/* Hilangkan margin & padding antar section */
+section,
+.container,
+.container-fluid {
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Hilangkan jarak antara testimoni dan footer */
+section.testimoni,
+#testimoni,
+.container-fluid[style*="#2B8D4C"] {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Footer langsung nempel, full width */
+footer,
+.footer {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  width: 100% !important;
+}
+
+/* Hilangkan celah akibat row bootstrap */
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Pastikan background warna hijau testimoni dan footer nempel */
+.container-fluid[style*="#2B8D4C"],
+.footer {
+  display: block;
+  width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ===== FIX WHITE GAP BETWEEN TESTIMONI & FOOTER ===== */
+
+/* Hilangkan margin/padding dari section terakhir (testimoni) */
+section:last-of-type,
+.container-fluid:last-of-type {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Pastikan warna hijau testimoni nempel ke footer */
+#testimoni,
+section.testimoni,
+.container-fluid[style*="#2B8D4C"] {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  background-color: #2b8d4c !important;
+}
+
+/* Hapus area putih sebelum footer */
+#testimoni + *,
+.container-fluid[style*="background-color: white"],
+section[style*="background-color: white"] {
+  display: none !important;
+}
+
+/* Footer rapat dan full layar */
+footer,
+.footer {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  background-color: #2b8d4c !important;
+  width: 100% !important;
+}
+
+/* Hilangkan sisa jarak dari row Bootstrap */
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Hilangkan jarak antara testimoni dan footer */
+.container-fluid.py-5[style*="background-color: #2B8D4C;"] {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+footer {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+

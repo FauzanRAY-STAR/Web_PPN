@@ -1,57 +1,63 @@
+<?php include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/config.php'); ?>
+
 <!-- ============================================ -->
 <!-- FOOTER SECTION -->
 <!-- ============================================ -->
- <!-- Favicon -->
-    <link href="asset/img/LogoIco.ico" rel="icon">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css?family=Heebo&display=swap" rel="stylesheet">
+<!-- Favicon -->
+<link href="<?= $base_url ?>asset/img/LogoIco.ico" rel="icon">
 
-    <!-- Icon Font Stylesheets -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Heebo&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link href="asset/style/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Icon Font Stylesheets -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
 
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<link rel="stylesheet" href="../../asset/style/footer.css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="<?= $base_url ?>asset/style/footer.css">
 
-<div class="footer">
-    <div class="footer-container">
-        <!-- Baris atas -->
-        <div class="footer-top">
-            <div class="footer-logos">
-                <img src="../../asset/img/Logo.png" alt="Logo PPN">
-                <img src="../../asset/img/Logo2.png" alt="Logo Telkom University">
-                <img src="../../asset/img/Logo3.png" alt="Logo Software Engineering">
-            </div>
+<!-- FOOTER -->
+<div class="footer w-100" style="background-color:#2B8D4C; margin:0; padding:0;">
+  <div class="footer-container text-center w-100 m-0 p-0">
 
-            <p class="footer-copy">
-                Copyright @PramuditaPupuknusantara 2025 - All Right Reserved
-            </p>
-        </div>
+    <!-- Baris atas -->
+    <div class="footer-top py-4 m-0">
+      <div class="footer-logos d-flex justify-content-center align-items-center gap-3 flex-wrap">
+        <img src="<?= $base_url ?>asset/img/Logo.png" alt="Logo PPN" height="50">
+        <img src="<?= $base_url ?>asset/img/Logo2.png" alt="Logo Telkom University" height="50">
+        <img src="<?= $base_url ?>asset/img/Logo3.png" alt="Logo Software Engineering" height="50">
+      </div>
 
-        <hr>
-
-        <!-- Baris bawah -->
-        <div class="footer-bottom">
-            <div class="footer-links">
-                <a href="#">Beranda</a>
-                <a href="#">Hubungi Kami</a>
-                <a href="#">Kantor Kami</a>
-            </div>
-
-            <div class="footer-social">
-                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-tiktok"></i></a>
-            </div>
-        </div>
+      <p class="footer-copy mt-3 mb-0 text-white">
+        &copy; Pramudita Pupuk Nusantara 2025 - All Rights Reserved
+      </p>
     </div>
+
+    <hr class="m-0" style="border-color: rgba(255,255,255,0.3);">
+
+    <!-- Baris bawah -->
+    <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center py-3 px-4">
+      <div class="footer-links d-flex gap-3 mb-3 mb-md-0">
+        <a href="<?= $base_url ?>page/beranda.php" class="text-white text-decoration-none">Beranda</a>
+        <a href="<?= $base_url ?>kontak" class="text-white text-decoration-none">Hubungi Kami</a>
+        <a href="<?= $base_url ?>kantor" class="text-white text-decoration-none">Kantor Kami</a>
+      </div>
+
+      <div class="footer-social d-flex gap-3">
+        <a href="#" class="text-white"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="text-white"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="text-white"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

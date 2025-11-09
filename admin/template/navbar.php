@@ -1,3 +1,4 @@
+<?php include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/config.php'); ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,7 +7,7 @@
   <title>Navbar | PTPPN</title>
 
   <!-- Favicon -->
-  <link href="../../asset/img/LogoIco.ico" rel="icon" />
+  <link href="<?= $base_url ?>asset/img/LogoIco.ico" rel="icon" />
 
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Heebo&display=swap" rel="stylesheet" />
@@ -19,7 +20,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
 
   <!-- Custom CSS -->
-   <link rel="stylesheet" href="../../asset/style/navbar.css">
+  <link rel="stylesheet" href="<?= $base_url ?>asset/style/navbar.css">
 </head>
 
 <body>
@@ -29,8 +30,8 @@
   <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container-fluid">
       <!-- LOGO -->
-      <a href="#" class="navbar-brand d-flex align-items-center">
-        <img src="../../asset/img/Logo.png" alt="Logo" />
+      <a href="<?= $base_url ?>" class="navbar-brand d-flex align-items-center">
+        <img src="<?= $base_url ?>asset/img/Logo.png" alt="Logo" />
       </a>
 
       <!-- TOGGLER -->
@@ -49,8 +50,8 @@
       <!-- NAV LINKS -->
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-          <li class="nav-item"><a href="#" class="nav-link active">Beranda</a></li>
-          <li class="nav-item"><a href="../../shop" class="nav-link">Shop</a></li>
+          <li class="nav-item"><a href="<?= $base_url ?>page/beranda.php" class="nav-link active">Beranda</a></li>
+          <li class="nav-item"><a href="<?= $base_url ?>shop" class="nav-link">Shop</a></li>
 
           <!-- Dropdown Tentang Kami -->
           <li class="nav-item dropdown position-static">
@@ -80,24 +81,24 @@
                 <div class="dropdown-divider-vert"></div>
 
                 <div class="col-lg-6 col-md-12">
-                  <a href="../../profil-perusahaan" class="d-block py-2 fw-semibold text-link"
-                    >Sekilas Pramudita Pupuk Nusantara</a
-                  >
-                  <a href="../../visi-misi" class="d-block py-2 fw-semibold text-link">Visi & Misi</a>
-                  <a href="../../tim-kami" class="d-block py-2 fw-semibold text-link">Jangkauan Pengguna</a>
+                  <a href="<?= $base_url ?>profil-perusahaan" class="d-block py-2 fw-semibold text-link">
+                    Sekilas Pramudita Pupuk Nusantara
+                  </a>
+                  <a href="<?= $base_url ?>visi-misi" class="d-block py-2 fw-semibold text-link">Visi & Misi</a>
+                  <a href="<?= $base_url ?>tim-kami" class="d-block py-2 fw-semibold text-link">Jangkauan Pengguna</a>
                 </div>
               </div>
             </div>
           </li>
 
-          <li class="nav-item"><a href="../../galeri" class="nav-link">Galeri</a></li>
-          <li class="nav-item"><a href="../../produk" class="nav-link">Produk</a></li>
-          <li class="nav-item"><a href="../../kontak" class="nav-link">Kontak</a></li>
+          <li class="nav-item"><a href="<?= $base_url ?>galeri" class="nav-link">Galeri</a></li>
+          <li class="nav-item"><a href="<?= $base_url ?>produk" class="nav-link">Produk</a></li>
+          <li class="nav-item"><a href="<?= $base_url ?>kontak" class="nav-link">Kontak</a></li>
         </ul>
 
         <!-- ICON USER -->
-        <a href="../../login" class="nav-link d-flex align-items-center ms-lg-3">
-          <img src="../../asset/img/userlog.png" alt="User" height="22" width="22" />
+        <a href="<?= $base_url ?>login" class="nav-link d-flex align-items-center ms-lg-3">
+          <img src="<?= $base_url ?>asset/img/userlog.png" alt="User" height="22" width="22" />
         </a>
       </div>
     </div>

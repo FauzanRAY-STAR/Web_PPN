@@ -34,56 +34,10 @@ include('config/koneksi.php');
 </head>
 
 <body>
-    <!-- ============================================ -->
-    <!-- NAVBAR + HERO SECTION -->
-    <!-- ============================================ -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top px-3" style="width:100%; background-color: #FFFFFF;">
-        <a href="#" class="navbar-brand p-0 d-flex flex-row align-items-center">
-            <img src="asset/img/Logo.png" alt="Logo" class="me-3" style="height: 40px;">
-        </a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="fa fa-bars" style="color: #2B8D4C;"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto py-0 pe-4">
-                <a href="#" class="nav-item nav-link active" style="color: #2B8D4C;">Beranda</a>
-                <a href="shop" class="nav-item nav-link" style="color: #2B8D4C;">Shop</a>
-
-                <!-- Dropdown Tentang Kami -->
-                <div class="nav-item dropdown position-static">
-                    <a href="#" class="nav-link dropdown-toggle" id="tentangKamiDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #2B8D4C;">
-                        Tentang Kami
-                    </a>
-
-                    <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-4" aria-labelledby="tentangKamiDropdown" style="background-color:#fff;">
-                        <div class="container d-flex flex-row align-items-start flex-wrap">
-                            <div class="col-lg-3 col-md-12 mb-3 d-flex align-items-start justify-content-center">
-                                <h4 class="fw-bold mb-0" style="color:#2B8D4C;">TENTANG<br>KAMI</h4>
-                            </div>
-
-                            <div style="width:1px; background-color:#2B8D4C; height:auto; margin:0 30px;"></div>
-
-                            <div class="col-lg-6 col-md-12 d-flex flex-column justify-content-start">
-                                <a href="profil-perusahaan" class="d-block py-2 fw-semibold text-link">Sekilas Pramudita Pupuk Nusantara</a>
-                                <a href="visi-misi" class="d-block py-2 fw-semibold text-link">Visi & Misi</a>
-                                <a href="tim-kami" class="d-block py-2 fw-semibold text-link">Jangkauan Pengguna</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="galeri" class="nav-item nav-link" style="color: #2B8D4C;">Galeri</a>
-                <a href="produk" class="nav-item nav-link" style="color: #2B8D4C;">Produk</a>
-                <a href="kontak" class="nav-item nav-link" style="color: #2B8D4C;">Kontak</a>
-            </div>
-
-            <a href="login" class="nav-item nav-link d-flex align-items-center" style="color: #2B8D4C;">
-                <img src="asset/img/userlog.png" alt="User" style="height: 22px; width: 22px; object-fit: contain;">
-            </a>
-        </div>
-    </nav>
+    
+    <?php
+    include('admin/template/navbar.php');
+    ?>
 
     <!-- Hero Section -->
     <div class="container-fluid py-5" style="width:100%; background-image: url('asset/img/Banner1.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
@@ -441,35 +395,10 @@ include('config/koneksi.php');
         </div>
     </div>
 
-    <!-- ============================================ -->
-    <!-- FOOTER SECTION -->
-    <!-- ============================================ -->
-    <div class="container-fluid text-light footer pt-5" style="background-color: #1B5930;">
-        <div class="container py-4">
-            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center mb-3">
-                <div class="d-flex align-items-center mb-3 mb-lg-0">
-                    <img src="asset/img/Logo.png" alt="Logo" width="110" height="50" class="me-2">
-                    <img src="asset/img/Logo2.png" alt="Logo" width="100" height="50" class="me-2">
-                    <img src="asset/img/Logo3.png" alt="Logo" width="200" height="50" class="me-2">
-                </div>
-                <p class="m-0 small">Copyright @PramuditaPupuknusantara 2025 - All Right Reserved</p>
-            </div>
-            <hr style="border: 1px solid rgba(255,255,255,0.3);">
-            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center">
-                <div class="mb-3 mb-lg-0">
-                    <a href="#" class="text-white text-decoration-none me-3">Beranda</a>
-                    <a href="#" class="text-white text-decoration-none me-3">Hubungi Kami</a>
-                    <a href="#" class="text-white text-decoration-none">Kantor Kami</a>
-                </div>
-                <div class="d-flex">
-                    <a href="#" class="text-white me-3"><i class="fab fa-whatsapp fa-lg"></i></a>
-                    <a href="#" class="text-white me-3"><i class="fab fa-facebook fa-lg"></i></a>
-                    <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-lg"></i></a>
-                    <a href="#" class="text-white"><i class="fab fa-tiktok fa-lg"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
+   <!-- Footer -->
+    <?php
+    include('admin/template/footer.php');
+    ?>
 
     <!-- ============================================ -->
     <!-- JAVASCRIPT LIBRARIES -->
