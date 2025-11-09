@@ -1,5 +1,5 @@
 <?php
-include('../template/navbar.php');
+include('../template/sidebar.php');
 ?>
 
       <div class="header-section">Manajemen Produk</div>

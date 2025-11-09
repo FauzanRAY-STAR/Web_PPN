@@ -8,27 +8,32 @@
     margin: 0;
 }
 
-/* Container tengah (dengan batas aman kiri kanan) */
+/* Container tengah */
 .footer-container {
     width: 100%;
-    max-width: 1400px; /* batas biar konten gak terlalu lebar di layar besar */
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 60px; /* jarak kiri-kanan ideal */
+    padding: 0 40px;
     box-sizing: border-box;
 }
 
 /* ========== BARIS ATAS ========== */
 .footer-top {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* kiri-kanan sejajar */
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
 }
 
+.footer-logos {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .footer-logos img {
     height: 50px;
-    margin-right: 15px;
     object-fit: contain;
 }
 
@@ -36,7 +41,7 @@
     font-size: 0.95rem;
     color: #ffffff;
     text-align: right;
-    flex: 1;
+    margin: 0;
 }
 
 /* ========== GARIS PEMISAH ========== */
@@ -49,16 +54,22 @@
 /* ========== BARIS BAWAH ========== */
 .footer-bottom {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* kiri dan kanan sejajar */
     align-items: center;
     flex-wrap: wrap;
 }
 
-/* Link */
+/* Link kiri */
+.footer-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
 .footer-links a {
     color: #ffffff;
     text-decoration: none;
-    margin-right: 30px;
     font-size: 1rem;
     font-weight: 500;
     transition: color 0.3s ease;
@@ -68,11 +79,17 @@
     color: #FFED64;
 }
 
-/* Sosial Media */
+/* Sosial media kanan */
+.footer-social {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
 .footer-social a {
     color: #ffffff;
     font-size: 1.4rem;
-    margin-left: 20px;
     transition: color 0.3s ease, transform 0.2s ease;
 }
 
@@ -84,26 +101,25 @@
 /* ========== RESPONSIVE ========== */
 @media (max-width: 992px) {
     .footer-container {
-        padding: 0 30px;
+        padding: 0 20px;
     }
 
-    .footer-top, .footer-bottom {
+    .footer-top,
+    .footer-bottom {
         flex-direction: column;
         text-align: center;
-        gap: 10px;
+        gap: 15px;
     }
 
     .footer-copy {
         text-align: center;
-        margin-top: 10px;
     }
 
     .footer-social {
-        margin-top: 10px;
+        justify-content: center;
     }
 
-    .footer-links a {
-        display: inline-block;
-        margin: 5px 10px;
+    .footer-links {
+        justify-content: center;
     }
 }

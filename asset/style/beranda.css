@@ -73,23 +73,143 @@ body {
 }
 
 /* ===== HASIL PUPUK SECTION ===== */
-.hasil-section {
-  margin-top: 50px;
+/* ===== HASIL PUPUK SECTION (Revisi Tema Hijau Modern) ===== */
+.hasil-pupuk-section {
+  background-color: #f4f5f7;
+  padding: 80px 0;
   text-align: center;
 }
 
-.hasil-section h4 {
-  color: #388e3c;
-  font-weight: 600;
-  margin-bottom: 10px;
+.hasil-banner {
+  position: relative;
 }
 
-.hasil-card {
-  border: none;
-  background-color: #e8f5e9;
+.banner-img {
+  height: 260px;
+  object-fit: cover;
   border-radius: 12px;
-  padding: 20px;
+  filter: brightness(0.7);
 }
+
+.banner-text h2 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* === CARD HASIL === */
+/* ===== HASIL PUPUK SECTION (Tema Vertikal Tengah) ===== */
+.hasil-pupuk-section {
+  background-color: #fff;
+  padding: 80px 0;
+  text-align: center;
+}
+
+.hasil-banner {
+  position: relative;
+}
+
+.banner-img {
+  height: 260px;
+  object-fit: cover;
+  border-radius: 12px;
+  filter: brightness(0.7);
+}
+
+.banner-text h2 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* === CARD HASIL PEMAKAIAN === */
+.hasil-card {
+  background: #FFED64;
+  border: 2px solid #FFED64;
+  border-radius: 20px;
+  box-shadow: 0 6px 14px rgba(46, 125, 50, 0.08);
+  transition: all 0.35s ease;
+  text-align: center;
+  padding: 40px 25px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* Pastikan semua kolom punya tinggi sama */
+.hasil-pupuk-section .row > div {
+  display: flex;
+}
+
+.icon-benefit {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 18px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hasil-card h5 {
+  color: #2B8D4C;
+  font-weight: 700;
+  margin-bottom: 14px;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.hasil-card p {
+  color: #333;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* === Efek Hover (Mengangkat ke atas) === */
+.hasil-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: #e7f3a4;
+  box-shadow: 0 10px 25px rgba(46, 125, 50, 0.15);
+}
+
+.hasil-card:hover h5 {
+  color: #1f6e3b;
+}
+
+.hasil-card:hover .icon-benefit {
+  transform: scale(1.15);
+  transition: transform 0.3s ease;
+}
+
+/* === Responsif untuk Mobile === */
+@media (max-width: 768px) {
+  .banner-img {
+    height: 180px;
+  }
+
+  .hasil-card {
+    padding: 30px 20px;
+  }
+
+  .icon-benefit {
+    width: 65px;
+    height: 65px;
+  }
+
+  .hasil-card h5 {
+    font-size: 16px;
+  }
+
+  .hasil-card p {
+    font-size: 14px;
+  }
+}
+
 
 /* ===== GALERI SECTION ===== */
 .galeri-section {
@@ -160,4 +280,23 @@ footer {
   .galeri-img {
     height: 180px;
   }
+}
+
+/* ===== TOMBOL SELENGKAPNYA ===== */
+.btn-selengkapnya {
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-selengkapnya:hover {
+  background: linear-gradient(90deg, #1f6e3b 0%, #c9c84d 100%);
+  transform: translateY(-2px);
+  color: #fff;
 }

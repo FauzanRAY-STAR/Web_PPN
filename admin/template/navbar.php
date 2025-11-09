@@ -31,8 +31,8 @@
   <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container-fluid">
       <!-- LOGO -->
-      <a href="<?= $base_url ?>" class="navbar-brand d-flex align-items-center">
-        <img src="<?= $base_url ?>asset/img/Logo.png" alt="Logo" />
+      <a href="<?= $base_url ?>beranda" class="navbar-brand d-flex align-items-center">
+      <img src="<?= $base_url ?>asset/img/Logo.png" alt="Logo" />
       </a>
 
       <!-- TOGGLER -->

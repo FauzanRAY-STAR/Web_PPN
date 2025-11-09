@@ -23,39 +23,40 @@
 <link rel="stylesheet" href="<?= $base_url ?>asset/style/footer.css">
 
 <!-- FOOTER -->
-<div class="footer w-100" style="background-color:#1B5930; margin:0; padding:0;">
-  <div class="footer-container text-center w-100 m-0 p-0">
+<div class="footer w-100">
+  <div class="footer-container">
 
     <!-- Baris atas -->
-    <div class="footer-top py-4 m-0">
-      <div class="footer-logos d-flex justify-content-center align-items-center gap-3 flex-wrap">
+    <div class="footer-top">
+      <div class="footer-logos">
         <img src="<?= $base_url ?>asset/img/Logo.png" alt="Logo PPN" height="50">
         <img src="<?= $base_url ?>asset/img/Logo2.png" alt="Logo Telkom University" height="50">
         <img src="<?= $base_url ?>asset/img/Logo3.png" alt="Logo Software Engineering" height="50">
       </div>
 
-      <p class="footer-copy mt-3 mb-0 text-white">
+      <p class="footer-copy">
         &copy; Pramudita Pupuk Nusantara 2025 - All Rights Reserved
       </p>
     </div>
 
-    <hr class="m-0" style="border-color: rgba(255,255,255,0.3);">
+    <hr>
 
     <!-- Baris bawah -->
-    <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center py-3 px-4">
-      <div class="footer-links d-flex gap-3 mb-3 mb-md-0">
-        <a href="<?= $base_url ?>page/beranda.php" class="text-white text-decoration-none">Beranda</a>
-        <a href="<?= $base_url ?>kontak" class="text-white text-decoration-none">Hubungi Kami</a>
-        <a href="<?= $base_url ?>kantor" class="text-white text-decoration-none">Kantor Kami</a>
+    <div class="footer-bottom">
+      <div class="footer-links">
+        <a href="<?= $base_url ?>page/beranda.php">Beranda</a>
+        <a href="<?= $base_url ?>kontak">Hubungi Kami</a>
+        <a href="<?= $base_url ?>kantor">Kantor Kami</a>
       </div>
 
-      <div class="footer-social d-flex gap-3">
-        <a href="#" class="text-white"><i class="fab fa-whatsapp"></i></a>
-        <a href="#" class="text-white"><i class="fab fa-facebook"></i></a>
-        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="text-white"><i class="fab fa-tiktok"></i></a>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
       </div>
     </div>
+
   </div>
 </div>
 
