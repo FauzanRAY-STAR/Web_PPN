@@ -35,11 +35,11 @@
       <!-- MENU -->
       <div class="p-3">
         <p class="text-secondary small fw-semibold">Menu</p>
-        <div class="menu-item"><i class="bi bi-box-seam"></i><span>Manajemen Produk</span></div>
-        <div class="menu-item"><i class="bi bi-journal-text"></i><span>Logbook</span></div>
-        <div class="menu-item active"><i class="bi bi-chat-dots"></i><span>Testimoni</span></div>
-        <div class="menu-item"><i class="bi bi-image"></i><span>Galeri</span></div>
-        <div class="menu-item"><i class="bi bi-question-circle"></i><span>FAQ</span></div>
+        <div class="menu-item" data-link="manajemen-produk.php"><i class="bi bi-box-seam"></i><span>Manajemen Produk</span></div>
+        <div class="menu-item" data-link="logbook.php"><i class="bi bi-journal-text"></i><span>Logbook</span></div>
+        <div class="menu-item" data-link="testimoni.php"><i class="bi bi-chat-dots"></i><span>Testimoni</span></div>
+        <div class="menu-item" data-link="galeri.php"><i class="bi bi-image"></i><span>Galeri</span></div>
+        <div class="menu-item" data-link="faq.php"><i class="bi bi-question-circle"></i><span>FAQ</span></div>
       </div>
 
       <!-- FOOTER -->
@@ -51,10 +51,35 @@
   </div>
 
   <script>
+    // Sidebar toggle
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('minimized');
+    });
+
+    // Menu aktif dinamis + tersimpan setelah reload
+    const menuItems = document.querySelectorAll('.menu-item');
+
+    // Ambil menu aktif terakhir dari localStorage
+    const activeIndex = localStorage.getItem('activeMenuIndex');
+    if (activeIndex !== null && menuItems[activeIndex]) {
+      menuItems[activeIndex].classList.add('active');
+    }
+
+    // Tambahkan event click ke semua menu
+    menuItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        // Hapus semua 'active'
+        menuItems.forEach(i => i.classList.remove('active'));
+        // Tambah class active ke menu yang diklik
+        item.classList.add('active');
+        // Simpan index aktif
+        localStorage.setItem('activeMenuIndex', index);
+        // Jika ada link, arahkan ke halaman tersebut
+        const link = item.getAttribute('data-link');
+        if (link) window.location.href = link;
+      });
     });
   </script>
 </body>
