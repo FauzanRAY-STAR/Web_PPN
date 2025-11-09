@@ -1,5 +1,9 @@
+<?php
+include('config/koneksi.php');
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +29,7 @@
     <!-- Template Stylesheet -->
     <link href="asset/style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="asset/style/fab.css">
+    <link rel="stylesheet" href="asset/style/beranda.css">
 
     <!-- ============================================ -->
     <!-- CUSTOM CSS STYLES - ALL IN ONE PLACE -->
@@ -422,6 +427,88 @@
             }
         }
 
+        /* ===== GALERI TITLE WITH LINES ===== */
+        .galeri-title-container {
+            overflow: visible !important;
+            position: relative;
+        }
+
+        .galeri-title-line {
+            position: relative;
+            display: inline-block;
+        }
+
+        .galeri-title-line::before,
+        .galeri-title-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 140px;
+            height: 2px;
+        }
+
+        .galeri-title-line::before {
+            left: -150px;
+            background: linear-gradient(to right, transparent, #1B5930);
+        }
+
+        .galeri-title-line::after {
+            right: -150px;
+            background: linear-gradient(to left, transparent, #1B5930);
+        }
+
+        /* Dots at the end of lines - using box-shadow for better visibility */
+        .galeri-title-line::before {
+            box-shadow: -148px 0 0 0 #1B5930;
+        }
+
+        .galeri-title-line::after {
+            box-shadow: 148px 0 0 0 #1B5930;
+        }
+
+        @media (max-width: 768px) {
+            .galeri-title-line {
+                padding: 0 100px !important;
+            }
+
+            .galeri-title-line::before,
+            .galeri-title-line::after {
+                width: 80px;
+            }
+
+            .galeri-title-line::before {
+                left: -90px;
+                box-shadow: -88px 0 0 0 #1B5930;
+            }
+
+            .galeri-title-line::after {
+                right: -90px;
+                box-shadow: 88px 0 0 0 #1B5930;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .galeri-title-line {
+                padding: 0 70px !important;
+            }
+
+            .galeri-title-line::before,
+            .galeri-title-line::after {
+                width: 50px;
+            }
+
+            .galeri-title-line::before {
+                left: -60px;
+                box-shadow: -58px 0 0 0 #1B5930;
+            }
+
+            .galeri-title-line::after {
+                right: -60px;
+                box-shadow: 58px 0 0 0 #1B5930;
+            }
+        }
+
         /* ===== GALERI SECTION RESPONSIVE ===== */
         @media (max-width: 992px) {
             #anima-3 .col-lg-6:first-child {
@@ -571,7 +658,7 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0 pe-4">
-                <a href="#" class="nav-item nav-link active" style="color: #2B8D4C;">Beranda</a>
+                <a href="beranda" class="nav-item nav-link" style="color: #2B8D4C;">Beranda</a>
                 <a href="shop" class="nav-item nav-link" style="color: #2B8D4C;">Shop</a>
 
                 <!-- Dropdown Tentang Kami -->
@@ -597,7 +684,7 @@
                     </div>
                 </div>
 
-                <a href="galeri" class="nav-item nav-link" style="color: #2B8D4C;">Galeri</a>
+                <a href="galeri" class="nav-item nav-link active" style="color: #2B8D4C;">Galeri</a>
                 <a href="produk" class="nav-item nav-link" style="color: #2B8D4C;">Produk</a>
                 <a href="kontak" class="nav-item nav-link" style="color: #2B8D4C;">Kontak</a>
             </div>
@@ -610,92 +697,83 @@
 
     <!-- Galeri Start -->
     <div class="container-fluid py-5 mt-4">
-        <div class="container">
-            <div class="text-center wow fadeInUp" style="color: #2D3468;">
-                <h1 class="mb-5">Galeri Kami</h1>
+        <div class="container" style="overflow: visible;">
+            <div class="text-center wow fadeInUp galeri-title-container" style="color: #1B5930; overflow: visible;">
+                <h1 class="mb-5 galeri-title-line" style="padding: 0 160px;">
+                    Galeri
+                </h1>
             </div>
 
-            <!-- Gallery cards start -->
-            
-            <div class="row row-cols-1 row-cols-md-4 g-4">
-                <?php
-                    include('config/koneksi.php');
-                    $no = 1; 
-                    $data = mysqli_query($conn, "SELECT * FROM galeri");
-                    while($r = mysqli_fetch_array($data)){
-                        if ($r["status"] === 'Aktif') {
-                ?>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="asset/img/<?= $r['gambar']; ?>" class="card-img-top" data-bs-toggle="modal" data-bs-target="#galeriModal<?= $r['id']; ?>">
+            <!-- Gallery grid start -->
+            <div class="row g-4">
+                <!-- Column 1 -->
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <img src="asset/img/For PG1.jpg" class="img-fluid rounded-4 shadow" alt="Gallery Image 1" style="width: 100%; object-fit: cover;">
                     </div>
-                </div>
-                
-                <!-- Modal Lihat Galeri -->
-                <div class="modal fade" id="galeriModal<?= $r['id'] ?>" tabindex="-1" aria-labelledby="galeriModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5 fw-bolder" id="galeriModalLabel">Galeri Ganyeum</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <img src="asset/img/<?= $r['gambar']; ?>" class="card-img-top mb-3" data-bs-toggle="modal" data-bs-target="#galeriModal<?= $r['id']; ?>">
-                                <p><?= $r['deskripsi']; ?></p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            </div>
-                        </div>
+                    <div class="mb-4">
+                        <img src="asset/img/For PG3.jpg" class="img-fluid rounded-4 shadow" alt="Gallery Image 3" style="width: 100%; object-fit: cover;">
+                    </div>
+                    <div class="mb-4">
+                        <img src="asset/img/For PG2.jpg" class="img-fluid rounded-4 shadow" alt="Gallery Image 5" style="width: 100%; object-fit: cover;">
                     </div>
                 </div>
 
-                <?php 
-                        }
-                    $no++; 
-                    } 
-                ?>
+                <!-- Column 2 -->
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <img src="asset/img/For PG2.jpg" class="img-fluid rounded-4 shadow" alt="Gallery Image 2" style="width: 100%; object-fit: cover;">
+                    </div>
+                    <div class="mb-4">
+                        <img src="asset/img/For PG4.jpg" class="img-fluid rounded-4 shadow" alt="Gallery Image 4" style="width: 100%; object-fit: cover;">
+                    </div>
+                    <div class="mb-4">
+                        <img src="asset/img/For PG1.jpg" class="img-fluid rounded-4 shadow" alt="Gallery Image 6" style="width: 100%; object-fit: cover;">
+                    </div>
+                </div>
             </div>
-            <!-- Gallery cards end -->
+            <!-- Gallery grid end -->
         </div>
     </div>
     <!-- Galeri End -->
      
     <!-- Footer Start -->
-    <div class="container-fluid text-light footer mt-5 pt-5" style="background-color: #2D3468;">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-md-12 text-center">
-                    <p class="text-white mb-0">&copy; 2024 Ganyeum</p>
+    <div class="container-fluid text-light footer pt-5" style="background-color: #1B5930;">
+        <div class="container py-4">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center mb-3 mb-lg-0">
+                    <img src="asset/img/Logo.png" alt="Logo" width="110" height="50" class="me-2">
+                    <img src="asset/img/Logo2.png" alt="Logo" width="100" height="50" class="me-2">
+                    <img src="asset/img/Logo3.png" alt="Logo" width="200" height="50" class="me-2">
+                </div>
+                <p class="m-0 small">Copyright @PramuditaPupuknusantara 2025 - All Right Reserved</p>
+            </div>
+            <hr style="border: 1px solid rgba(255,255,255,0.3);">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center">
+                <div class="mb-3 mb-lg-0">
+                    <a href="beranda" class="text-white text-decoration-none me-3">Beranda</a>
+                    <a href="#" class="text-white text-decoration-none me-3">Hubungi Kami</a>
+                    <a href="#" class="text-white text-decoration-none">Kantor Kami</a>
+                </div>
+                <div class="d-flex">
+                    <a href="#" class="text-white me-3"><i class="fab fa-whatsapp fa-lg"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-tiktok fa-lg"></i></a>
                 </div>
             </div>
         </div>
     </div>
     <!-- Footer End -->
 
-    <!-- Floating IG Button -->
-    <div class="gfab-container" style="z-index: 1050;">
-        <a href="#">
-            <div class="gfab gfab-38">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path fill="#ffffff" d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" />
-                </svg>
-            </div>
-        </a>
-        <a href="https://www.instagram.com/ganyeum.yo/" target="_blank">
-            <div class="gfab">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path fill="#ffffff" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
-                </svg>
-            </div>
-        </a>
-    </div>
-
-    <!-- JavaScript Libraries -->
+    <!-- ============================================ -->
+    <!-- JAVASCRIPT LIBRARIES -->
+    <!-- ============================================ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="asset/style/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="asset/js/anima.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
 </html>
