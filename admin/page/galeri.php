@@ -20,28 +20,69 @@
   <style>
     .filter-tabs {
       display: flex;
-      gap: 10px;
+      gap: 16px; /* jarak antar tombol */
       margin-bottom: 20px;
     }
     
     .filter-tabs button {
-      padding: 8px 20px;
+      font-weight: 600;
       border: none;
-      border-radius: 8px;
-      font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s;
+      border-radius: 20px;
+      padding: 10px 24px;
+      font-size: 14px;
+      transition: all 0.2s ease;
     }
     
-    .filter-tabs button.active {
-      background-color: #007bff;
-      color: white;
+    /* Tombol putih dengan teks biru */
+    .btn-outline {
+      background-color: #fff;
+      color: #1976FF;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
     }
     
-    .filter-tabs button:not(.active) {
-      background-color: white;
-      color: #333;
-      border: 1px solid #ddd;
+    .btn-outline:hover {
+      background-color: #f5f7fa;
+    }
+    
+    /* Tombol biru dengan teks putih */
+    .btn-primary-tab {
+      background-color: #1976FF;
+      color: #fff;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+    
+    .btn-primary-tab:hover {
+      background-color: #1668e3;
+    }
+    
+    /* Tombol Tambah & Hapus */
+    .btn-action {
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      border-radius: 20px;
+      padding: 10px 28px;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      background-color: #fff;
+    }
+    
+    .btn-tambah {
+      color: #28a745;
+    }
+    
+    .btn-tambah:hover {
+      background-color: #f5f7fa;
+    }
+    
+    .btn-hapus {
+      color: #dc3545;
+    }
+    
+    .btn-hapus:hover {
+      background-color: #f5f7fa;
     }
     
     .gallery-grid {
@@ -83,17 +124,17 @@
   <div class="search-bar-top">
     <div class="left-col">
       <div class="filter-tabs">
-        <button class="active" id="btnPilih">PILIH</button>
-        <button id="btnPilihSemua">PILIH SEMUA</button>
+        <button class="btn-outline" id="btnPilih">PILIH</button>
+        <button class="btn-primary-tab" id="btnPilihSemua">PILIH SEMUA</button>
       </div>
     </div>
     
     <div class="right-col d-flex gap-2">
-      <button class="search-btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
-        <i class="bi bi-plus"></i>
+      <button class="btn-action btn-tambah" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
+        TAMBAH
       </button>
-      <button class="search-btn" style="background-color: #d01111;" id="btnHapus">
-        <i class="bi bi-trash"></i>
+      <button class="btn-action btn-hapus" id="btnHapus">
+        HAPUS
       </button>
     </div>
   </div>
@@ -147,13 +188,23 @@
 <script>
   // Filter tabs functionality
   document.getElementById('btnPilih').addEventListener('click', function() {
-    this.classList.add('active');
-    document.getElementById('btnPilihSemua').classList.remove('active');
+    // Tombol PILIH menjadi aktif (biru)
+    this.classList.remove('btn-outline');
+    this.classList.add('btn-primary-tab');
+    
+    // Tombol PILIH SEMUA menjadi tidak aktif (putih)
+    document.getElementById('btnPilihSemua').classList.remove('btn-primary-tab');
+    document.getElementById('btnPilihSemua').classList.add('btn-outline');
   });
   
   document.getElementById('btnPilihSemua').addEventListener('click', function() {
-    this.classList.add('active');
-    document.getElementById('btnPilih').classList.remove('active');
+    // Tombol PILIH SEMUA menjadi aktif (biru)
+    this.classList.remove('btn-outline');
+    this.classList.add('btn-primary-tab');
+    
+    // Tombol PILIH menjadi tidak aktif (putih)
+    document.getElementById('btnPilih').classList.remove('btn-primary-tab');
+    document.getElementById('btnPilih').classList.add('btn-outline');
   });
 </script>
 
