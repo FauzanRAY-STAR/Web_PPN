@@ -32,11 +32,11 @@
         <i class="bi bi-search"></i>
         <input type="text" placeholder="Search">
       </div>
-      <button class="search-btn"><i class="bi bi-funnel"></i></button>
+      <button class="search-btn" style="background-color: #4E8E55;"><i class="bi bi-funnel"></i></button>
     </div>
     
     <div class="right-col">
-      <button class="search-btn"><i class="bi bi-plus"></i></button>
+      <button class="search-btn" style="background-color: #4E8E55;"><i class="bi bi-plus"></i></button>
     </div>
   </div>
 
