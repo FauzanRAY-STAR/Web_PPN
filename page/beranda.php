@@ -24,7 +24,6 @@ include('config/koneksi.php');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="asset/style/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
@@ -195,70 +194,92 @@ include('config/koneksi.php');
         </div>
     </div>
 
-    <!-- ============================================ -->
-    <!-- KALKULATOR TANI SECTION -->
-    <!-- ============================================ -->
-    <div class="container-fluid py-5" id="kalkulator-tani">
-        <div class="container py-5">
-            <div class="row align-items-center justify-content-center">
-                <!-- Kolom Kiri: Form -->
-                <div class="col-lg-6 col-md-10 mb-5 mb-lg-0">
-                    <div class="d-flex align-items-center mb-4">
-                        <img src="asset/img/Logo.png" alt="Logo PPN" style="height: 40px;" class="me-2">
-                        <h4 class="fw-bold mb-0" style="color:#000;">Kalkulator Tani</h4>
-                    </div>
-
-                    <form class="p-2">
-                        <!-- Jenis Tanaman -->
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold" style="color:#000;">Jenis Tanaman</label>
-                            <select class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;">
-                                <option selected>Jenis Tanaman</option>
-                                <option>Padi</option>
-                                <option>Jagung</option>
-                                <option>Kedelai</option>
-                            </select>
-                        </div>
-
-                        <!-- Jenis Produk -->
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold" style="color:#000;">Jenis Produk</label>
-                            <select class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;">
-                                <option selected>Jenis Produk</option>
-                                <option>Silika V-0D01</option>
-                                <option>Silika Plus</option>
-                                <option>Silika Premium</option>
-                            </select>
-                        </div>
-
-                        <!-- Luas Tanah -->
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold" style="color:#000;">Luas Tanah</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control rounded-start-3 py-2" placeholder="Masukan Luas Tanah" style="border: 2px solid #A4C37F;">
-                                <span class="input-group-text rounded-end-3" style="border: 2px solid #A4C37F; border-left: none;">M²</span>
-                            </div>
-                        </div>
-
-                        <!-- Tombol Hitung -->
-                        <div class="text-center">
-                            <button type="submit" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;">
-                                Hitung
-                            </button>
-                        </div>
-                    </form>
+   <!-- ============================================ -->
+<!-- KALKULATOR TANI SECTION -->
+<!-- ============================================ -->
+<div class="container-fluid py-5" id="kalkulator-tani">
+    <div class="container py-5">
+        <div class="row align-items-center justify-content-center">
+            <!-- Kolom Kiri: Form -->
+            <div class="col-lg-6 col-md-10 mb-5 mb-lg-0">
+                <div class="d-flex align-items-center mb-4">
+                    <img src="asset/img/Logo.png" alt="Logo PPN" style="height: 40px;" class="me-2">
+                    <h4 class="fw-bold mb-0" style="color:#000;">Kalkulator Tani</h4>
                 </div>
 
-                <!-- Kolom Kanan: Gambar -->
-                <div class="col-lg-6 col-md-10 text-center">
-                    <div class="position-relative">
-                        <img src="asset/img/KalkulatorBanner.png" alt="Kalkulator Tani" class="img-fluid rounded kalkulator-img">
+                <!-- FORM KALKULATOR -->
+                <form id="formKalkulator" class="p-2">
+                    <!-- Jenis Tanaman -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold" style="color:#000;">Jenis Tanaman</label>
+                        <select class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;">
+                            <option selected>Jenis Tanaman</option>
+                            <option>Padi</option>
+                            <option>Jagung</option>
+                            <option>Kedelai</option>
+                        </select>
                     </div>
+
+                    <!-- Jenis Produk -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold" style="color:#000;">Jenis Produk</label>
+                        <select class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;">
+                            <option selected>Jenis Produk</option>
+                            <option>Silika V-0D01</option>
+                            <option>Silika Plus</option>
+                            <option>Silika Premium</option>
+                        </select>
+                    </div>
+
+                    <!-- Luas Tanah -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold" style="color:#000;">Luas Tanah</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control rounded-start-3 py-2" placeholder="Masukan Luas Tanah" style="border: 2px solid #A4C37F;">
+                            <span class="input-group-text rounded-end-3" style="border: 2px solid #A4C37F; border-left: none;">M²</span>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Hitung -->
+                    <button type="submit" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;">
+                        Hitung
+                    </button>
+                </form>
+            </div>
+
+            <!-- Kolom Kanan: Gambar -->
+            <div class="col-lg-6 col-md-10 text-center">
+                <div class="position-relative">
+                    <img src="asset/img/KalkulatorBanner.png" alt="Kalkulator Tani" class="img-fluid rounded kalkulator-img">
                 </div>
             </div>
         </div>
     </div>
+</div>
 
+<!-- POPUP HASIL KALKULATOR -->
+<div id="popupHasil" style="display:none; position: fixed; top: 50px; left: 50px; background-color: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); padding: 20px; width: 350px; z-index: 1050;">
+    <div class="d-flex align-items-center mb-3">
+        <img src="asset/img/Logo.png" alt="Logo" style="height: 40px;" class="me-2">
+        <h5 class="fw-bold mb-0">Hasil</h5>
+    </div>
+
+    <div class="mb-2"><strong>Jenis Tanaman:</strong> <span id="hasilJenisTanaman"></span></div>
+    <div class="mb-2"><strong>Jenis Produk:</strong> <span id="hasilJenisProduk"></span></div>
+    <div class="mb-3"><strong>Luas Tanah:</strong> <span id="hasilLuasTanah"></span> M²</div>
+
+    <div class="d-flex align-items-center justify-content-center mb-3">
+    <img src="asset/img/produk1.png" alt="Produk" 
+        class="me-3" 
+        style="height:80px; object-fit:contain; display:block;">
+    <span style="font-weight:500; font-size:1.25rem; line-height:1;">5kg</span>
+    </div>
+
+
+    <button id="btnPesanSekarang" type="button" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;">
+        Pesan Sekarang
+    </button>
+</div>
     <!-- ============================================ -->
     <!-- HASIL PEMAKAIAN PUPUK SILIKA SECTION -->
     <!-- ============================================ -->
@@ -470,13 +491,51 @@ include('config/koneksi.php');
                 ride: 'carousel'
             });
         });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const kalkulatorForm = document.getElementById('formKalkulator');
+    const popupHasil = document.getElementById('popupHasil');
+    const btnPesanSekarang = document.getElementById('btnPesanSekarang');
+
+    kalkulatorForm.addEventListener('submit', function(e) {
+        e.preventDefault(); // cegah reload
+
+        const jenisTanaman = kalkulatorForm.querySelectorAll('select')[0].value;
+        const jenisProduk = kalkulatorForm.querySelectorAll('select')[1].value;
+        const luasTanah = kalkulatorForm.querySelector('input[type="number"]').value;
+
+        document.getElementById('hasilJenisTanaman').textContent = jenisTanaman;
+        document.getElementById('hasilJenisProduk').textContent = jenisProduk;
+        document.getElementById('hasilLuasTanah').textContent = luasTanah;
+
+        // tampilkan popup di tengah layar
+        popupHasil.style.display = 'block';
+        popupHasil.style.top = '50%';
+        popupHasil.style.left = '50%';
+        popupHasil.style.transform = 'translate(-50%, -50%)';
+    });
+
+    // Tutup popup saat klik Pesan Sekarang
+    btnPesanSekarang.addEventListener('click', function() {
+        popupHasil.style.display = 'none';
+    });
+
+    // Tutup popup kalau klik di luar
+    window.addEventListener('click', function(e) {
+        if (popupHasil.style.display === 'block' && !popupHasil.contains(e.target) && !kalkulatorForm.contains(e.target)) {
+            popupHasil.style.display = 'none';
+        }
+    });
+});
+
     </script>
+
 
 <!-- Footer -->
 <?php
 include('admin/template/footer.php');
 ?>
-
 
 </body>
 
