@@ -19,7 +19,7 @@ if ($username === $ADMIN_USERNAME && $password === $ADMIN_PASSWORD) {
     ];
 
     // ✅ Redirect ke halaman logbook setelah login
-    header('Location: admin/page/logbook.php');
+    header('Location: admin/template/sidebar.php');
     exit;
 } else {
     $_SESSION['login_error'] = 'Username atau password salah.';

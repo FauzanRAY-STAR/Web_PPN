@@ -1,3 +1,14 @@
+<?php
+// START SESSION DI SINI - SEBELUM ADA OUTPUT APAPUN!
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Include config jika belum
+if (!isset($base_url)) {
+    include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/config.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,23 +18,20 @@
     
     <!-- Favicon -->
     <link href="asset/img/LogoIco.ico" rel="icon">
-
+    
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Heebo&display=swap" rel="stylesheet">
-
+    
     <!-- Icon Font Stylesheets -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
-
+    
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link href="asset/style/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
     <link href="asset/style/style.css" rel="stylesheet">
-
+    
     <style>
         body {
             overflow-x: hidden;
@@ -31,9 +39,19 @@
             font-family: 'Heebo', sans-serif;
         }
 
+        /* Fix dropdown nggak muncul */
+        .navbar {
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1000 !important;
+        }
+
+        .container, .container-fluid {
+            overflow: visible !important;
+        }
+
         /* ===== PRODUK TITLE WITH LINES ===== */
         .produk-title-container {
-            overflow: visible !important;
             position: relative;
             padding: 80px 0 60px 0;
         }
@@ -59,19 +77,12 @@
         .produk-title-line::before {
             left: -160px;
             background: linear-gradient(to right, transparent, #2B8D4C);
+            box-shadow: -148px 0 0 0 #2B8D4C;
         }
 
         .produk-title-line::after {
             right: -160px;
             background: linear-gradient(to left, transparent, #2B8D4C);
-        }
-
-        /* Dots at the end of lines */
-        .produk-title-line::before {
-            box-shadow: -148px 0 0 0 #2B8D4C;
-        }
-
-        .produk-title-line::after {
             box-shadow: 148px 0 0 0 #2B8D4C;
         }
 
@@ -80,7 +91,7 @@
             background: #ffffff;
             border: 2px solid #e0e0e0;
             border-radius: 15px;
-            padding: 20px 15px 15px 15px;
+            padding: 20px 15px;
             text-align: center;
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -117,10 +128,6 @@
             font-weight: 600;
             color: #333;
             margin-bottom: 12px;
-            min-height: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding-top: 12px;
             border-top: 2px solid #1B5930;
         }
@@ -145,178 +152,47 @@
             box-shadow: 0 6px 14px rgba(249, 215, 11, 0.5);
             transform: translateY(-2px);
         }
-
-        /* ===== RESPONSIVE STYLES ===== */
-        @media (max-width: 768px) {
-            .produk-title-line {
-                padding: 0 100px !important;
-                font-size: 2rem;
-            }
-
-            .produk-title-line::before,
-            .produk-title-line::after {
-                width: 80px;
-            }
-
-            .produk-title-line::before {
-                left: -90px;
-                box-shadow: -88px 0 0 0 #2B8D4C;
-            }
-
-            .produk-title-line::after {
-                right: -90px;
-                box-shadow: 88px 0 0 0 #2B8D4C;
-            }
-
-            .produk-title-container {
-                padding: 60px 0 40px 0;
-            }
-
-            .product-card {
-                margin-bottom: 20px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .produk-title-line {
-                padding: 0 70px !important;
-                font-size: 1.5rem;
-            }
-
-            .produk-title-line::before,
-            .produk-title-line::after {
-                width: 50px;
-            }
-
-            .produk-title-line::before {
-                left: -60px;
-                box-shadow: -58px 0 0 0 #2B8D4C;
-            }
-
-            .produk-title-line::after {
-                right: -60px;
-                box-shadow: 58px 0 0 0 #2B8D4C;
-            }
-
-            .product-card {
-                max-width: 200px;
-                height: 250px;
-            }
-
-            .product-image-wrapper {
-                height: 100px;
-            }
-
-            .product-image {
-                max-height: 100px;
-            }
-
-            .product-name {
-                font-size: 0.9rem;
-            }
-
-            .btn-selengkapnya {
-                padding: 7px 20px;
-                font-size: 0.8rem;
-            }
-        }
     </style>
 </head>
 <body>
-    <?php include('admin/template/navbar.php'); ?>
 
-    <!-- Produk Section Start -->
-    <div class="container-fluid" style="background-color: #ffffff;">
-        <div class="container">
-            <!-- Title -->
-            <div class="text-center produk-title-container" style="overflow: visible;">
-                <h1 class="produk-title-line" style="padding: 0 170px;">
-                    PRODUK
-                </h1>
-            </div>
+<?php include('admin/template/navbar.php'); ?>
 
-            <!-- Products Grid -->
-            <div class="row g-4 pb-5">
-                <!-- Product 1: mAXI-d -->
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="product-card">
-                        <div class="product-image-wrapper">
-                            <img src="asset/img/Produk1.png" alt="mAXI-d" class="product-image">
-                        </div>
-                        <h5 class="product-name">mAXI-d</h5>
-                        <div>
-                            <a href="page/detail_produk.php?id=1" class="btn-selengkapnya">
-                                Selengkapnya
-                            </a>
-                        </div>
+<div class="container-fluid" style="background-color: #ffffff;">
+    <div class="container">
+        <div class="text-center produk-title-container">
+            <h1 class="produk-title-line">PRODUK</h1>
+        </div>
+
+        <div class="row g-4 pb-5">
+            <?php
+            $produk = [
+                ['id' => 1, 'img' => 'asset/img/Produk1.png', 'nama' => 'mAXI-d'],
+                ['id' => 2, 'img' => 'asset/img/produk2.png', 'nama' => 'SILIKA'],
+                ['id' => 3, 'img' => 'asset/img/produk3.png', 'nama' => 'Pengendali Hama'],
+                ['id' => 4, 'img' => 'asset/img/produk4.png', 'nama' => 'Probiotik'],
+                ['id' => 5, 'img' => 'asset/img/produk5.png', 'nama' => 'mAXI'],
+            ];
+
+            foreach ($produk as $p):
+            ?>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="<?= $p['img'] ?>" alt="<?= $p['nama'] ?>" class="product-image">
                     </div>
-                </div>
-
-                <!-- Product 2: SILIKA -->
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="product-card">
-                        <div class="product-image-wrapper">
-                            <img src="asset/img/produk2.png" alt="SILIKA" class="product-image">
-                        </div>
-                        <h5 class="product-name">SILIKA</h5>
-                        <div>
-                            <a href="page/detail_produk.php?id=2" class="btn-selengkapnya">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 3: Pengendali Hama -->
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="product-card">
-                        <div class="product-image-wrapper">
-                            <img src="asset/img/produk3.png" alt="Pengendali Hama" class="product-image">
-                        </div>
-                        <h5 class="product-name">Pengendali Hama</h5>
-                        <div>
-                            <a href="page/detail_produk.php?id=3" class="btn-selengkapnya">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 4: Probiotik -->
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="product-card">
-                        <div class="product-image-wrapper">
-                            <img src="asset/img/produk4.png" alt="Probiotik" class="product-image">
-                        </div>
-                        <h5 class="product-name">Probiotik</h5>
-                        <div>
-                            <a href="page/detail_produk.php?id=4" class="btn-selengkapnya">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 5: mAXI -->
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="product-card">
-                        <div class="product-image-wrapper">
-                            <img src="asset/img/produk5.png" alt="mAXI" class="product-image">
-                        </div>
-                        <h5 class="product-name">mAXI</h5>
-                        <div>
-                            <a href="page/detail_produk.php?id=5" class="btn-selengkapnya">
-                                Selengkapnya
-                            </a>
-                        </div>
-                    </div>
+                    <h5 class="product-name"><?= $p['nama'] ?></h5>
+                    <a href="page/detail_produk.php?id=<?= $p['id'] ?>" class="btn-selengkapnya">Selengkapnya</a>
                 </div>
             </div>
+            <?php endforeach; ?>
         </div>
     </div>
-    <!-- Produk Section End -->
-     
-    <?php include('admin/template/footer.php'); ?>
+</div>
+
+<?php include('admin/template/footer.php'); ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
