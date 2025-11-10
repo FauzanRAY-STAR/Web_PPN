@@ -20,7 +20,6 @@ include('config/koneksi.php');
     <!-- Icon Font Stylesheets -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
@@ -31,9 +30,6 @@ include('config/koneksi.php');
     <link rel="stylesheet" href="asset/style/fab.css">
     <link rel="stylesheet" href="asset/style/beranda.css">
 
-    <!-- ============================================ -->
-    <!-- CUSTOM CSS STYLES - ALL IN ONE PLACE -->
-    <!-- ============================================ -->
     <style>
         /* ===== GLOBAL STYLES ===== */
         body {
@@ -644,9 +640,7 @@ include('config/koneksi.php');
     </style>
 </head>
 <body>
-    <?php
-    include('admin/template/navbar.php');
-    ?>
+    <?php include('admin/template/navbar.php'); ?>
 
     <!-- Galeri Start -->
     <div class="container-fluid py-5 mt-4">
@@ -690,20 +684,7 @@ include('config/koneksi.php');
     </div>
     <!-- Galeri End -->
      
-    <!-- Footer Start -->
-    <?php
-    include('admin/template/navbar.php');
-    ?>
-    <!-- Footer End -->
-
-    <!-- ============================================ -->
-    <!-- JAVASCRIPT LIBRARIES -->
-    <!-- ============================================ -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="asset/js/anima.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <?php include('admin/template/footer.php'); ?>
 
 </body>
 </html>
