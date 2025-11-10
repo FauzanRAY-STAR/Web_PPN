@@ -531,6 +531,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     </script>
 
+<a href="https://wa.me/6281234567890" target="_blank" id="whatsapp-float">
+  <i class="bi bi-whatsapp"></i>
+</a>
+
+
 
 <!-- Footer -->
 <?php

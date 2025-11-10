@@ -96,7 +96,7 @@ if (!isset($base_url)) {
                     <a href="<?= $base_url ?>produk" class="nav-link">Produk</a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= $base_url ?>kontak" class="nav-link">Kontak</a>
+                    <a href="<?= $base_url ?>faq" class="nav-link">FAQ</a>
                 </li>
             </ul>
 
