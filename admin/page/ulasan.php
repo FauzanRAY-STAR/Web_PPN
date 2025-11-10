@@ -147,5 +147,169 @@
       </div>
     </div>
   </div>
+
+<!-- ======================
+MODAL TAMBAH / EDIT TESTIMONI
+====================== -->
+<div class="modal fade" id="testimoniModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content p-4 rounded-4 border-0 shadow-sm">
+      <!-- HEADER -->
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <img src="../../asset/img/logo.png" alt="Logo" width="100">
+          <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
+          <h5 class="fw-bold mb-0">Testimoni</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- FORM BODY -->
+      <label class="fw-semibold mb-1">Nama Pembeli</label>
+      <input type="text" class="form-control border-success mb-3" placeholder="Masukan Nama Pembeli" id="namaPembeli">
+
+      <label class="fw-semibold mb-1">Nama Produk</label>
+      <input type="text" class="form-control border-success mb-3" placeholder="Masukan Nama Produk" id="namaProduk">
+
+      <label class="fw-semibold mb-1">Alamat</label>
+      <input type="text" class="form-control border-success mb-3" placeholder="Masukan Alamat" id="alamat">
+
+      <label class="fw-semibold mb-1">Review</label>
+      <textarea class="form-control border-success mb-3" placeholder="Masukan Review" id="reviewInput" rows="4"></textarea>
+
+      <label class="fw-semibold mb-1">Unggah Gambar</label>
+      <input type="file" class="form-control border-success mb-3" id="gambarInput">
+
+      <label class="fw-semibold mb-1">Status</label>
+      <div class="form-check mt-2 mb-4">
+        <input class="form-check-input" type="checkbox" id="statusInput">
+        <label class="form-check-label">Tampilkan</label>
+      </div>
+
+      <button class="btn w-100 text-white fw-semibold" id="btnSimpanTestimoni"
+        style="background: linear-gradient(90deg, #4E8E55, #D6C72A); border-radius: 12px;">
+        Simpan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================
+MODAL HAPUS TESTIMONI
+====================== -->
+<div class="modal fade" id="hapusTestimoniModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4 rounded-4 text-center border-0 shadow-sm">
+      <img src="../../asset/img/logo.png" alt="Logo" width="120" class="mb-3">
+      <i class="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
+      <h5 class="fw-semibold mt-3 mb-4">Apakah Anda yakin untuk menghapus testimoni ini?</h5>
+      <button class="btn text-white w-100 fw-semibold" id="btnKonfirmasiHapusTestimoni"
+        style="background-color: #C0392B; border-radius: 12px;">Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================
+MODAL NOTIFIKASI
+====================== -->
+<div class="modal fade" id="notifModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content notif-card text-center p-4 rounded-4 border-0 shadow">
+      <img src="../../asset/img/logo.png" alt="Logo" width="90" class="mb-3">
+      <i id="notifIcon" class="bi fs-1 mb-3"></i>
+      <h5 id="notifText" class="fw-semibold"></h5>
+    </div>
+  </div>
+</div>
+
+<!-- ======================
+STYLE TAMBAHAN
+====================== -->
+<style>
+  .notif-card {
+    background: #fff;
+    animation: fadeScale 0.3s ease;
+  }
+  @keyframes fadeScale {
+    from {opacity: 0; transform: scale(0.9);}
+    to {opacity: 1; transform: scale(1);}
+  }
+  .shadow {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<!-- ======================
+SCRIPT
+====================== -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const testimoniModal = new bootstrap.Modal(document.getElementById('testimoniModal'));
+  const hapusTestimoniModal = new bootstrap.Modal(document.getElementById('hapusTestimoniModal'));
+  const notifModal = new bootstrap.Modal(document.getElementById('notifModal'));
+  const notifText = document.getElementById('notifText');
+  const notifIcon = document.getElementById('notifIcon');
+
+  // Tombol Tambah Testimoni
+  document.querySelectorAll('.btnTambahTestimoni, .bi-plus').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('namaPembeli').value = '';
+      document.getElementById('namaProduk').value = '';
+      document.getElementById('alamat').value = '';
+      document.getElementById('reviewInput').value = '';
+      document.getElementById('gambarInput').value = '';
+      document.getElementById('statusInput').checked = false;
+      testimoniModal.show();
+    });
+  });
+
+  // Tombol Edit Testimoni
+  document.querySelectorAll('.btnEditTestimoni, .bi-pencil').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Isi form dengan data testimoni (dummy untuk sekarang)
+      document.getElementById('namaPembeli').value = 'Adi Tani';
+      document.getElementById('namaProduk').value = 'Maxi-D';
+      document.getElementById('alamat').value = 'Kab. Bandung';
+      document.getElementById('reviewInput').value = 'Tanaman saya tumbuh lebih cepat!';
+      document.getElementById('statusInput').checked = true;
+      testimoniModal.show();
+    });
+  });
+
+  // Simpan Testimoni
+  document.getElementById('btnSimpanTestimoni').addEventListener('click', () => {
+    testimoniModal.hide();
+    setTimeout(() => {
+      const isSuccess = Math.random() > 0.2; // contoh 80% berhasil
+      if (isSuccess) {
+        notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+        notifText.textContent = "Berhasil menyimpan testimoni!";
+      } else {
+        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+        notifText.textContent = "Gagal menyimpan testimoni!";
+      }
+      notifModal.show();
+      setTimeout(() => notifModal.hide(), 1600);
+    }, 400);
+  });
+
+  // Tombol Hapus Testimoni
+  document.querySelectorAll('.btnHapusTestimoni, .bi-trash').forEach(btn => {
+    btn.addEventListener('click', () => {
+      hapusTestimoniModal.show();
+    });
+  });
+
+  // Konfirmasi Hapus
+  document.getElementById('btnKonfirmasiHapusTestimoni').addEventListener('click', () => {
+    hapusTestimoniModal.hide();
+    setTimeout(() => {
+      notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+      notifText.textContent = "Berhasil menghapus testimoni!";
+      notifModal.show();
+      setTimeout(() => notifModal.hide(), 1500);
+    }, 400);
+  });
+</script>
 </body>
 </html>

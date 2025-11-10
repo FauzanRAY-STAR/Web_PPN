@@ -15,102 +15,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="/WEB_PPN/asset/style/style_admin.css">
+  <link rel="stylesheet" href="/WEB_PPN/asset/style/galeri_admin.css">
   
-  <style>
-    .filter-tabs {
-      display: flex;
-      gap: 16px; /* jarak antar tombol */
-      margin-bottom: 20px;
-    }
-    
-    .filter-tabs button {
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      border-radius: 20px;
-      padding: 10px 24px;
-      font-size: 14px;
-      transition: all 0.2s ease;
-    }
-    
-    /* Tombol putih dengan teks biru */
-    .btn-outline {
-      background-color: #fff;
-      color: #1976FF;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-    }
-    
-    .btn-outline:hover {
-      background-color: #f5f7fa;
-    }
-    
-    /* Tombol biru dengan teks putih */
-    .btn-primary-tab {
-      background-color: #1976FF;
-      color: #fff;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-    }
-    
-    .btn-primary-tab:hover {
-      background-color: #1668e3;
-    }
-    
-    /* Tombol Tambah & Hapus */
-    .btn-action {
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      border-radius: 20px;
-      padding: 10px 28px;
-      font-size: 14px;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-      background-color: #fff;
-    }
-    
-    .btn-tambah {
-      color: #28a745;
-    }
-    
-    .btn-tambah:hover {
-      background-color: #f5f7fa;
-    }
-    
-    .btn-hapus {
-      color: #dc3545;
-    }
-    
-    .btn-hapus:hover {
-      background-color: #f5f7fa;
-    }
-    
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    
-    .gallery-card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
-      cursor: pointer;
-    }
-    
-    .gallery-card:hover {
-      transform: translateY(-5px);
-    }
-    
-    .gallery-card img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-    }
-  </style>
 </head>
 <body>
 
@@ -130,7 +36,7 @@
     </div>
     
     <div class="right-col d-flex gap-2">
-      <button class="btn-action btn-tambah" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
+      <button class="btn-action btn-tambah" id="btnTambah">
         TAMBAH
       </button>
       <button class="btn-action btn-hapus" id="btnHapus">
@@ -142,9 +48,7 @@
   <!-- GALLERY GRID -->
   <div class="gallery-grid">
     <?php 
-    // Ambil semua gambar dari folder asset/img yang merupakan gambar galeri
     $galeri_images = ['Galeri1.png', 'Galeri2.png', 'Galeri3.png', 'Galeri4.png'];
-    
     foreach($galeri_images as $img){
       if(file_exists($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/asset/img/' . $img)){
     ?>
@@ -158,53 +62,134 @@
   </div>
 </div>
 
-<!-- Modal Tambah Data -->
-<div class="modal fade" id="tambahDataModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="tambahDataModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5 fw-bolder" id="tambahDataModalLabel">Tambah Galeri</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- ====================== -->
+<!-- MODAL TAMBAH / EDIT -->
+<div class="modal fade" id="galeriModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4 rounded-4 border-0 shadow-sm">
+      <!-- HEADER -->
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/WEB_PPN/asset/img/logo.png" alt="Logo" width="100">
+          <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
+          <h5 class="fw-bold mb-0">Galeri</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body">
-        <p class="text-muted">
-          Untuk menambahkan gambar ke galeri, upload file gambar ke folder:<br>
-          <code>/WEB_PPN/asset/img/</code>
-        </p>
-        <p class="text-muted">
-          Format nama file: <code>Galeri1.png</code>, <code>Galeri2.png</code>, dst.
-        </p>
+
+      <!-- FORM -->
+      <label class="fw-semibold mb-1">Judul</label>
+      <input type="text" class="form-control border-success mb-3" placeholder="Masukkan Judul" id="judulInput">
+
+      <label class="fw-semibold mb-1">Deskripsi</label>
+      <textarea class="form-control border-success mb-3" placeholder="Masukkan Deskripsi" id="deskripsiInput" rows="3"></textarea>
+
+      <label class="fw-semibold mb-1">Tanggal</label>
+      <input type="date" class="form-control border-success mb-3" id="tanggalInput">
+
+      <label class="fw-semibold mb-1">Unggah Gambar</label>
+      <input type="file" class="form-control border-success mb-3" id="gambarInput">
+
+      <div class="form-check mt-2 mb-4">
+        <input class="form-check-input" type="checkbox" id="tampilkanInput">
+        <label class="form-check-label">Tampilkan</label>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-      </div>
+
+      <button class="btn w-100 text-white fw-semibold" id="btnSimpan"
+        style="background: linear-gradient(90deg, #4E8E55, #D6C72A); border-radius: 12px;">
+        Simpan
+      </button>
     </div>
   </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- MODAL HAPUS -->
+<div class="modal fade" id="hapusModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4 rounded-4 text-center">
+      <img src="/WEB_PPN/asset/img/logo.png" alt="Logo" width="120" class="mb-3">
+      <i class="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
+      <h5 class="fw-semibold mt-3 mb-4">Apakah Anda yakin ingin menghapus data ini?</h5>
+      <button class="btn text-white w-100 fw-semibold" id="btnKonfirmasiHapus"
+        style="background-color: #C0392B; border-radius: 12px;">Hapus</button>
+    </div>
+  </div>
+</div>
 
+<!-- MODAL NOTIFIKASI -->
+<div class="modal fade" id="notifModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content notif-card text-center p-4 rounded-4 border-0 shadow">
+      <img src="/WEB_PPN/asset/img/logo.png" alt="Logo" width="90" class="mb-3">
+      <i id="notifIcon" class="bi fs-1 mb-3"></i>
+      <h5 id="notifText" class="fw-semibold"></h5>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  // Filter tabs functionality
+  // Tabs
   document.getElementById('btnPilih').addEventListener('click', function() {
-    // Tombol PILIH menjadi aktif (biru)
-    this.classList.remove('btn-outline');
-    this.classList.add('btn-primary-tab');
-    
-    // Tombol PILIH SEMUA menjadi tidak aktif (putih)
+    this.classList.remove('btn-outline'); this.classList.add('btn-primary-tab');
     document.getElementById('btnPilihSemua').classList.remove('btn-primary-tab');
     document.getElementById('btnPilihSemua').classList.add('btn-outline');
   });
-  
   document.getElementById('btnPilihSemua').addEventListener('click', function() {
-    // Tombol PILIH SEMUA menjadi aktif (biru)
-    this.classList.remove('btn-outline');
-    this.classList.add('btn-primary-tab');
-    
-    // Tombol PILIH menjadi tidak aktif (putih)
+    this.classList.remove('btn-outline'); this.classList.add('btn-primary-tab');
     document.getElementById('btnPilih').classList.remove('btn-primary-tab');
     document.getElementById('btnPilih').classList.add('btn-outline');
+  });
+
+  // Modals
+  const galeriModal = new bootstrap.Modal(document.getElementById('galeriModal'));
+  const hapusModal = new bootstrap.Modal(document.getElementById('hapusModal'));
+  const notifModal = new bootstrap.Modal(document.getElementById('notifModal'));
+  const notifText = document.getElementById('notifText');
+  const notifIcon = document.getElementById('notifIcon');
+
+  // Tombol Tambah
+  document.getElementById('btnTambah').addEventListener('click', () => {
+    document.getElementById('judulInput').value = '';
+    document.getElementById('deskripsiInput').value = '';
+    document.getElementById('tanggalInput').value = '';
+    document.getElementById('gambarInput').value = '';
+    document.getElementById('tampilkanInput').checked = false;
+    galeriModal.show();
+  });
+
+  // Simpan Galeri
+  document.getElementById('btnSimpan').addEventListener('click', () => {
+    galeriModal.hide();
+    setTimeout(() => {
+      const isSuccess = Math.random() > 0.3; // simulasi 70% berhasil
+      if (isSuccess) {
+        notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+        notifText.textContent = "Galeri berhasil disimpan!";
+      } else {
+        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+        notifText.textContent = "Gagal menyimpan galeri!";
+      }
+      notifModal.show();
+      setTimeout(() => notifModal.hide(), 1600);
+    }, 400);
+  });
+
+  // Tombol Hapus
+  document.getElementById('btnHapus').addEventListener('click', () => {
+    hapusModal.show();
+  });
+
+  // Konfirmasi Hapus
+  document.getElementById('btnKonfirmasiHapus').addEventListener('click', () => {
+    hapusModal.hide();
+    setTimeout(() => {
+      notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+      notifText.textContent = "Data galeri berhasil dihapus!";
+      notifModal.show();
+      setTimeout(() => notifModal.hide(), 1500);
+    }, 400);
   });
 </script>
 

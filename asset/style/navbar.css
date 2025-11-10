@@ -93,3 +93,22 @@
         margin-bottom: 10px;
       }
     }
+
+    /* ===============================
+   🔹 Menu Aktif
+=============================== */
+.menu-item.active {
+  background-color: #FFD700; 
+  color: #ffffff; 
+}
+
+.menu-item.active i {
+  color: #ffffff; 
+}
+
+
+.menu-item:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+

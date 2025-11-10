@@ -5,18 +5,18 @@
 }
 
 :root {
-    --primary-color: #2d5016;
-    --secondary-color: #4a7c2c;
-    --accent-color: #7fb069;
+    --primary-color: #2B8D4C;
+    --secondary-color: #2B8D4C;
+    --accent-color: #2B8D4C;
     --text-dark: #1a1a1a;
     --text-light: #6b7280;
     --bg-light: #f9fafb;
     --white: #ffffff;
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
-    --gradient-primary: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
-    --gradient-overlay: linear-gradient(135deg, rgba(45, 80, 22, 0.9) 0%, rgba(74, 124, 44, 0.85) 100%);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15); 
+    --gradient-primary: #2B8D4C;
+    --gradient-overlay: #2B8D4C;
 }
 
 body {
@@ -37,7 +37,7 @@ body {
     position: relative;
     height: 70vh;
     min-height: 500px;
-    background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 50%, #7fb069 100%);
+    background: #2B8D4C;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,7 +61,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 30% 50%, rgba(127, 176, 105, 0.2) 0%, transparent 50%);
+    background:#2B8D4C;
 }
 
 .hero-content {
@@ -273,12 +273,12 @@ section {
 
 /* Values Section */
 .values-section {
-    background: var(--gradient-primary);
+    background: #2B8D4C;
     color: var(--white);
 }
 
 .values-section .section-label {
-    background: rgba(255, 255, 255, 0.2);
+    background: #2B8D4C;
     backdrop-filter: blur(10px);
 }
 
@@ -398,3 +398,25 @@ section {
         gap: 20px;
     }
 }
+
+        /* Navbar dropdown muncul */
+        .navbar {
+            overflow: visible !important;
+            position: relative;
+            z-index: 1000;
+        }
+
+        /* Full-width sections */
+        section {
+            width: 100%;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }

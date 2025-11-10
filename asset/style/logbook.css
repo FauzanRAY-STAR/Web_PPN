@@ -226,3 +226,54 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
+
+/* === Tombol Gradasi Hijau-Kuning === */
+.gradient-btn {
+  background: linear-gradient(90deg, #4E8E55 0%, #B3D134 100%);
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.gradient-btn:hover {
+  opacity: 0.9;
+}
+
+/* === Tombol Outline Hijau === */
+.outline-btn {
+  border: 2px solid #4E8E55;
+  color: #4E8E55;
+  background: white;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.outline-btn:hover {
+  background: #f6fff5;
+}
+
+/* Tombol kecil kaca pembesar di pojok kanan bawah */
+.btn-analitik-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: linear-gradient(135deg, #FFD95A, #F6B93B);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-analitik-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+}
+

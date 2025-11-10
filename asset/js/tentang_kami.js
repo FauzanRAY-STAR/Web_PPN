@@ -18,11 +18,6 @@ function animateCounter(element) {
     updateCounter();
 }
 
-// Intersection Observer untuk animasi saat scroll
-const observerOptions = {
-    threshold: 0.2,
-    rootMargin: '0px 0px -50px 0px'
-};
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -187,74 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add loading class removal
     document.body.classList.add('loaded');
 });
-
-// Custom cursor effect untuk section tertentu
-let cursor = document.createElement('div');
-cursor.className = 'custom-cursor';
-document.body.appendChild(cursor);
-
-let cursorFollower = document.createElement('div');
-cursorFollower.className = 'cursor-follower';
-document.body.appendChild(cursorFollower);
-
-document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-    
-    setTimeout(() => {
-        cursorFollower.style.left = e.clientX + 'px';
-        cursorFollower.style.top = e.clientY + 'px';
-    }, 100);
-});
-
-// Add cursor styles
-const cursorStyle = document.createElement('style');
-cursorStyle.textContent = `
-    .custom-cursor, .cursor-follower {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        transition: all 0.1s ease;
-    }
-    
-    .custom-cursor {
-        background: rgba(76, 175, 80, 0.8);
-        border: 2px solid white;
-        mix-blend-mode: difference;
-    }
-    
-    .cursor-follower {
-        background: transparent;
-        border: 2px solid rgba(76, 175, 80, 0.5);
-        transform: scale(1.5);
-    }
-    
-    .ripple {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(46, 125, 50, 0.5);
-        transform: scale(0);
-        animation: ripple-animation 0.6s ease-out;
-        pointer-events: none;
-    }
-    
-    @keyframes ripple-animation {
-        to {
-            transform: scale(4);
-            opacity: 0;
-        }
-    }
-    
-    @media (max-width: 768px) {
-        .custom-cursor, .cursor-follower {
-            display: none;
-        }
-    }
-`;
-document.head.appendChild(cursorStyle);
 
 // Easter egg: Konami code
 let konamiCode = [];

@@ -79,7 +79,7 @@
         max-width: 1200px;
         margin: 0 auto 3rem auto;
         padding: 3rem 50px;
-        background: transparent; /* transparan */
+        background: transparent; 
     }
     .product-image-container {
         flex: 1 1 400px;
@@ -112,7 +112,7 @@
     border: none;
     padding: 12px 35px;
     cursor: pointer;
-    border-radius: 50px; /* bikin bulet */
+    border-radius: 50px; 
     margin-top: 15px;
     font-weight: 600;
     letter-spacing: 0.3px;
@@ -322,7 +322,6 @@
                 </div>
             </div>
 
-            <!-- Bisa lanjutkan kategori lainnya sama seperti sebelumnya -->
 
             <button class="order-btn-bottom">Pesan Sekarang</button>
         </section>

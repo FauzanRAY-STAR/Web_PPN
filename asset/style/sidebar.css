@@ -115,12 +115,12 @@ body {
 ========================= */
 .sidebar.minimized .logo {
   display: flex;
-  flex-direction: column;    /* susun vertikal */
-  align-items: center;       /* center horizontal */
-  justify-content: center;   /* center vertikal */
-  height: 50px;              /* rapat ke menu-item */
-  padding: 0;                /* hilangkan padding */
-  gap: 0;                    /* hilangkan gap */
+  flex-direction: column;    
+  align-items: center;       
+  justify-content: center;   
+  height: 50px;              
+  padding: 0;                
+  gap: 0;                    
 }
 
 .sidebar.minimized #toggleSidebar {
@@ -206,14 +206,14 @@ body {
   transition: color 0.2s;
 }
 
-/* FIX MENU ITEM VERTICAL CENTER PAS MINIMIZE */
+
 .sidebar.minimized .menu-item {
   display: flex;
-  flex-direction: column;      /* susun vertikal */
-  justify-content: center;     /* center vertikal */
-  align-items: center;         /* center horizontal */
-  gap: 6px;                    /* jarak kecil antar elemen */
-  padding: 10px 0;             /* rapat area klik */
+  flex-direction: column;      
+  justify-content: center;     
+  align-items: center;         
+  gap: 6px;                    
+  padding: 10px 0;             
 }
 
 .sidebar.minimized .menu-item i {
@@ -235,7 +235,7 @@ body {
   display: flex;
   align-items: center;
   margin-top: auto;
-  position: relative;   /* supaya dropup muncul */
+  position: relative;   
 }
 
 .sidebar-footer img {
@@ -291,3 +291,19 @@ body {
   margin-left: 80px;
 }
 
+/* ===============================
+   🔹 Menu Aktif
+=============================== */
+.menu-item.active {
+  background-color: #FFD700;
+  color: #ffffff; 
+}
+
+.menu-item.active i {
+  color: #ffffff; 
+}
+
+.menu-item:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}

@@ -20,7 +20,9 @@ require_once __DIR__ . '/../auth_check.php';
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
 </head>
+
 <body>
   <div class="d-flex">
     <?php include('../template/sidebar.php'); ?>
@@ -34,7 +36,6 @@ require_once __DIR__ . '/../auth_check.php';
         <div class="col-md-4 col-lg-3">
           <div class="card-stat">
             <canvas id="chartProduk" height="200"></canvas>
-            <span class="chart-label">Rekap Bulanan</span>
           </div>
         </div>
         <div class="col-md-2 col-lg-3">
@@ -146,7 +147,367 @@ require_once __DIR__ . '/../auth_check.php';
         <button class="btn-page nav"><i class="bi bi-chevron-right"></i></button>
       </div>
     </div> <!-- end .main -->
+
+   <!-- ================== MODAL ANALITIK ================== -->
+<div class="modal fade" id="analitikModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90">
+          <h5 class="fw-semibold m-0">Analitik</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="d-flex justify-content-center gap-2 mb-3">
+          <select id="produkSelect" class="form-select w-auto">
+            <option value="">Pilih Produk</option>
+            <option>TNH</option>
+            <option>TNA</option>
+            <option>TNS</option>
+          </select>
+          <input type="number" id="tahunInput" class="form-control w-auto" placeholder="Tahun">
+          <button class="gradient-btn px-3">Cari</button>
+        </div>
+        <canvas id="chartAnalitik" height="250"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================== MODAL FILTER LOGBOOK ================== -->
+<div class="modal fade" id="filterModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90">
+          <h5 class="fw-semibold m-0">Filter Logbook</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <label>Keterangan</label>
+        <select id="filterKeterangan" class="form-select mb-2">
+          <option value="">Pilih</option>
+          <option>Lunas</option>
+          <option>Belum Lunas</option>
+        </select>
+
+        <label>Nama Koordinator</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama koordinator">
+
+        <label>Nama Presenter</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama presenter">
+
+        <label>Nama Marketing</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama marketing">
+
+        <label>Alamat</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan alamat">
+
+        <label>Tanggal Transaksi</label>
+        <div class="d-flex gap-2">
+          <input type="date" class="form-control">
+          <input type="date" class="form-control">
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button id="btnTerapkanFilter" class="gradient-btn px-4 py-2">Terapkan</button>
+          <button id="btnBersihkanFilter" class="outline-btn px-4 py-2">Bersihkan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================== MODAL ADD/EDIT LOGBOOK ================== -->
+<div class="modal fade" id="logbookModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90">
+          <h5 class="fw-semibold m-0">Logbook</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <label>Tanggal Transaksi</label>
+        <input type="date" class="form-control mb-2">
+
+        <label>Alamat</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan alamat">
+
+        <div id="produkContainer">
+          <div class="d-flex gap-2 align-items-end mb-2 produk-item">
+            <div class="flex-fill">
+              <label>Nama Produk</label>
+              <input type="text" class="form-control" placeholder="Masukkan nama produk">
+            </div>
+            <div class="flex-fill">
+              <label>Jumlah</label>
+              <input type="number" class="form-control" placeholder="Masukkan jumlah">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tombol tambah produk di tengah -->
+        <div class="text-center">
+          <button id="btnTambahProduk" class="gradient-btn btn-sm mb-4 px-3 py-1">
+            + Tambah Produk
+          </button>
+        </div>
+
+        <label>Koordinator</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama koordinator">
+
+        <label>Cash/DP</label>
+        <input type="number" class="form-control mb-2" placeholder="Masukkan nominal">
+
+        <label>1-Minggu</label>
+        <input type="number" class="form-control mb-2" placeholder="Masukkan nominal">
+
+        <label>1-Bulan</label>
+        <input type="number" class="form-control mb-2" placeholder="Masukkan nominal">
+
+        <label>Jumlah Total</label>
+        <input type="number" class="form-control mb-2" placeholder="Nominal total">
+
+        <label>Presenter</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama presenter">
+
+        <label>Marketing</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama marketing">
+
+        <label>Komisi</label>
+        <input type="number" class="form-control mb-3" placeholder="Masukkan nominal komisi">
+
+        <label>Keterangan</label>
+        <select class="form-select mb-3">
+          <option>Lunas</option>
+          <option>Belum Lunas</option>
+        </select>
+
+        <button id="btnSimpanLogbook" class="gradient-btn w-100 py-2">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL FILTER LOGBOOK -->
+<div class="modal fade" id="filterModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90">
+          <h5 class="fw-semibold m-0">Filter Logbook</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <label>Keterangan</label>
+        <select id="filterKeterangan" class="form-select mb-2">
+          <option value="">Pilih</option>
+          <option>Lunas</option>
+          <option>Belum Lunas</option>
+        </select>
+
+        <label>Nama Koordinator</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama koordinator">
+
+        <label>Nama Presenter</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama presenter">
+
+        <label>Nama Marketing</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama marketing">
+
+        <label>Alamat</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan alamat">
+
+        <label>Tanggal Transaksi</label>
+        <div class="d-flex gap-2">
+          <input type="date" class="form-control">
+          <input type="date" class="form-control">
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button id="btnTerapkanFilter" class="gradient-btn px-4 py-2">Terapkan</button>
+          <button id="btnBersihkanFilter" class="outline-btn px-4 py-2">Bersihkan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ADD/EDIT LOGBOOK -->
+<div class="modal fade" id="logbookModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90">
+          <h5 class="fw-semibold m-0">Logbook</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <label>Tanggal Transaksi</label>
+        <input type="date" class="form-control mb-2">
+
+        <label>Alamat</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan alamat">
+
+        <div id="produkContainer">
+          <div class="d-flex gap-2 align-items-end mb-2 produk-item">
+            <div class="flex-fill">
+              <label>Nama Produk</label>
+              <input type="text" class="form-control" placeholder="Masukkan nama produk">
+            </div>
+            <div class="flex-fill">
+              <label>Jumlah</label>
+              <input type="number" class="form-control" placeholder="Masukkan jumlah">
+            </div>
+          </div>
+        </div>
+
+        <button id="btnTambahProduk" class="btn btn-success btn-sm mb-3">
+          + Tambah Produk
+        </button>
+
+        <label>Koordinator</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama koordinator">
+
+        <label>Cash/DP</label>
+        <input type="number" class="form-control mb-2" placeholder="Masukkan nominal">
+
+        <label>1-Minggu</label>
+        <input type="number" class="form-control mb-2" placeholder="Masukkan nominal">
+
+        <label>1-Bulan</label>
+        <input type="number" class="form-control mb-2" placeholder="Masukkan nominal">
+
+        <label>Jumlah Total</label>
+        <input type="number" class="form-control mb-2" placeholder="Nominal total">
+
+        <label>Presenter</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama presenter">
+
+        <label>Marketing</label>
+        <input type="text" class="form-control mb-2" placeholder="Masukkan nama marketing">
+
+        <label>Komisi</label>
+        <input type="number" class="form-control mb-2" placeholder="Masukkan nominal komisi">
+
+        <label>Keterangan</label>
+        <select class="form-select mb-3">
+          <option>Lunas</option>
+          <option>Belum Lunas</option>
+        </select>
+
+        <button class="btn btn-success w-100">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const logbookModal = new bootstrap.Modal(document.getElementById('logbookModal'));
+const filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
+const analitikModal = new bootstrap.Modal(document.getElementById('analitikModal'));
+
+// Tombol tambah dan edit
+document.querySelector('.btn-add').addEventListener('click', () => logbookModal.show());
+document.querySelectorAll('.btn-warning').forEach(btn => btn.addEventListener('click', () => logbookModal.show()));
+
+// Tombol filter
+document.querySelector('.btn-filter').addEventListener('click', () => filterModal.show());
+
+// Tambah produk baru di form
+document.getElementById('btnTambahProduk').addEventListener('click', () => {
+  const container = document.getElementById('produkContainer');
+  const div = document.createElement('div');
+  div.classList.add('d-flex','gap-2','align-items-end','mb-2','produk-item');
+  div.innerHTML = `
+    <div class="flex-fill">
+      <label>Nama Produk</label>
+      <input type="text" class="form-control" placeholder="Masukkan nama produk">
+    </div>
+    <div class="flex-fill">
+      <label>Jumlah</label>
+      <input type="number" class="form-control" placeholder="Masukkan jumlah">
+    </div>
+  `;
+  container.appendChild(div);
+});
+
+// === Ubah tulisan "Rekap Bulanan" jadi tombol kecil kuning ===
+const chartCard = document.querySelector('.card-stat');
+const labelOld = chartCard.querySelector('.chart-label');
+if (labelOld) labelOld.remove(); // hapus tulisan lama
+
+const searchBtn = document.createElement('button');
+searchBtn.className = 'btn-analitik-btn';
+searchBtn.innerHTML = '<i class="bi bi-search"></i>';
+chartCard.style.position = 'relative';
+chartCard.appendChild(searchBtn);
+searchBtn.addEventListener('click', () => analitikModal.show());
+
+// Chart di modal analitik
+const ctxA = document.getElementById('chartAnalitik');
+new Chart(ctxA, {
+  type: 'bar',
+  data: {
+    labels: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+    datasets: [{
+      label: 'TNH',
+      data: [10,20,25,35,30,50,20,15,10,45,65,30],
+      backgroundColor: '#8C8CFF'
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: { y: { beginAtZero: true } }
+  }
+});
+</script>
+
+
+
+
   </div> <!-- end .d-flex -->
+
+  <!-- MODAL HAPUS -->
+<div class="modal fade" id="hapusModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4 rounded-4 text-center">
+      <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="120" class="mb-3">
+      <i class="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
+      <h5 class="fw-semibold mt-3 mb-4">Apakah Anda yakin untuk menghapus logbook ini?</h5>
+      <button class="btn text-white w-100 fw-semibold" id="btnKonfirmasiHapusLogbook"
+        style="background-color: #C0392B; border-radius: 12px;">Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOTIFIKASI -->
+<div class="modal fade" id="notifModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content notif-card text-center p-4 rounded-4 border-0 shadow">
+      <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90" class="mb-3">
+      <i id="notifIcon" class="bi fs-1 mb-3"></i>
+      <h5 id="notifText" class="fw-semibold"></h5>
+    </div>
+  </div>
+</div>
+
 
   <!-- Chart Script -->
   <script>
@@ -192,6 +553,71 @@ require_once __DIR__ . '/../auth_check.php';
         layout: { padding: 10 }
       }
     });
+
+    const hapusModal = new bootstrap.Modal(document.getElementById('hapusModal'));
+const notifModal = new bootstrap.Modal(document.getElementById('notifModal'));
+const notifIcon = document.getElementById('notifIcon');
+const notifText = document.getElementById('notifText');
+
+// Tombol Hapus Logbook
+document.querySelectorAll('.btn-danger').forEach(btn => {
+  btn.addEventListener('click', () => {
+    hapusModal.show();
+  });
+});
+
+// Konfirmasi Hapus
+document.getElementById('btnKonfirmasiHapusLogbook').addEventListener('click', () => {
+  hapusModal.hide();
+  setTimeout(() => {
+    notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+    notifText.textContent = "Logbook berhasil dihapus!";
+    notifModal.show();
+    setTimeout(() => notifModal.hide(), 1500);
+  }, 400);
+});
+
+// Filter Buttons (untuk modal filter logbook)
+document.getElementById('btnTerapkanFilter').addEventListener('click', () => {
+  filterModal.hide();
+  setTimeout(() => {
+    notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+    notifText.textContent = "Filter diterapkan!";
+    notifModal.show();
+    setTimeout(() => notifModal.hide(), 1500);
+  }, 400);
+});
+
+document.getElementById('btnBersihkanFilter').addEventListener('click', () => {
+  document.getElementById('filterKeterangan').value = '';
+  notifIcon.className = 'bi bi-x-circle-fill text-warning fs-1 mb-3';
+  notifText.textContent = "Filter dibersihkan!";
+  notifModal.show();
+  setTimeout(() => notifModal.hide(), 1500);
+});
+
+// Tombol Simpan Logbook
+document.getElementById('btnSimpanLogbook').addEventListener('click', () => {
+  // Sembunyikan modal logbook
+  logbookModal.hide();
+
+  // Simulasi delay penyimpanan
+  setTimeout(() => {
+    const isSuccess = Math.random() > 0.3; // 70% chance berhasil
+
+    if (isSuccess) {
+      notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+      notifText.textContent = "Logbook berhasil disimpan!";
+    } else {
+      notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+      notifText.textContent = "Gagal menyimpan logbook!";
+    }
+
+    notifModal.show();
+    setTimeout(() => notifModal.hide(), 1600);
+  }, 400);
+});
+
   </script>
 </body>
 </html>

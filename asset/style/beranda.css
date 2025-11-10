@@ -21,9 +21,9 @@ body {
 
 /* === KONTEN UTAMA RATA TENGAH === */
 .container-beranda {
-  max-width: 1200px; /* lebar ideal konten */
-  margin: 0 auto; /* tengah kiri-kanan */
-  padding: 0 30px; /* beri jarak kiri-kanan */
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 0 30px; 
   box-sizing: border-box;
 }
 
@@ -73,7 +73,6 @@ body {
 }
 
 /* ===== HASIL PUPUK SECTION ===== */
-/* ===== HASIL PUPUK SECTION (Revisi Tema Hijau Modern) ===== */
 .hasil-pupuk-section {
   background-color: #f4f5f7;
   padding: 80px 0;
@@ -99,7 +98,7 @@ body {
 }
 
 /* === CARD HASIL === */
-/* ===== HASIL PUPUK SECTION (Tema Vertikal Tengah) ===== */
+
 .hasil-pupuk-section {
   background-color: #fff;
   padding: 80px 0;
@@ -140,7 +139,6 @@ body {
   align-items: center;
 }
 
-/* Pastikan semua kolom punya tinggi sama */
 .hasil-pupuk-section .row > div {
   display: flex;
 }
@@ -170,7 +168,7 @@ body {
   margin-bottom: 0;
 }
 
-/* === Efek Hover (Mengangkat ke atas) === */
+
 .hasil-card:hover {
   transform: translateY(-10px) scale(1.02);
   border-color: #e7f3a4;

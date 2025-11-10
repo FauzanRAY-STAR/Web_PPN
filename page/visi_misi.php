@@ -6,29 +6,7 @@
     <title>Visi & Misi - PT Pramudita Pupuk Nusantara</title>
     <link rel="stylesheet" href="../asset/style/visi_misi.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Navbar dropdown muncul */
-        .navbar {
-            overflow: visible !important;
-            position: relative;
-            z-index: 1000;
-        }
 
-        /* Full-width sections */
-        section {
-            width: 100%;
-            padding-left: 0;
-            padding-right: 0;
-        }
-
-        /* Konten tetap rapi */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-    </style>
 </head>
 <body>
 

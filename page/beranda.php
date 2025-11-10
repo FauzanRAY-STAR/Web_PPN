@@ -39,19 +39,73 @@ include('config/koneksi.php');
     include('admin/template/navbar.php');
     ?>
 
-    <!-- Hero Section -->
-    <div class="container-fluid py-5" style="width:100%; background-image: url('asset/img/Banner1.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-        <div class="container my-5 py-5">
-            <div class="row align-items-center g-5">
-                <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-3 text-white animated slideInLeft">Pupuk Silika</h1>
-                    <p class="text-white animated slideInLeft mb-4 pb-2">
+   <!-- Hero Section Carousel -->
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+            <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner1.png') center/cover no-repeat;">
+                <div class="container text-center text-lg-start">
+                    <h1 class="display-3 text-white">Pupuk Silika</h1>
+                    <p class="text-white mb-4">
                         Pupuk Silika mengandung silikon aktif yang memperkuat tanaman, meningkatkan ketahanan terhadap hama dan penyakit, serta mendukung panen yang lebih melimpah dan berkualitas.
                     </p>
                 </div>
             </div>
         </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+            <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner2.png') center/cover no-repeat;">
+                <div class="container text-center text-lg-start">
+                    <h1 class="display-3 text-white">Tera Nusa Maxi-D</h1>
+                    <p class="text-white mb-4">
+                        Kombinasi silika aktif dan nutrisi mikro untuk pertumbuhan optimal tanaman.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+            <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner3.png') center/cover no-repeat;">
+                <div class="container text-center text-lg-start">
+                    <h1 class="display-3 text-white">Silika Premium</h1>
+                    <p class="text-white mb-4">
+                        Diformulasikan khusus untuk meningkatkan ketahanan tanaman terhadap penyakit.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Indicators (optional) -->
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+    </div>
+
+    <!-- Overlay klik kiri/kanan -->
+    <div style="position: absolute; top: 0; left: 0; width: 50%; height: 100%; cursor: pointer;" id="carouselPrev"></div>
+    <div style="position: absolute; top: 0; right: 0; width: 50%; height: 100%; cursor: pointer;" id="carouselNext"></div>
+</div>
+
+<script>
+    const heroCarousel = document.querySelector('#heroCarousel');
+    const carousel = new bootstrap.Carousel(heroCarousel);
+
+    // Klik sisi kiri → prev
+    document.querySelector('#carouselPrev').addEventListener('click', () => {
+        carousel.prev();
+    });
+
+    // Klik sisi kanan → next
+    document.querySelector('#carouselNext').addEventListener('click', () => {
+        carousel.next();
+    });
+</script>
+
 
     <!-- ============================================ -->
     <!-- PRODUK KAMI SECTION -->

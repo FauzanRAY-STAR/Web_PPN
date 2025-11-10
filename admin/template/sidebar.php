@@ -82,12 +82,7 @@
     const menuItems = document.querySelectorAll('.menu-item');
     const footerToggle = document.querySelector('.footer-toggle');
     const dropupMenu = document.querySelector('.dropup-menu');
-
-    // 🔹 Selalu reset agar tidak ada menu aktif otomatis
-    localStorage.removeItem('activeMenuIndex');
-
-    // Pastikan semua menu tidak aktif saat awal load
-    menuItems.forEach(i => i.classList.remove('active'));
+    const activeIndex = localStorage.getItem('activeMenuIndex');
 
     // Sidebar toggle
     toggleBtn.addEventListener('click', () => {
@@ -95,19 +90,17 @@
       document.querySelector('.main')?.classList.toggle('sidebar-minimized');
     });
 
+    // Restore active menu
+    if (activeIndex !== null && menuItems[activeIndex]) {
+      menuItems[activeIndex].classList.add('active');
+    }
+
     // Menu item click
     menuItems.forEach((item, index) => {
       item.addEventListener('click', () => {
-        // Hapus semua active
         menuItems.forEach(i => i.classList.remove('active'));
-
-        // Tambahkan active ke menu yang diklik
         item.classList.add('active');
-
-        // Simpan index menu (opsional, tapi nggak akan dipakai lagi karena kita reset tiap load)
         localStorage.setItem('activeMenuIndex', index);
-
-        // Arahkan ke halaman tujuan
         const link = item.getAttribute('data-link');
         if (link) window.location.href = link;
       });
@@ -115,13 +108,10 @@
 
     // Dropup toggle
     footerToggle.addEventListener('click', () => {
-      dropupMenu.style.display =
-        dropupMenu.style.display === 'none' || dropupMenu.style.display === ''
-          ? 'block'
-          : 'none';
+      dropupMenu.style.display = dropupMenu.style.display === 'none' || dropupMenu.style.display === '' ? 'block' : 'none';
     });
 
-    // Tutup dropup kalau klik di luar
+    // Close dropup outside click
     document.addEventListener('click', (e) => {
       if (!document.getElementById('footerDropdown').contains(e.target)) {
         dropupMenu.style.display = 'none';

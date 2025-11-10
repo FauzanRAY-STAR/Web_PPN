@@ -18,7 +18,7 @@ if ($username === $ADMIN_USERNAME && $password === $ADMIN_PASSWORD) {
         'is_admin' => true
     ];
 
-    // ✅ Redirect ke halaman logbook setelah login
+    // Redirect setelah login
     header('Location: admin/template/sidebar.php');
     exit;
 } else {

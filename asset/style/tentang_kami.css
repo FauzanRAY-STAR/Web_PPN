@@ -661,3 +661,47 @@ body {
     }
 }
 
+  /* Navbar dropdown muncul */
+        .navbar {
+            overflow: visible !important;
+            position: relative;
+        }
+
+        /* Full-width main content */
+        .main-content {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+ 
+        .hero-section,
+        .intro-section,
+        .video-section,
+        .about-section,
+        .values-section,
+        .cta-section {
+            width: 100%;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+
+        .hero-content,
+        .intro-content,
+        .video-container,
+        .about-content,
+        .values-grid,
+        .cta-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+    
+        .intro-content,
+        .about-text-wrapper,
+        .video-container {
+            width: 100%;
+        }

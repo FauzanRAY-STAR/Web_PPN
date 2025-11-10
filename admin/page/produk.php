@@ -16,6 +16,97 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/WEB_PPN/asset/style/style_admin.css">
+
+  <style>
+    /* === Modal Styles === */
+    .modal-content {
+      border-radius: 20px;
+      border: none;
+    }
+    .modal-header {
+      border: none;
+      padding-bottom: 0;
+    }
+.modal-body input[type="text"],
+.modal-body input[type="number"],
+.modal-body textarea,
+.modal-body select {
+  border: 1px solid #E3E3E3;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+}
+
+    .modal-body label {
+      font-weight: 500;
+      margin-top: 10px;
+    }
+    .gradient-btn {
+      background: linear-gradient(90deg, #4E8E55 0%, #B3D134 100%);
+      border: none;
+      color: #fff;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .gradient-btn:hover {
+      opacity: 0.9;
+    }
+    .outline-btn {
+      border: 2px solid #4E8E55;
+      color: #4E8E55;
+      border-radius: 10px;
+      font-weight: 600;
+      background: #fff;
+      transition: 0.3s;
+    }
+    .outline-btn:hover {
+      background: #4E8E55;
+      color: #fff;
+    }
+    .notif-card {
+      background: #fff;
+      animation: fadeScale 0.3s ease;
+    }
+    @keyframes fadeScale {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
+    .shadow {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .upload-box {
+      background: #F2F6F2;
+      border-radius: 15px;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #A3A3A3;
+      font-size: 14px;
+      border: 1px dashed #C9C9C9;
+    }
+    .switch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+/* Checkbox kecil */
+.form-check-input {
+  width: 16px;
+  height: 16px;
+}
+.form-check-label {
+  margin-bottom: 0;
+}
+
+
+  </style>
 </head>
 <body>
 
@@ -32,11 +123,11 @@
         <i class="bi bi-search"></i>
         <input type="text" placeholder="Search">
       </div>
-      <button class="search-btn" style="background-color: #4E8E55;"><i class="bi bi-funnel"></i></button>
+      <button id="btnFilter" class="search-btn" style="background-color: #4E8E55;"><i class="bi bi-funnel"></i></button>
     </div>
     
     <div class="right-col">
-      <button class="search-btn" style="background-color: #4E8E55;"><i class="bi bi-plus"></i></button>
+      <button id="btnTambah" class="search-btn" style="background-color: #4E8E55;"><i class="bi bi-plus"></i></button>
     </div>
   </div>
 
@@ -79,8 +170,206 @@
   </div>
 </div>
 
+
+<!-- ========================= MODALS ========================= -->
+
+<!-- MODAL TAMBAH PRODUK -->
+<div class="modal fade" id="produkModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90">
+          <h5 class="fw-semibold m-0">Produk</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <label class="fw-semibold mb-1">Kategori Produk</label>
+        <input type="text" id="kategoriProduk" placeholder="Masukkan kategori produk">
+
+        <label class="fw-semibold mb-1">Jenis Tanaman</label>
+        <input type="text" id="jenisTanaman" placeholder="Masukkan jenis tanaman. Pisahkan dengan ‘;’ (Eg: Jagung;Padi)">
+
+        <label class="fw-semibold mb-1">Nama Produk</label>
+        <input type="text" id="namaProduk" placeholder="Masukkan nama produk">
+
+        <label class="fw-semibold mb-1">Deskripsi</label>
+        <textarea id="deskripsi" rows="2" placeholder="Masukkan deskripsi"></textarea>
+
+        <label class="fw-semibold mb-1">Penjelasan Produk</label>
+        <textarea id="penjelasan" rows="2" placeholder="Masukkan deskripsi"></textarea>
+
+        <label class="fw-semibold mb-1">Manfaat & Keunggulan</label>
+        <textarea id="manfaat" rows="2" placeholder="Masukkan deskripsi"></textarea>
+
+        <label class="fw-semibold mb-1">Aturan Pakai</label>
+        <textarea id="aturan" rows="2" placeholder="Masukkan deskripsi"></textarea>
+
+        <label class="fw-semibold mb-1">Keistimewaan</label>
+        <textarea id="keistimewaan" rows="2" placeholder="Masukkan deskripsi"></textarea>
+
+        <label class="fw-semibold mb-1">Petunjuk Penyimpanan</label>
+        <textarea id="penyimpanan" rows="2" placeholder="Masukkan deskripsi"></textarea>
+
+        <label class="fw-semibold mb-1">Stok</label>
+        <input type="number" id="stok" placeholder="Jumlah">
+
+        <label class="fw-semibold mb-1">Unggah Gambar</label>
+        <input type="file" class="form-control border-success mb-3" id="gambarInput">
+
+<div class="form-check mt-2 mb-4 d-flex align-items-center gap-2">
+  <input class="form-check-input" type="checkbox" id="tampilkanInput">
+  <label for="tampilkanInput" class="form-check-label fw-semibold">Tampilkan</label>
+</div>
+
+
+
+        <button id="btnSimpan" class="w-100 mt-4 gradient-btn py-2">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FILTER PRODUK -->
+<div class="modal fade" id="filterModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90">
+          <h5 class="fw-semibold m-0">Filter Produk</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <label>Kategori</label>
+        <select id="filterKategori">
+          <option value="">Pilih Kategori</option>
+          <option>Pupuk Cair</option>
+          <option>Pupuk Padat</option>
+          <option>Obat Tanaman</option>
+        </select>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button id="btnTerapkan" class="gradient-btn px-4 py-2">Terapkan</button>
+          <button id="btnBersihkan" class="outline-btn px-4 py-2">Bersihkan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL HAPUS -->
+<div class="modal fade" id="hapusModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4 rounded-4 text-center">
+      <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="120" class="mb-3">
+      <i class="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
+      <h5 class="fw-semibold mt-3 mb-4">Apakah Anda yakin untuk menghapus produk ini?</h5>
+      <button class="btn text-white w-100 fw-semibold" id="btnKonfirmasiHapus"
+        style="background-color: #C0392B; border-radius: 12px;">Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOTIFIKASI -->
+<div class="modal fade" id="notifModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content notif-card text-center p-4 rounded-4 border-0 shadow">
+      <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90" class="mb-3">
+      <i id="notifIcon" class="bi fs-1 mb-3"></i>
+      <h5 id="notifText" class="fw-semibold"></h5>
+    </div>
+  </div>
+</div>
+
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const produkModal = new bootstrap.Modal(document.getElementById('produkModal'));
+  const filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
+  const hapusModal = new bootstrap.Modal(document.getElementById('hapusModal'));
+  const notifModal = new bootstrap.Modal(document.getElementById('notifModal'));
+  const notifText = document.getElementById('notifText');
+  const notifIcon = document.getElementById('notifIcon');
+
+  // Tambah Produk
+  document.getElementById('btnTambah').addEventListener('click', () => {
+    produkModal.show();
+  });
+
+  // Tombol Edit Produk
+document.querySelectorAll('.btn-edit').forEach(btn => {
+  btn.addEventListener('click', () => {
+    produkModal.show();
+  });
+});
+
+
+  // Filter Produk
+  document.getElementById('btnFilter').addEventListener('click', () => {
+    filterModal.show();
+  });
+
+  // Simpan Produk
+  document.getElementById('btnSimpan').addEventListener('click', () => {
+    produkModal.hide();
+    setTimeout(() => {
+      const isSuccess = Math.random() > 0.3;
+      if (isSuccess) {
+        notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+        notifText.textContent = "Produk berhasil disimpan!";
+      } else {
+        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+        notifText.textContent = "Gagal menyimpan produk!";
+      }
+      notifModal.show();
+      setTimeout(() => notifModal.hide(), 1600);
+    }, 400);
+  });
+
+  // Tombol Hapus
+  document.querySelectorAll('.btn-delete').forEach(btn => {
+    btn.addEventListener('click', () => {
+      hapusModal.show();
+    });
+  });
+
+  // Konfirmasi Hapus
+  document.getElementById('btnKonfirmasiHapus').addEventListener('click', () => {
+    hapusModal.hide();
+    setTimeout(() => {
+      notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+      notifText.textContent = "Produk berhasil dihapus!";
+      notifModal.show();
+      setTimeout(() => notifModal.hide(), 1500);
+    }, 400);
+  });
+
+  // Filter Buttons
+  document.getElementById('btnTerapkan').addEventListener('click', () => {
+    filterModal.hide();
+    setTimeout(() => {
+      notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+      notifText.textContent = "Filter diterapkan!";
+      notifModal.show();
+      setTimeout(() => notifModal.hide(), 1500);
+    }, 400);
+  });
+
+  document.getElementById('btnBersihkan').addEventListener('click', () => {
+    document.getElementById('filterKategori').value = '';
+    notifIcon.className = 'bi bi-x-circle-fill text-warning fs-1 mb-3';
+    notifText.textContent = "Filter dibersihkan!";
+    notifModal.show();
+    setTimeout(() => notifModal.hide(), 1500);
+  });
+</script>
 
 </body>
 </html>

@@ -11,52 +11,6 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../asset/style/tentang_kami.css">
 
-    <style>
-        /* Navbar dropdown muncul */
-        .navbar {
-            overflow: visible !important;
-            position: relative;
-        }
-
-        /* Full-width main content */
-        .main-content {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Semua section full-width */
-        .hero-section,
-        .intro-section,
-        .video-section,
-        .about-section,
-        .values-section,
-        .cta-section {
-            width: 100%;
-            padding-left: 0;
-            padding-right: 0;
-        }
-
-        /* Atur konten di dalam section tetap rapi */
-        .hero-content,
-        .intro-content,
-        .video-container,
-        .about-content,
-        .values-grid,
-        .cta-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        /* Optional: hilangkan margin auto yang bikin putih di kiri-kanan */
-        .intro-content,
-        .about-text-wrapper,
-        .video-container {
-            width: 100%;
-        }
-    </style>
 </head>
 <body>
 

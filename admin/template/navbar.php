@@ -152,7 +152,6 @@ endif;
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <?php
-// Flush output buffer di akhir
 if (ob_get_level() > 0) {
     ob_end_flush();
 }
