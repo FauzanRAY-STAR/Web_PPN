@@ -301,8 +301,8 @@ footer {
 
 #whatsapp-float {
   position: fixed;
-  bottom: 25px; /* Naik sedikit dari bawah */
-  right: 25px;  /* Geser sedikit ke kanan */
+  bottom: 25px; 
+  right: 25px; 
   width: 60px;
   height: 60px;
   background-color: #25D366;
@@ -318,8 +318,7 @@ footer {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-48%, -52%); /* Geser dikit biar pas visual */
-  font-size: 32px;
+  transform: translate(-48%, -52%); 
 }
 
 #whatsapp-float:hover {
