@@ -5,5 +5,6 @@
         case 'galeri': include "page/galeri.php"; break;
         case 'produk': include "page/halaman_produk.php"; break;
         case 'login': include "login.php"; break;
+        case 'faq': include "page/faq.php"; break;
     }
 ?>
