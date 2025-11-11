@@ -17,6 +17,60 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/WEB_PPN/asset/style/galeri_admin.css">
   
+  <style>
+    .gallery-card {
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s, outline 0.3s;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+    }
+    
+    .gallery-card:hover {
+      transform: scale(1.02);
+    }
+    
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 12px;
+    }
+    
+    .check-icon {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+    }
+    
+    .check-icon i {
+      font-size: 28px;
+      color: #007bff;
+    }
+    
+    .gallery-card[data-selected="true"] .check-icon {
+      opacity: 1;
+    }
+    
+    .gallery-card[data-selected="true"] {
+      outline: 3px solid #007bff;
+      outline-offset: -3px;
+    }
+  </style>
+  
 </head>
 <body>
 
@@ -30,8 +84,8 @@
   <div class="search-bar-top">
     <div class="left-col">
       <div class="filter-tabs">
-        <button class="btn-outline" id="btnPilih">PILIH</button>
-        <button class="btn-primary-tab" id="btnPilihSemua">PILIH SEMUA</button>
+        <button class="btn-primary-tab" id="btnPilih">PILIH</button>
+        <button class="btn-outline" id="btnPilihSemua">PILIH SEMUA</button>
       </div>
     </div>
     
@@ -52,8 +106,11 @@
     foreach($galeri_images as $img){
       if(file_exists($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/asset/img/' . $img)){
     ?>
-    <div class="gallery-card">
+    <div class="gallery-card" data-selected="false">
       <img src="/WEB_PPN/asset/img/<?php echo $img; ?>" alt="<?php echo $img; ?>">
+      <div class="check-icon">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
     </div>
     <?php 
       }
@@ -130,16 +187,44 @@
 <!-- SCRIPT -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  // Tabs
+  let isPilihMode = true;
+  
+  // Tabs - Mode PILIH
   document.getElementById('btnPilih').addEventListener('click', function() {
-    this.classList.remove('btn-outline'); this.classList.add('btn-primary-tab');
+    isPilihMode = true;
+    this.classList.remove('btn-outline'); 
+    this.classList.add('btn-primary-tab');
     document.getElementById('btnPilihSemua').classList.remove('btn-primary-tab');
     document.getElementById('btnPilihSemua').classList.add('btn-outline');
+    
+    // Hapus semua seleksi saat kembali ke mode PILIH
+    document.querySelectorAll('.gallery-card').forEach(card => {
+      card.setAttribute('data-selected', 'false');
+    });
   });
+  
+  // Tabs - Mode PILIH SEMUA
   document.getElementById('btnPilihSemua').addEventListener('click', function() {
-    this.classList.remove('btn-outline'); this.classList.add('btn-primary-tab');
+    isPilihMode = false;
+    this.classList.remove('btn-outline'); 
+    this.classList.add('btn-primary-tab');
     document.getElementById('btnPilih').classList.remove('btn-primary-tab');
     document.getElementById('btnPilih').classList.add('btn-outline');
+    
+    // Pilih semua gambar sekaligus
+    document.querySelectorAll('.gallery-card').forEach(card => {
+      card.setAttribute('data-selected', 'true');
+    });
+  });
+
+  // Klik pada gallery card untuk toggle selection (hanya di mode PILIH)
+  document.querySelectorAll('.gallery-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      if (isPilihMode) {
+        const isSelected = this.getAttribute('data-selected') === 'true';
+        this.setAttribute('data-selected', !isSelected);
+      }
+    });
   });
 
   // Modals
@@ -176,8 +261,16 @@
     }, 400);
   });
 
-  // Tombol Hapus
+  // Tombol Hapus - Validasi seleksi gambar
   document.getElementById('btnHapus').addEventListener('click', () => {
+    const selectedCards = document.querySelectorAll('.gallery-card[data-selected="true"]');
+    if (selectedCards.length === 0) {
+      notifIcon.className = 'bi bi-exclamation-circle-fill text-warning fs-1 mb-3';
+      notifText.textContent = "Pilih gambar terlebih dahulu!";
+      notifModal.show();
+      setTimeout(() => notifModal.hide(), 1500);
+      return;
+    }
     hapusModal.show();
   });
 
@@ -185,6 +278,11 @@
   document.getElementById('btnKonfirmasiHapus').addEventListener('click', () => {
     hapusModal.hide();
     setTimeout(() => {
+      // Hapus gambar yang terseleksi
+      document.querySelectorAll('.gallery-card[data-selected="true"]').forEach(card => {
+        card.remove();
+      });
+      
       notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
       notifText.textContent = "Data galeri berhasil dihapus!";
       notifModal.show();

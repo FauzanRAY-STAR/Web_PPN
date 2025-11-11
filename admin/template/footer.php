@@ -10,7 +10,7 @@
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css?family=Heebo&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
 
 <!-- Icon Font Stylesheets -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
@@ -29,10 +29,10 @@
     <!-- Baris atas -->
     <div class="footer-top">
   <div class="footer-logos">
-    <img src="<?= $base_url ?>asset/img/Logo.png" alt="Logo PPN" height="50">
+    <img src="<?= $base_url ?>asset/img/Logox.png" alt="Logo PPN" height="50">
     
     <a href="https://purwokerto.telkomuniversity.ac.id/" target="_blank">
-      <img src="<?= $base_url ?>asset/img/Logo2.png" alt="Logo Telkom University" height="50">
+      <img src="<?= $base_url ?>asset/img/Logox2.png" alt="Logo Telkom University" height="50">
     </a>
     
     <a href="https://bse-pwt.telkomuniversity.ac.id/" target="_blank">
