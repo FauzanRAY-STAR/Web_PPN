@@ -349,11 +349,12 @@ require_once __DIR__ . '/../auth_check.php';
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content p-4">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="d-flex align-items-center gap-2">
-          <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90">
-          <h5 class="fw-semibold m-0">Logbook</h5>
+        <div class="d-flex align-items-center mb-4">
+                <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" style="height: 40px;">
+            <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
+                <h4 class="mb-0 fw-bold">Logbook</h4>
+            </div>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <div class="modal-body">

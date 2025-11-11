@@ -177,12 +177,13 @@
 <div class="modal fade" id="produkModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content p-4">
-      <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="d-flex justify-content-between align-items-start mb-3">
         <div class="d-flex align-items-center gap-2">
-          <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90">
-          <h5 class="fw-semibold m-0">Produk</h5>
+          <img src="../../asset/img/logo.png" alt="Logo" width="100">
+          <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
+          <h5 class="fw-bold mb-0">Produk</h5>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="modal-body">
@@ -236,12 +237,13 @@
 <div class="modal fade" id="filterModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content p-4">
-      <div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-start mb-3">
         <div class="d-flex align-items-center gap-2">
-          <img src="/WEB_PPN/asset/img/Logo.png" alt="Logo" width="90">
-          <h5 class="fw-semibold m-0">Filter Produk</h5>
+          <img src="../../asset/img/logo.png" alt="Logo" width="100">
+          <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
+          <h5 class="fw-bold mb-0">Filter Produk</h5>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="modal-body">

@@ -261,6 +261,7 @@ include('config/koneksi.php');
             <div class="col-lg-6 col-md-10 mb-5 mb-lg-0">
                 <div class="d-flex align-items-center mb-4">
                     <img src="asset/img/Logo.png" alt="Logo PPN" style="height: 40px;" class="me-2">
+                    <div class="vr" style="height: 35px; width: 2px; background-color: #000; margin: 10px;"></div>
                     <h4 class="fw-bold mb-0" style="color:#000;">Kalkulator Tani</h4>
                 </div>
 
@@ -315,11 +316,14 @@ include('config/koneksi.php');
 </div>
 
 <!-- POPUP HASIL KALKULATOR -->
-<div id="popupHasil" style="display:none; position: fixed; top: 50px; left: 50px; background-color: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); padding: 20px; width: 350px; z-index: 1050;">
-    <div class="d-flex align-items-center mb-3">
-        <img src="asset/img/Logo.png" alt="Logo" style="height: 40px;" class="me-2">
-        <h5 class="fw-bold mb-0">Hasil</h5>
-    </div>
+    <div id="popupHasil" style="display:none; position: fixed; top: 50px; left: 50px; background-color: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); padding: 20px; width: 350px; z-index: 1050;">
+<div class="d-flex justify-content-between align-items-start mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <img src="asset/img/logo.png" alt="Logo" width="100">
+          <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
+          <h5 class="fw-bold mb-0">Hasil</h5>
+        </div>
+      </div>
 
     <div class="mb-2"><strong>Jenis Tanaman:</strong> <span id="hasilJenisTanaman"></span></div>
     <div class="mb-2"><strong>Jenis Produk:</strong> <span id="hasilJenisProduk"></span></div>
