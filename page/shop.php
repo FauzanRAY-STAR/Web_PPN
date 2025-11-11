@@ -18,7 +18,7 @@
     <section class="hero-section">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1 class="hero-title">Gunakan Produk Kami!</h1>
+            <h1 class="hero-title">Ayo Gunakan Produk Kami!</h1>
             <p class="hero-subtitle">Temukan produk berkualitas di toko resmi Kami!</p>
             <div class="hero-badge">
                 <i class="fas fa-shopping-bag"></i>
