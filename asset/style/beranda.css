@@ -361,6 +361,23 @@ body {
   background-color: #fff;
 }
 
+  .testimoni-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .testimoni-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-content {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .text-justify {
+        text-align: justify;
+    }
+
 /* ===== FOOTER ===== */
 footer {
   background-color: #2e7d32;

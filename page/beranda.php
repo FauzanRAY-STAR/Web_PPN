@@ -637,7 +637,7 @@ include('config/koneksi.php');
                     <!-- Info Testimoni -->
                     <div class="text-center mb-3">
                         <h3 class="fw-bold mb-1">Dr. Agung Wijaya</h3>
-                        <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Ahli Pertanian</h5>
+                        <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Tera Nusa Silika</h5>
                         <p class="text-muted mb-0">IPB University</p>
                     </div>
 
@@ -674,7 +674,7 @@ include('config/koneksi.php');
                     <!-- Info Testimoni -->
                     <div class="text-center mb-3">
                         <h3 class="fw-bold mb-1">Ibu Siti Aminah</h3>
-                        <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Petani Cabai</h5>
+                        <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Tera Nusa Hama</h5>
                         <p class="text-muted mb-0">Bandung</p>
                     </div>
 
@@ -688,24 +688,7 @@ include('config/koneksi.php');
     </div>
 </div>
 
-<style>
-    .testimoni-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
 
-    .testimoni-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    .modal-content {
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    }
-
-    .text-justify {
-        text-align: justify;
-    }
-</style>
 
 
     <!-- ============================================ -->
@@ -730,7 +713,7 @@ include('config/koneksi.php');
         });
 
 
-document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     const kalkulatorForm = document.getElementById('formKalkulator');
     const popupHasil = document.getElementById('popupHasil');
     const btnPesanSekarang = document.getElementById('btnPesanSekarang');
