@@ -58,7 +58,7 @@ if (!isset($base_url)) {
                     <a href="<?= $base_url ?>beranda" class="nav-link active">Beranda</a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= $base_url ?>shop" class="nav-link">Shop</a>
+                    <a href="<?= $base_url ?>page/shop.php" class="nav-link">Shop</a>
                 </li>
                 
                 <!-- Dropdown Tentang Kami -->
