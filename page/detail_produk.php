@@ -322,6 +322,20 @@
                 </div>
             </div>
 
+            <div class="usage-category">
+                <h4 class="usage-subtitle">Tanaman Palawija (Padi & jagung)</h4>
+                <div class="usage-item">
+                    <span class="dosage">6 - 10 tutup</span>
+                    <p>"Termasuk Maxi-D" dilarutkan kedalam <strong>15 liter air</strong> (sesuai dengan umur tanaman)</p>
+                </div>
+                <div class="usage-item">
+                    <p>Penyemprotan pertama saat tanaman berumur <strong>15 hari</strong> setelah tanam</p>
+                </div>
+                <div class="usage-item">
+                    <p><strong>Sekali</strong> untuk padi dan <strong>1 minggu</strong> sekali untuk jagung  <strong>2 kali aplikasi</strong></p>
+                </div>
+            </div>
+
 
             <button class="order-btn-bottom">Pesan Sekarang</button>
         </section>
