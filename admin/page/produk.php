@@ -187,42 +187,42 @@
 
       <div class="modal-body">
         <label class="fw-semibold mb-1">Kategori Produk</label>
-        <input type="text" id="kategoriProduk" placeholder="Masukkan kategori produk">
+        <input type="text" class="form-control border-success mb-3" id="kategoriProduk" placeholder="Masukkan kategori produk">
 
         <label class="fw-semibold mb-1">Jenis Tanaman</label>
-        <input type="text" id="jenisTanaman" placeholder="Masukkan jenis tanaman. Pisahkan dengan ‘;’ (Eg: Jagung;Padi)">
+        <input type="text" class="form-control border-success mb-3" id="jenisTanaman" placeholder="Masukkan jenis tanaman. Pisahkan dengan ‘;’ (Eg: Jagung;Padi)">
 
         <label class="fw-semibold mb-1">Nama Produk</label>
-        <input type="text" id="namaProduk" placeholder="Masukkan nama produk">
+        <input type="text" class="form-control border-success mb-3" id="namaProduk" placeholder="Masukkan nama produk">
 
         <label class="fw-semibold mb-1">Deskripsi</label>
-        <textarea id="deskripsi" rows="2" placeholder="Masukkan deskripsi"></textarea>
+        <textarea class="form-control border-success mb-3" id="deskripsi" rows="2" placeholder="Masukkan deskripsi"></textarea>
 
         <label class="fw-semibold mb-1">Penjelasan Produk</label>
-        <textarea id="penjelasan" rows="2" placeholder="Masukkan deskripsi"></textarea>
+        <textarea class="form-control border-success mb-3" id="penjelasan" rows="2" placeholder="Masukkan deskripsi"></textarea>
 
         <label class="fw-semibold mb-1">Manfaat & Keunggulan</label>
-        <textarea id="manfaat" rows="2" placeholder="Masukkan deskripsi"></textarea>
+        <textarea class="form-control border-success mb-3" id="manfaat" rows="2" placeholder="Masukkan deskripsi"></textarea>
 
         <label class="fw-semibold mb-1">Aturan Pakai</label>
-        <textarea id="aturan" rows="2" placeholder="Masukkan deskripsi"></textarea>
+        <textarea class="form-control border-success mb-3" id="aturan" rows="2" placeholder="Masukkan deskripsi"></textarea>
 
         <label class="fw-semibold mb-1">Keistimewaan</label>
-        <textarea id="keistimewaan" rows="2" placeholder="Masukkan deskripsi"></textarea>
+        <textarea class="form-control border-success mb-3" id="keistimewaan" rows="2" placeholder="Masukkan deskripsi"></textarea>
 
         <label class="fw-semibold mb-1">Petunjuk Penyimpanan</label>
-        <textarea id="penyimpanan" rows="2" placeholder="Masukkan deskripsi"></textarea>
+        <textarea class="form-control border-success mb-3" id="penyimpanan" rows="2" placeholder="Masukkan deskripsi"></textarea>
 
         <label class="fw-semibold mb-1">Stok</label>
-        <input type="number" id="stok" placeholder="Jumlah">
+        <input class="form-control border-success mb-3" type="number" id="stok" placeholder="Jumlah">
 
         <label class="fw-semibold mb-1">Unggah Gambar</label>
         <input type="file" class="form-control border-success mb-3" id="gambarInput">
 
-<div class="form-check mt-2 mb-4 d-flex align-items-center gap-2">
-  <input class="form-check-input" type="checkbox" id="tampilkanInput">
-  <label for="tampilkanInput" class="form-check-label fw-semibold">Tampilkan</label>
-</div>
+        <div class="form-check mt-2 mb-4 d-flex align-items-center gap-2">
+          <input class="form-check-input" type="checkbox" id="tampilkanInput">
+          <label for="tampilkanInput" class="form-check-label fw-semibold">Tampilkan</label>
+        </div>
 
 
 
@@ -245,8 +245,8 @@
       </div>
 
       <div class="modal-body">
-        <label>Kategori</label>
-        <select id="filterKategori">
+        <label class="fw-semibold mb-1" >Kategori</label>
+        <select class="form-control border-success mb-3" id="filterKategori">
           <option value="">Pilih Kategori</option>
           <option>Pupuk Cair</option>
           <option>Pupuk Padat</option>

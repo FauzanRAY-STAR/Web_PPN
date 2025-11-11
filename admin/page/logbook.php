@@ -188,29 +188,29 @@ require_once __DIR__ . '/../auth_check.php';
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <label>Keterangan</label>
-        <select id="filterKeterangan" class="form-select mb-2">
+        <label class="fw-semibold mb-1">Keterangan</label>
+        <select id="filterKeterangan" class="form-control border-success mb-3">
           <option value="">Pilih</option>
           <option>Lunas</option>
           <option>Belum Lunas</option>
         </select>
 
-        <label>Nama Koordinator</label>
-        <input type="text" class="form-control mb-2" placeholder="Masukkan nama koordinator">
+        <label class="fw-semibold mb-1">Nama Koordinator</label>
+        <input type="text" class="form-control border-success mb-3" placeholder="Masukkan nama koordinator">
 
-        <label>Nama Presenter</label>
-        <input type="text" class="form-control mb-2" placeholder="Masukkan nama presenter">
+        <label class="fw-semibold mb-1">Nama Presenter</label>
+        <input type="text" class="form-control border-success mb-3" placeholder="Masukkan nama presenter">
 
-        <label>Nama Marketing</label>
-        <input type="text" class="form-control mb-2" placeholder="Masukkan nama marketing">
+        <label class="fw-semibold mb-1">Nama Marketing</label>
+        <input type="text" class="form-control border-success mb-3" placeholder="Masukkan nama marketing">
 
-        <label>Alamat</label>
-        <input type="text" class="form-control mb-2" placeholder="Masukkan alamat">
+        <label class="fw-semibold mb-1">Alamat</label>
+        <input type="text" class="form-control border-success mb-3" placeholder="Masukkan alamat">
 
-        <label>Tanggal Transaksi</label>
+        <label class="fw-semibold mb-1">Tanggal Transaksi</label>
         <div class="d-flex gap-2">
-          <input type="date" class="form-control">
-          <input type="date" class="form-control">
+          <input type="date" class="form-control border-success mb-3">
+          <input type="date"class="form-control border-success mb-3">
         </div>
 
         <div class="d-flex justify-content-between mt-4">
@@ -357,21 +357,21 @@ require_once __DIR__ . '/../auth_check.php';
       </div>
 
       <div class="modal-body">
-        <label>Tanggal Transaksi</label>
-        <input type="date" class="form-control mb-2">
+        <label class="fw-semibold mb-1">Tanggal Transaksi</label>
+        <input type="date" class="form-control border-success mb-3" >
 
-        <label>Alamat</label>
-        <input type="text" class="form-control mb-2" placeholder="Masukkan alamat">
+        <label class="fw-semibold mb-1">Alamat</label>
+        <input type="text" class="form-control border-success mb-3" placeholder="Masukkan alamat">
 
         <div id="produkContainer">
           <div class="d-flex gap-2 align-items-end mb-2 produk-item">
             <div class="flex-fill">
-              <label>Nama Produk</label>
-              <input type="text" class="form-control" placeholder="Masukkan nama produk">
+              <label class="fw-semibold mb-1">Nama Produk</label>
+              <input type="text" class="form-control border-success mb-3" placeholder="Masukkan nama produk">
             </div>
             <div class="flex-fill">
-              <label>Jumlah</label>
-              <input type="number" class="form-control" placeholder="Masukkan jumlah">
+              <label class="fw-semibold mb-1">Jumlah</label>
+              <input type="number" class="form-control border-success mb-3"  placeholder="Masukkan jumlah">
             </div>
           </div>
         </div>
@@ -380,32 +380,32 @@ require_once __DIR__ . '/../auth_check.php';
           + Tambah Produk
         </button>
 
-        <label>Koordinator</label>
-        <input type="text" class="form-control mb-2" placeholder="Masukkan nama koordinator">
+        <label class="fw-semibold mb-1">Koordinator</label>
+        <input type="text" class="form-control border-success mb-3"  placeholder="Masukkan nama koordinator">
 
-        <label>Cash/DP</label>
-        <input type="number" class="form-control mb-2" placeholder="Masukkan nominal">
+        <label class="fw-semibold mb-1">Cash/DP</label>
+        <input type="number" class="form-control border-success mb-3"  placeholder="Masukkan nominal">
 
-        <label>1-Minggu</label>
-        <input type="number" class="form-control mb-2" placeholder="Masukkan nominal">
+        <label class="fw-semibold mb-1">1-Minggu</label>
+        <input type="number" class="form-control border-success mb-3"  placeholder="Masukkan nominal">
 
-        <label>1-Bulan</label>
-        <input type="number" class="form-control mb-2" placeholder="Masukkan nominal">
+        <label class="fw-semibold mb-1">1-Bulan</label>
+        <input type="number" class="form-control border-success mb-3"  placeholder="Masukkan nominal">
 
-        <label>Jumlah Total</label>
-        <input type="number" class="form-control mb-2" placeholder="Nominal total">
+        <label class="fw-semibold mb-1">Jumlah Total</label>
+        <input type="number" class="form-control border-success mb-3"  placeholder="Nominal total">
 
-        <label>Presenter</label>
-        <input type="text" class="form-control mb-2" placeholder="Masukkan nama presenter">
+        <label class="fw-semibold mb-1" >Presenter</label>
+        <input type="text" class="form-control border-success mb-3" placeholder="Masukkan nama presenter">
 
-        <label>Marketing</label>
-        <input type="text" class="form-control mb-2" placeholder="Masukkan nama marketing">
+        <label class="fw-semibold mb-1">Marketing</label>
+        <input type="text" class="form-control border-success mb-3"  placeholder="Masukkan nama marketing">
 
-        <label>Komisi</label>
-        <input type="number" class="form-control mb-2" placeholder="Masukkan nominal komisi">
+        <label class="fw-semibold mb-1">Komisi</label>
+        <input type="number" class="form-control border-success mb-3"  placeholder="Masukkan nominal komisi">
 
-        <label>Keterangan</label>
-        <select class="form-select mb-3">
+        <label class="fw-semibold mb-1">Keterangan</label>
+        <select class="form-control border-success mb-3" >
           <option>Lunas</option>
           <option>Belum Lunas</option>
         </select>

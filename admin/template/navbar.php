@@ -140,7 +140,9 @@ endif;
                     <input type="password" class="form-control custom-input" id="password" name="password" 
                            placeholder="Masukkan password" required>
                 </div>
-                <button type="submit" class="btn btn-gradient w-100 py-2 fw-semibold">Masuk</button>
+                <button type="submit" class="btn btn-gradient w-100 py-2 fw-semibold" style="color: white;">
+                 Masuk
+                </button>
             </form>
         </div>
     </div>
