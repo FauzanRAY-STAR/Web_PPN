@@ -462,83 +462,250 @@ include('config/koneksi.php');
         </div>
     </div>
 
-    <!-- ============================================ -->
-    <!-- TESTIMONI SECTION -->
-    <!-- ============================================ -->
-    <div class="container-fluid py-5" style="background-color: #2B8D4C;">
-        <div class="container py-5">
-            <div class="text-start mb-5">
-                <h5 class="fw-normal text-white">Testimoni</h5>
-                <h1 class="fw-semibold text-white">Pupuk Silika Pramudita Pupuk Nusantara</h1>
+   <!-- ============================================ -->
+<!-- TESTIMONI SECTION -->
+<!-- ============================================ -->
+<div class="container-fluid py-5" style="background-color: #2B8D4C;">
+    <div class="container py-5">
+        <div class="text-start mb-5">
+            <h5 class="fw-normal text-white">Testimoni</h5>
+            <h1 class="fw-semibold text-white">Pupuk Silika Pramudita Pupuk Nusantara</h1>
+        </div>
+
+        <div class="row g-4">
+            <!-- Testimoni 1 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal1">
+                    <div class="d-flex align-items-center mb-3">
+                        <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
+                        <h6 class="ms-2 fw-bold m-0">Asep Alexander</h6>
+                    </div>
+                    <p>Sejak rutin pakai pupuk silika, tanaman padi saya lebih kokoh dan tidak gampang rebah.
+                        Hasil panen naik sekitar 20% dibanding musim sebelumnya. Hemat biaya pestisida juga!</p>
+                    <div class="mt-4">
+                        <div style="font-size: 22px;">✒️</div>
+                        <small class="text-muted">Tera Nusa Maxi-D - Purwokerto Timur</small>
+                    </div>
+                </div>
             </div>
 
-            <div class="row g-4">
-                <!-- Testimoni 1 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 h-100" style="background-color: #FFED64; border-radius: 10px; color: #333;">
-                        <div class="d-flex align-items-center mb-3">
-                            <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
-                            <h6 class="ms-2 fw-bold m-0">Slamet</h6>
-                        </div>
-                        <p>Sejak rutin pakai pupuk silika, tanaman padi saya lebih kokoh dan tidak gampang rebah.
-                            Hasil panen naik sekitar 20% dibanding musim sebelumnya. Hemat biaya pestisida juga!</p>
-                        <div class="mt-4">
-                            <div style="font-size: 22px;">✒️</div>
-                            <small class="text-muted">Petani Sayur - Desa Karangrau</small>
-                        </div>
+            <!-- Testimoni 2 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal2">
+                    <div class="d-flex align-items-center mb-3">
+                        <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
+                        <h6 class="ms-2 fw-bold m-0">Budi Santoso</h6>
+                    </div>
+                    <p>Dulu sering gagal panen karena cuaca ekstrem. Sekarang dengan silika, tanaman lebih kuat
+                        meskipun hujan deras atau panas. Lahan saya jadi lebih subur juga.</p>
+                    <div class="mt-4">
+                        <div style="font-size: 22px;">✒️</div>
+                        <small class="text-muted">Silika V-0D01 - Desa Karangrau</small>
                     </div>
                 </div>
+            </div>
 
-                <!-- Testimoni 2 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 h-100" style="background-color: #FFED64; border-radius: 10px; color: #333;">
-                        <div class="d-flex align-items-center mb-3">
-                            <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
-                            <h6 class="ms-2 fw-bold m-0">Slamet</h6>
-                        </div>
-                        <p>Dulu sering gagal panen karena cuaca ekstrem. Sekarang dengan silika, tanaman lebih kuat
-                            meskipun hujan deras atau panas. Lahan saya jadi lebih subur juga.</p>
-                        <div class="mt-4">
-                            <div style="font-size: 22px;">✒️</div>
-                            <small class="text-muted">Petani Sayur - Desa Karangrau</small>
-                        </div>
+            <!-- Testimoni 3 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal3">
+                    <div class="d-flex align-items-center mb-3">
+                        <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
+                        <h6 class="ms-2 fw-bold m-0">Dr. Agung Wijaya</h6>
+                    </div>
+                    <p>Pupuk silika bukan sekadar pelengkap, tapi solusi untuk meningkatkan daya tahan tanaman
+                        tanpa ketergantungan pada pestisida berlebihan. Saya selalu rekomendasikan ke mitra tani saya.</p>
+                    <div class="mt-4">
+                        <div style="font-size: 22px;">✒️</div>
+                        <small class="text-muted">Ahli Pertanian - IPB University</small>
                     </div>
                 </div>
+            </div>
 
-                <!-- Testimoni 3 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 h-100" style="background-color: #FFED64; border-radius: 10px; color: #333;">
-                        <div class="d-flex align-items-center mb-3">
-                            <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
-                            <h6 class="ms-2 fw-bold m-0">Slamet</h6>
-                        </div>
-                        <p>Pupuk silika bukan sekadar pelengkap, tapi solusi untuk meningkatkan daya tahan tanaman
-                            tanpa ketergantungan pada pestisida berlebihan. Saya selalu rekomendasikan ke mitra tani saya.</p>
-                        <div class="mt-4">
-                            <div style="font-size: 22px;">✒️</div>
-                            <small class="text-muted">Petani Sayur - Desa Karangrau</small>
-                        </div>
+            <!-- Testimoni 4 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
+                        <h6 class="ms-2 fw-bold m-0">Ibu Siti Aminah</h6>
                     </div>
-                </div>
-
-                <!-- Testimoni 4 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 h-100" style="background-color: #FFED64; border-radius: 10px; color: #333;">
-                        <div class="d-flex align-items-center mb-3">
-                            <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
-                            <h6 class="ms-2 fw-bold m-0">Slamet</h6>
-                        </div>
-                        <p>Tanaman cabai saya lebih tahan penyakit sejak pakai pupuk silika. Buahnya besar-besar dan tidak mudah busuk.
-                            Panen jadi lebih banyak dan tahan lama di pasar.</p>
-                        <div class="mt-4">
-                            <div style="font-size: 22px;">✒️</div>
-                            <small class="text-muted">Petani Sayur - Desa Karangrau</small>
-                        </div>
+                    <p>Tanaman cabai saya lebih tahan penyakit sejak pakai pupuk silika. Buahnya besar-besar dan tidak mudah busuk.
+                        Panen jadi lebih banyak dan tahan lama di pasar.</p>
+                    <div class="mt-4">
+                        <div style="font-size: 22px;">✒️</div>
+                        <small class="text-muted">Petani Cabai - Bandung</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- MODAL TESTIMONI 1 -->
+<div class="modal fade" id="testimoniModal1" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 20px; border: none;">
+            <div class="modal-body p-0">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
+                <div class="bg-white p-5" style="border-radius: 20px;">
+                    <!-- Header dengan Logo -->
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
+                        <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
+                            <h4 class="mb-0 fw-bold">Testimoni</h4>
+                        </div>
+                    </div>
+
+                    <!-- Foto Testimoni -->
+                    <div class="text-center mb-4">
+                        <img src="asset/img/Testimoni1.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
+                    </div>
+
+                    <!-- Info Testimoni -->
+                    <div class="text-center mb-3">
+                        <h3 class="fw-bold mb-1">Asep Alexander</h3>
+                        <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Tera Nusa Maxi-D</h5>
+                        <p class="text-muted mb-0">Purwokerto Timur</p>
+                    </div>
+
+                    <!-- Testimoni Text -->
+                    <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
+                        Sejak rutin pakai pupuk silika, tanaman padi saya lebih kokoh dan tidak gampang rebah. Hasil panen naik sekitar 20% dibanding musim sebelumnya. Hemat biaya pestisida juga!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL TESTIMONI 2 -->
+<div class="modal fade" id="testimoniModal2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 20px; border: none;">
+            <div class="modal-body p-0">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
+                <div class="bg-white p-5" style="border-radius: 20px;">
+                    <!-- Header dengan Logo -->
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
+                        <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
+                            <h4 class="mb-0 fw-bold">Testimoni</h4>
+                        </div>
+                    </div>
+
+                    <!-- Foto Testimoni -->
+                    <div class="text-center mb-4">
+                        <img src="asset/img/Testimoni2.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
+                    </div>
+
+                    <!-- Info Testimoni -->
+                    <div class="text-center mb-3">
+                        <h3 class="fw-bold mb-1">Budi Santoso</h3>
+                        <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Silika V-0D01</h5>
+                        <p class="text-muted mb-0">Desa Karangrau</p>
+                    </div>
+
+                    <!-- Testimoni Text -->
+                    <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
+                        Dulu sering gagal panen karena cuaca ekstrem. Sekarang dengan silika, tanaman lebih kuat meskipun hujan deras atau panas. Lahan saya jadi lebih subur juga.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL TESTIMONI 3 -->
+<div class="modal fade" id="testimoniModal3" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 20px; border: none;">
+            <div class="modal-body p-0">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
+                <div class="bg-white p-5" style="border-radius: 20px;">
+                    <!-- Header dengan Logo -->
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
+                        <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
+                            <h4 class="mb-0 fw-bold">Testimoni</h4>
+                        </div>
+                    </div>
+
+                    <!-- Foto Testimoni -->
+                    <div class="text-center mb-4">
+                        <img src="asset/img/Testimoni3.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
+                    </div>
+
+                    <!-- Info Testimoni -->
+                    <div class="text-center mb-3">
+                        <h3 class="fw-bold mb-1">Dr. Agung Wijaya</h3>
+                        <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Ahli Pertanian</h5>
+                        <p class="text-muted mb-0">IPB University</p>
+                    </div>
+
+                    <!-- Testimoni Text -->
+                    <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
+                        Pupuk silika bukan sekadar pelengkap, tapi solusi untuk meningkatkan daya tahan tanaman tanpa ketergantungan pada pestisida berlebihan. Saya selalu rekomendasikan ke mitra tani saya.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL TESTIMONI 4 -->
+<div class="modal fade" id="testimoniModal4" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 20px; border: none;">
+            <div class="modal-body p-0">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
+                <div class="bg-white p-5" style="border-radius: 20px;">
+                    <!-- Header dengan Logo -->
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
+                        <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
+                            <h4 class="mb-0 fw-bold">Testimoni</h4>
+                        </div>
+                    </div>
+
+                    <!-- Foto Testimoni -->
+                    <div class="text-center mb-4">
+                        <img src="asset/img/Testimoni4.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
+                    </div>
+
+                    <!-- Info Testimoni -->
+                    <div class="text-center mb-3">
+                        <h3 class="fw-bold mb-1">Ibu Siti Aminah</h3>
+                        <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Petani Cabai</h5>
+                        <p class="text-muted mb-0">Bandung</p>
+                    </div>
+
+                    <!-- Testimoni Text -->
+                    <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
+                        Tanaman cabai saya lebih tahan penyakit sejak pakai pupuk silika. Buahnya besar-besar dan tidak mudah busuk. Panen jadi lebih banyak dan tahan lama di pasar.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .testimoni-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .testimoni-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-content {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .text-justify {
+        text-align: justify;
+    }
+</style>
 
 
     <!-- ============================================ -->
