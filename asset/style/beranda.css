@@ -57,6 +57,21 @@ body {
   object-fit: cover;
 }
 
+    .thumb {
+        opacity: 0.5;
+    }
+    
+    .thumb.active {
+        border-color: #2B8D4C !important;
+        opacity: 1;
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(43, 141, 76, 0.3);
+    }
+    
+    .thumb:hover {
+        opacity: 0.8;
+    }
+
 /* ===== KALKULATOR SECTION ===== */
 .kalkulator-section {
   background-color: #fff;
