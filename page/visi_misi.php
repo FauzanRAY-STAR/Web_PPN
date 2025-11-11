@@ -111,16 +111,11 @@
         </div>
     </section>
 
-    <!-- Tombol WhatsApp Floating -->
-<a href="https://wa.me/6281234567890" target="_blank" id="whatsapp-float">
-  <i class="bi bi-whatsapp"></i>
-</a>
+<!-- WA -->
+<?php include ('../admin/template/whatsapp_float.php'); ?>
 
-<!-- CSS Tombol WhatsApp -->
-
-
-
-    <?php include '../admin/template/footer.php'; ?>
+<!-- Footer -->
+<?php include '../admin/template/footer.php'; ?>
 
     <script src="../asset/js/visi_misi.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
