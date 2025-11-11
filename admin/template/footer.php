@@ -28,16 +28,23 @@
 
     <!-- Baris atas -->
     <div class="footer-top">
-      <div class="footer-logos">
-        <img src="<?= $base_url ?>asset/img/Logo.png" alt="Logo PPN" height="50">
-        <img src="<?= $base_url ?>asset/img/Logo2.png" alt="Logo Telkom University" height="50">
-        <img src="<?= $base_url ?>asset/img/Logo3.png" alt="Logo Software Engineering" height="50">
-      </div>
+  <div class="footer-logos">
+    <img src="<?= $base_url ?>asset/img/Logo.png" alt="Logo PPN" height="50">
+    
+    <a href="https://purwokerto.telkomuniversity.ac.id/" target="_blank">
+      <img src="<?= $base_url ?>asset/img/Logo2.png" alt="Logo Telkom University" height="50">
+    </a>
+    
+    <a href="https://bse-pwt.telkomuniversity.ac.id/" target="_blank">
+      <img src="<?= $base_url ?>asset/img/Logo3.png" alt="Logo Software Engineering" height="50">
+    </a>
+  </div>
 
-      <p class="footer-copy">
-        &copy; Pramudita Pupuk Nusantara 2025 - All Rights Reserved
-      </p>
-    </div>
+  <p class="footer-copy">
+    &copy; Pramudita Pupuk Nusantara 2025 - All Rights Reserved
+  </p>
+</div>
+
 
     <hr>
 
