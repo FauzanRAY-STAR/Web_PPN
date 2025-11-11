@@ -13,7 +13,6 @@ function reveal() {
     });
 }
 
-// Smooth Scroll dan Ripple effect untuk tombol "Pesan Sekarang"
 document.querySelectorAll('.order-btn, .order-btn-bottom').forEach(button => {
     button.addEventListener('click', function(e) {
         e.preventDefault();
@@ -33,16 +32,12 @@ document.querySelectorAll('.order-btn, .order-btn-bottom').forEach(button => {
         this.appendChild(ripple);
 
         setTimeout(() => {
-            ripple.remove();s
+            ripple.remove();
         }, 600);
 
-        // Ganti alert dengan redirect ke halaman shop
-        window.location.href = '<?= $base_url ?>page/shop.php'; // jika di PHP
-        // atau jika di JS eksternal tanpa PHP:
-        // window.location.href = '../page/shop.php';
+        window.location.href = '<?= $base_url ?>page/shop.php'; 
     });
 });
-
 
 // Parallax effect untuk hero section
 window.addEventListener('scroll', function() {
