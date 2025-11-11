@@ -36,9 +36,13 @@ document.querySelectorAll('.order-btn, .order-btn-bottom').forEach(button => {
             ripple.remove();
         }, 600);
         
-        // Simulasi aksi pemesanan (ganti dengan URL atau action sesuai kebutuhan)
-        alert('Terima kasih! Anda akan diarahkan ke halaman pemesanan.');
-        // window.location.href = 'pemesanan.php';
+    const orderButtons = document.querySelectorAll('.order-btn, .order-btn-bottom');
+
+    orderButtons.forEach(button => {
+        button.addEventListener('click', () => {
+        window.location.href = '<?= $base_url ?>page/shop.php';
+        });
+    });
     });
 });
 

@@ -307,9 +307,10 @@ include('config/koneksi.php');
     </div>
 
 
-    <button id="btnPesanSekarang" type="button" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;">
+    <button id="btnPesanSekarang" type="button" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;" onclick="window.location.href='<?= $base_url ?>page/shop.php'">
         Pesan Sekarang
     </button>
+
 </div>
     <!-- ============================================ -->
 <!-- HASIL PEMAKAIAN PUPUK SILIKA SECTION -->
