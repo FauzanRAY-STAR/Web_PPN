@@ -516,7 +516,7 @@ include('config/koneksi.php');
                         tanpa ketergantungan pada pestisida berlebihan. Saya selalu rekomendasikan ke mitra tani saya.</p>
                     <div class="mt-4">
                         <div style="font-size: 22px;">✒️</div>
-                        <small class="text-muted">Ahli Pertanian - IPB University</small>
+                        <small class="text-muted">Tera Nusa Silika - IPB University</small>
                     </div>
                 </div>
             </div>
@@ -532,7 +532,7 @@ include('config/koneksi.php');
                         Panen jadi lebih banyak dan tahan lama di pasar.</p>
                     <div class="mt-4">
                         <div style="font-size: 22px;">✒️</div>
-                        <small class="text-muted">Petani Cabai - Bandung</small>
+                        <small class="text-muted">Tera Nusa Hama - Bandung</small>
                     </div>
                 </div>
             </div>
