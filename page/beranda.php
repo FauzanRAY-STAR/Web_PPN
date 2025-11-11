@@ -351,78 +351,91 @@ include('config/koneksi.php');
     </button>
 </div>
     <!-- ============================================ -->
-    <!-- HASIL PEMAKAIAN PUPUK SILIKA SECTION -->
-    <!-- ============================================ -->
-    <section class="hasil-pupuk-section">
-        <!-- Banner Daun -->
-        <div class="hasil-banner position-relative">
-            <img src="asset/img/HeadBanner.png" alt="Banner Daun" class="w-100 banner-img">
-            <div class="banner-text position-absolute top-50 start-50 translate-middle text-center">
-                <h2 class="fw-semibold text-white">
-                    Hasil Pemakaian Pupuk Silika <br> Pramudita Pupuk Nusantara
-                </h2>
-            </div>
+<!-- HASIL PEMAKAIAN PUPUK SILIKA SECTION -->
+<!-- ============================================ -->
+<section class="hasil-pupuk-section">
+    <!-- Banner Daun -->
+    <div class="hasil-banner position-relative">
+        <img src="asset/img/HeadBanner.png" alt="Banner Daun" class="w-100 banner-img">
+        <div class="banner-text position-absolute top-50 start-50 translate-middle text-center">
+            <h2 class="fw-semibold text-white">
+                Hasil Pemakaian Pupuk Silika <br> Pramudita Pupuk Nusantara
+            </h2>
         </div>
+    </div>
 
-        <!-- Konten Kartu -->
-        <div class="container py-5">
-            <div class="row g-4 justify-content-center">
-                <!-- Card 1 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card p-4 text-center">
-                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit mb-3">
-                        <h5 class="fw-bold mb-2" style="color:#2B8D4C;">Memperkuat Struktur Tanaman</h5>
-                        <p class="mb-0 text-dark">Meningkatkan ketahanan batang dan daun agar tidak mudah rebah.</p>
+    <!-- Konten Kartu - Overlapping Banner -->
+    <div class="container cards-container">
+        <div class="row g-4 justify-content-center">
+            <!-- Card 1 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="hasil-card-modern">
+                    <div class="card-icon-wrapper">
+                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
                     </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card p-4 text-center">
-                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit mb-3">
-                        <h5 class="fw-bold mb-2" style="color:#2B8D4C;">Meningkatkan Ketahanan terhadap Hama dan Penyakit</h5>
-                        <p class="mb-0 text-dark">Tanaman lebih tahan terhadap serangan jamur, bakteri, dan serangga.</p>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card p-4 text-center">
-                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit mb-3">
-                        <h5 class="fw-bold mb-2" style="color:#2B8D4C;">Mengurangi Stres Akibat Cuaca Ekstrem</h5>
-                        <p class="mb-0 text-dark">Efektif membantu tanaman menghadapi kekeringan atau kelebihan air.</p>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card p-4 text-center">
-                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit mb-3">
-                        <h5 class="fw-bold mb-2" style="color:#2B8D4C;">Meningkatkan Efisiensi Fotosintesis</h5>
-                        <p class="mb-0 text-dark">Daun lebih tegak dan optimal menangkap sinar matahari.</p>
-                    </div>
-                </div>
-
-                <!-- Card 5 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card p-4 text-center">
-                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit mb-3">
-                        <h5 class="fw-bold mb-2" style="color:#2B8D4C;">Meningkatkan Hasil dan Kualitas Panen</h5>
-                        <p class="mb-0 text-dark">Buah lebih besar, lebih padat, dan tahan lama saat disimpan.</p>
-                    </div>
-                </div>
-
-                <!-- Card 6 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card p-4 text-center">
-                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit mb-3">
-                        <h5 class="fw-bold mb-2" style="color:#2B8D4C;">Memperbaiki Struktur dan Kesehatan Tanah</h5>
-                        <p class="mb-0 text-dark">Membantu aerasi dan penyerapan nutrisi tanah jadi lebih baik.</p>
-                    </div>
+                    <h5 class="card-title">Memperkuat Struktur Tanaman</h5>
+                    <p class="card-description">Meningkatkan ketahanan batang dan daun agar tidak mudah rebah.</p>
                 </div>
             </div>
+
+            <!-- Card 2 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="hasil-card-modern">
+                    <div class="card-icon-wrapper">
+                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
+                    </div>
+                    <h5 class="card-title">Meningkatkan Ketahanan terhadap Hama dan Penyakit</h5>
+                    <p class="card-description">Tanaman lebih tahan terhadap serangan jamur, bakteri, dan serangga.</p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="hasil-card-modern">
+                    <div class="card-icon-wrapper">
+                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
+                    </div>
+                    <h5 class="card-title">Mengurangi Stres Akibat Cuaca Ekstrem</h5>
+                    <p class="card-description">Efektif membantu tanaman menghadapi kekeringan atau kelebihan air.</p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="hasil-card-modern">
+                    <div class="card-icon-wrapper">
+                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
+                    </div>
+                    <h5 class="card-title">Meningkatkan Efisiensi Fotosintesis</h5>
+                    <p class="card-description">Daun lebih tegak dan optimal menangkap sinar matahari.</p>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="hasil-card-modern">
+                    <div class="card-icon-wrapper">
+                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
+                    </div>
+                    <h5 class="card-title">Meningkatkan Hasil dan Kualitas Panen</h5>
+                    <p class="card-description">Buah lebih besar, lebih padat, dan tahan lama saat disimpan.</p>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="hasil-card-modern">
+                    <div class="card-icon-wrapper">
+                        <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
+                    </div>
+                    <h5 class="card-title">Memperbaiki Struktur dan Kesehatan Tanah</h5>
+                    <p class="card-description">Membantu aerasi dan penyerapan nutrisi tanah jadi lebih baik.</p>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- ============================================ -->
     <!-- GALERI SECTION -->
