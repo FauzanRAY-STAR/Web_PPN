@@ -137,95 +137,134 @@ include('config/koneksi.php');
 </script>
 
 
-    <!-- ============================================ -->
-    <!-- PRODUK KAMI SECTION -->
-    <!-- ============================================ -->
-    <div class="container my-5 py-5">
-        <h3 class="text-center fw-bold" style="color: #2B8D4C;">PRODUK KAMI</h3>
-        <div class="d-flex justify-content-center align-items-center mb-4">
-            <div style="width: 100px; height: 2px; background-color: #2B8D4C; margin: 0 10px;"></div>
-        </div>
-
-        <div id="produkCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner text-center">
-                <!-- ITEM 1 -->
-                <div class="carousel-item active">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-md-5">
-                            <img src="asset/img/produk1.png" class="img-fluid" alt="Silika V-0D01" style="max-width: 300px;">
-                        </div>
-                        <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
-                            <h4 class="fw-bold" style="color: #2B8D4C;">Silika V-0D01</h4>
-                            <p style="color: #2B8D4C;">
-                                Mengandung silika dalam bentuk larutan, mudah diserap daun melalui penyemprotan.
-                            </p>
-                            <a href="#" class="btn-selengkapnya mt-2">Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ITEM 2 -->
-                <div class="carousel-item">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-md-5">
-                            <img src="asset/img/produk2.png" class="img-fluid" alt="Silika Plus" style="max-width: 300px;">
-                        </div>
-                        <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
-                            <h4 class="fw-bold" style="color: #2B8D4C;">Tera Nusa Maxi-D</h4>
-                            <p style="color: #2B8D4C;">
-                                Kombinasi silika aktif dan nutrisi mikro untuk pertumbuhan optimal tanaman.
-                            </p>
-                            <a href="page/detail_produk.php" class="btn-selengkapnya mt-2">Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ITEM 3 -->
-                <div class="carousel-item">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-md-5">
-                            <img src="asset/img/produk3.png" class="img-fluid" alt="Silika Premium" style="max-width: 300px;">
-                        </div>
-                        <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
-                            <h4 class="fw-bold" style="color: #2B8D4C;">Silika Premium</h4>
-                            <p style="color: #2B8D4C;">
-                                Diformulasikan khusus untuk meningkatkan ketahanan tanaman terhadap penyakit.
-                            </p>
-                            <a href="#" class="btn-selengkapnya mt-2">Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- NAVIGATION PREVIEW -->
-            <div class="d-flex justify-content-center align-items-center mt-5 position-relative">
-                <!-- Panah kiri -->
-                <button class="btn btn-prev" type="button" data-bs-target="#produkCarousel" data-bs-slide="prev" style="background: none; border: none;">
-                    <div style="width: 0; height: 0; border-top: 25px solid transparent; border-bottom: 25px solid transparent; border-right: 25px solid #FFED64;"></div>
-                </button>
-
-                <!-- Thumbnail preview -->
-                <div class="d-flex mx-3 gap-3">
-                    <div class="thumb bg-secondary bg-opacity-10 rounded" data-bs-target="#produkCarousel" data-bs-slide-to="0" style="width: 120px; height: 120px; cursor: pointer;">
-                        <img src="asset/img/produk1.png" class="w-100 h-100 p-3" style="object-fit: contain;">
-                    </div>
-                    <div class="thumb bg-secondary bg-opacity-10 rounded" data-bs-target="#produkCarousel" data-bs-slide-to="1" style="width: 120px; height: 120px; cursor: pointer;">
-                        <img src="asset/img/produk2.png" class="w-100 h-100 p-3" style="object-fit: contain;">
-                    </div>
-                    <div class="thumb bg-secondary bg-opacity-10 rounded" data-bs-target="#produkCarousel" data-bs-slide-to="2" style="width: 120px; height: 120px; cursor: pointer;">
-                        <img src="asset/img/produk3.png" class="w-100 h-100 p-3" style="object-fit: contain;">
-                    </div>
-                </div>
-
-                <!-- Panah kanan -->
-                <button class="btn btn-next" type="button" data-bs-target="#produkCarousel" data-bs-slide="next" style="background: none; border: none;">
-                    <div style="width: 0; height: 0; border-top: 25px solid transparent; border-bottom: 25px solid transparent; border-left: 25px solid #FFED64;"></div>
-                </button>
-            </div>
-        </div>
+<!-- ============================================ -->
+<!-- PRODUK KAMI SECTION -->
+<!-- ============================================ -->
+<div class="container my-5 py-5">
+    <h3 class="text-center fw-bold" style="color: #2B8D4C;">PRODUK KAMI</h3>
+    <div class="d-flex justify-content-center align-items-center mb-4">
+        <div style="width: 100px; height: 2px; background-color: #2B8D4C; margin: 0 10px;"></div>
     </div>
 
-   <!-- ============================================ -->
+    <div id="produkCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner text-center">
+            <!-- ITEM 1 -->
+            <div class="carousel-item active">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-5">
+                        <img src="asset/img/produk1.png" class="img-fluid" alt="Silika V-0D01" style="max-width: 300px;">
+                    </div>
+                    <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
+                        <h4 class="fw-bold" style="color: #2B8D4C;">Silika V-0D01</h4>
+                        <p style="color: #2B8D4C;">
+                            Mengandung silika dalam bentuk larutan, mudah diserap daun melalui penyemprotan.
+                        </p>
+                        <a href="#" class="btn-selengkapnya mt-2">Selengkapnya</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ITEM 2 -->
+            <div class="carousel-item">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-5">
+                        <img src="asset/img/produk2.png" class="img-fluid" alt="Silika Plus" style="max-width: 300px;">
+                    </div>
+                    <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
+                        <h4 class="fw-bold" style="color: #2B8D4C;">Tera Nusa Maxi-D</h4>
+                        <p style="color: #2B8D4C;">
+                            Kombinasi silika aktif dan nutrisi mikro untuk pertumbuhan optimal tanaman.
+                        </p>
+                        <a href="page/detail_produk.php" class="btn-selengkapnya mt-2">Selengkapnya</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ITEM 3 -->
+            <div class="carousel-item">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-5">
+                        <img src="asset/img/produk3.png" class="img-fluid" alt="Silika Premium" style="max-width: 300px;">
+                    </div>
+                    <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
+                        <h4 class="fw-bold" style="color: #2B8D4C;">Silika Premium</h4>
+                        <p style="color: #2B8D4C;">
+                            Diformulasikan khusus untuk meningkatkan ketahanan tanaman terhadap penyakit.
+                        </p>
+                        <a href="#" class="btn-selengkapnya mt-2">Selengkapnya</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NAVIGATION PREVIEW -->
+        <div class="d-flex justify-content-center align-items-center mt-5 position-relative">
+            <!-- Panah kiri -->
+            <button class="btn btn-prev" type="button" data-bs-target="#produkCarousel" data-bs-slide="prev" style="background: none; border: none;">
+                <div style="width: 0; height: 0; border-top: 25px solid transparent; border-bottom: 25px solid transparent; border-right: 25px solid #FFED64;"></div>
+            </button>
+
+            <!-- Thumbnail preview -->
+            <div class="d-flex mx-3 gap-3">
+                <div class="thumb bg-secondary bg-opacity-10 rounded active" data-bs-target="#produkCarousel" data-bs-slide-to="0" style="width: 120px; height: 120px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;">
+                    <img src="asset/img/produk1.png" class="w-100 h-100 p-3" style="object-fit: contain;">
+                </div>
+                <div class="thumb bg-secondary bg-opacity-10 rounded" data-bs-target="#produkCarousel" data-bs-slide-to="1" style="width: 120px; height: 120px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;">
+                    <img src="asset/img/produk2.png" class="w-100 h-100 p-3" style="object-fit: contain;">
+                </div>
+                <div class="thumb bg-secondary bg-opacity-10 rounded" data-bs-target="#produkCarousel" data-bs-slide-to="2" style="width: 120px; height: 120px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;">
+                    <img src="asset/img/produk3.png" class="w-100 h-100 p-3" style="object-fit: contain;">
+                </div>
+            </div>
+
+            <!-- Panah kanan -->
+            <button class="btn btn-next" type="button" data-bs-target="#produkCarousel" data-bs-slide="next" style="background: none; border: none;">
+                <div style="width: 0; height: 0; border-top: 25px solid transparent; border-bottom: 25px solid transparent; border-left: 25px solid #FFED64;"></div>
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .thumb {
+        opacity: 0.5;
+    }
+    
+    .thumb.active {
+        border-color: #2B8D4C !important;
+        opacity: 1;
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(43, 141, 76, 0.3);
+    }
+    
+    .thumb:hover {
+        opacity: 0.8;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const carousel = document.getElementById('produkCarousel');
+        const thumbs = document.querySelectorAll('.thumb');
+        
+        if (carousel) {
+            carousel.addEventListener('slide.bs.carousel', function(e) {
+                thumbs.forEach(thumb => thumb.classList.remove('active'));
+                
+                thumbs[e.to].classList.add('active');
+            });
+        }
+        
+        thumbs.forEach((thumb, index) => {
+            thumb.addEventListener('click', function() {
+                thumbs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    });
+</script>
+
+<!-- ============================================ -->
 <!-- KALKULATOR TANI SECTION -->
 <!-- ============================================ -->
 <div class="container-fluid py-5" id="kalkulator-tani">
