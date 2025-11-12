@@ -16,7 +16,7 @@ include('config/koneksi.php');
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css?family=Heebo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheets -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
@@ -31,6 +31,29 @@ include('config/koneksi.php');
     <link rel="stylesheet" href="asset/style/fab.css">
     <link rel="stylesheet" href="asset/style/beranda.css">
 
+    <!-- Custom CSS for Poppins Font -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400; /* Default font weight */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600; /* Semi-bold for headings */
+        }
+        .fw-bold {
+            font-weight: 700 !important; /* Bold for emphasized text */
+        }
+        .fw-semibold {
+            font-weight: 600 !important; /* Semi-bold */
+        }
+        .fw-normal {
+            font-weight: 400 !important; /* Normal */
+        }
+        .fw-light {
+            font-weight: 300 !important; /* Light */
+        }
+    </style>
 </head>
 
 <body>
@@ -41,43 +64,53 @@ include('config/koneksi.php');
 
    <!-- Hero Section Carousel -->
 <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <!-- Slide 1 -->
-        <div class="carousel-item active">
-            <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner1.png') center/cover no-repeat;">
-                <div class="container text-center text-lg-start">
-                    <h1 class="display-3 text-white">Pupuk Silika</h1>
-                    <p class="text-white mb-4">
-                        Pupuk Silika mengandung silikon aktif yang memperkuat tanaman, meningkatkan ketahanan terhadap hama dan penyakit, serta mendukung panen yang lebih melimpah dan berkualitas.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 2 -->
-        <div class="carousel-item">
-            <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner2.png') center/cover no-repeat;">
-                <div class="container text-center text-lg-start">
-                    <h1 class="display-3 text-white">Tera Nusa Maxi-D</h1>
-                    <p class="text-white mb-4">
-                        Kombinasi silika aktif dan nutrisi mikro untuk pertumbuhan optimal tanaman.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 3 -->
-        <div class="carousel-item">
-            <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner3.png') center/cover no-repeat;">
-                <div class="container text-center text-lg-start">
-                    <h1 class="display-3 text-white">Silika Premium</h1>
-                    <p class="text-white mb-4">
-                        Diformulasikan khusus untuk meningkatkan ketahanan tanaman terhadap penyakit.
-                    </p>
-                </div>
+<div class="carousel-inner">
+    <!-- Slide 1 -->
+    <div class="carousel-item active">
+        <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner1.png') center/cover no-repeat; position: relative;">
+            <!-- Overlay gelap -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
+            
+            <div class="container text-center text-lg-start" style="position: relative; z-index: 2;">
+                <h1 class="display-3 text-white fw-bold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); letter-spacing: 1px;">Pupuk Silika</h1>
+                <p class="text-white mb-4" style="text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); font-size: 1.1rem; line-height: 1.6;">
+                    Pupuk Silika mengandung silikon aktif yang memperkuat tanaman, meningkatkan ketahanan terhadap hama dan penyakit, serta mendukung panen yang lebih melimpah dan berkualitas.
+                </p>
             </div>
         </div>
     </div>
+
+    <!-- Slide 2 -->
+    <div class="carousel-item">
+        <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner2.png') center/cover no-repeat; position: relative;">
+            <!-- Overlay gelap -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
+            
+            <div class="container text-center text-lg-start" style="position: relative; z-index: 2;">
+                <h1 class="display-3 text-white fw-bold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); letter-spacing: 1px;">Tera Nusa Maxi-D</h1>
+                <p class="text-white mb-4" style="text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); font-size: 1.1rem; line-height: 1.6;">
+                    Kombinasi silika aktif dan nutrisi mikro untuk pertumbuhan optimal tanaman.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="carousel-item">
+        <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner3.png') center/cover no-repeat; position: relative;">
+            <!-- Overlay gelap -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
+            
+            <div class="container text-center text-lg-start" style="position: relative; z-index: 2;">
+                <h1 class="display-3 text-white fw-bold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); letter-spacing: 1px;">Silika Premium</h1>
+                <p class="text-white mb-4" style="text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); font-size: 1.1rem; line-height: 1.6;">
+                    Diformulasikan khusus untuk meningkatkan ketahanan tanaman terhadap penyakit.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- Indicators (optional) -->
     <div class="carousel-indicators">

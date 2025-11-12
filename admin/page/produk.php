@@ -8,6 +8,11 @@
   <!-- Favicon -->
   <link href="/WEB_PPN/asset/img/LogoIco.ico" rel="icon">
 
+  <!-- Google Fonts - Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
+
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -18,31 +23,87 @@
   <link rel="stylesheet" href="/WEB_PPN/asset/style/style_admin.css">
 
   <style>
+    /* === Global Poppins Font === */
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+    }
+
+    p {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+    }
+
+    button {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+    }
+
+    span {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+    }
+
+    label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+    }
+
+    input, textarea, select {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+    }
+
+    .fw-semibold {
+      font-weight: 600 !important;
+    }
+
+    .fw-bold {
+      font-weight: 700 !important;
+    }
+
     /* === Modal Styles === */
     .modal-content {
       border-radius: 20px;
       border: none;
+      font-family: 'Poppins', sans-serif;
     }
+    
     .modal-header {
       border: none;
       padding-bottom: 0;
+      font-family: 'Poppins', sans-serif;
     }
-.modal-body input[type="text"],
-.modal-body input[type="number"],
-.modal-body textarea,
-.modal-body select {
-  border: 1px solid #E3E3E3;
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 14px;
-  outline: none;
-  width: 100%;
-}
+
+    .modal-body input[type="text"],
+    .modal-body input[type="number"],
+    .modal-body textarea,
+    .modal-body select {
+      border: 1px solid #E3E3E3;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 14px;
+      outline: none;
+      width: 100%;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+    }
 
     .modal-body label {
       font-weight: 500;
       margin-top: 10px;
+      font-family: 'Poppins', sans-serif;
     }
+
     .gradient-btn {
       background: linear-gradient(90deg, #4E8E55 0%, #B3D134 100%);
       border: none;
@@ -50,10 +111,13 @@
       border-radius: 10px;
       font-weight: 600;
       transition: 0.3s;
+      font-family: 'Poppins', sans-serif;
     }
+
     .gradient-btn:hover {
       opacity: 0.9;
     }
+
     .outline-btn {
       border: 2px solid #4E8E55;
       color: #4E8E55;
@@ -61,22 +125,29 @@
       font-weight: 600;
       background: #fff;
       transition: 0.3s;
+      font-family: 'Poppins', sans-serif;
     }
+
     .outline-btn:hover {
       background: #4E8E55;
       color: #fff;
     }
+
     .notif-card {
       background: #fff;
       animation: fadeScale 0.3s ease;
+      font-family: 'Poppins', sans-serif;
     }
+
     @keyframes fadeScale {
       from {opacity: 0; transform: scale(0.9);}
       to {opacity: 1; transform: scale(1);}
     }
+
     .shadow {
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     }
+
     .upload-box {
       background: #F2F6F2;
       border-radius: 15px;
@@ -88,23 +159,65 @@
       color: #A3A3A3;
       font-size: 14px;
       border: 1px dashed #C9C9C9;
+      font-family: 'Poppins', sans-serif;
     }
+
     .switch {
       display: flex;
       align-items: center;
       gap: 10px;
       margin-top: 10px;
+      font-family: 'Poppins', sans-serif;
     }
 
-/* Checkbox kecil */
-.form-check-input {
-  width: 16px;
-  height: 16px;
-}
-.form-check-label {
-  margin-bottom: 0;
-}
+    /* Checkbox kecil */
+    .form-check-input {
+      width: 16px;
+      height: 16px;
+    }
 
+    .form-check-label {
+      margin-bottom: 0;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+    }
+
+    .header-section {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+    }
+
+    .search-box {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .search-box input {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+    }
+
+    .search-box input::placeholder {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+    }
+
+    .product-card {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .product-info span {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+    }
+
+    .btn {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+    }
+
+    .text-center {
+      font-family: 'Poppins', sans-serif;
+    }
 
   </style>
 </head>
@@ -191,7 +304,7 @@
         <input type="text" class="form-control border-success mb-3" id="kategoriProduk" placeholder="Masukkan kategori produk">
 
         <label class="fw-semibold mb-1">Jenis Tanaman</label>
-        <input type="text" class="form-control border-success mb-3" id="jenisTanaman" placeholder="Masukkan jenis tanaman. Pisahkan dengan ‘;’ (Eg: Jagung;Padi)">
+        <input type="text" class="form-control border-success mb-3" id="jenisTanaman" placeholder="Masukkan jenis tanaman. Pisahkan dengan ';' (Eg: Jagung;Padi)">
 
         <label class="fw-semibold mb-1">Nama Produk</label>
         <input type="text" class="form-control border-success mb-3" id="namaProduk" placeholder="Masukkan nama produk">
@@ -225,8 +338,6 @@
           <label for="tampilkanInput" class="form-check-label fw-semibold">Tampilkan</label>
         </div>
 
-
-
         <button id="btnSimpan" class="w-100 mt-4 gradient-btn py-2">Simpan</button>
       </div>
     </div>
@@ -237,7 +348,7 @@
 <div class="modal fade" id="filterModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content p-4">
-<div class="d-flex justify-content-between align-items-start mb-3">
+      <div class="d-flex justify-content-between align-items-start mb-3">
         <div class="d-flex align-items-center gap-2">
           <img src="../../asset/img/logo.png" alt="Logo" width="100">
           <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
@@ -247,7 +358,7 @@
       </div>
 
       <div class="modal-body">
-        <label class="fw-semibold mb-1" >Kategori</label>
+        <label class="fw-semibold mb-1">Kategori</label>
         <select class="form-control border-success mb-3" id="filterKategori">
           <option value="">Pilih Kategori</option>
           <option>Pupuk Cair</option>
@@ -306,12 +417,11 @@
   });
 
   // Tombol Edit Produk
-document.querySelectorAll('.btn-edit').forEach(btn => {
-  btn.addEventListener('click', () => {
-    produkModal.show();
+  document.querySelectorAll('.btn-edit').forEach(btn => {
+    btn.addEventListener('click', () => {
+      produkModal.show();
+    });
   });
-});
-
 
   // Filter Produk
   document.getElementById('btnFilter').addEventListener('click', () => {
