@@ -1,3 +1,12 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($base_url)) {
+    include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/config.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
