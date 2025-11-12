@@ -6,7 +6,7 @@
     <title>Shop</title>
 
     <!-- Favicon -->
-    <link href="asset/img/LogoIco.ico" rel="icon">
+    <link href="../asset/img/LogoIco.ico" rel="icon">
     
     <!-- Google Fonts - Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
