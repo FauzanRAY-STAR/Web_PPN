@@ -11,7 +11,7 @@ if (!isset($base_url)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PTPPN Produk</title>
+    <title>Produk</title>
     
     <!-- Favicon -->
     <link href="asset/img/LogoIco.ico" rel="icon">
