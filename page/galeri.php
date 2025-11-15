@@ -94,6 +94,7 @@ include('config/koneksi.php');
             font-family: 'Poppins', sans-serif;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             height: 300px;
+            cursor: pointer;
         }
 
         .gallery-img:hover {
@@ -208,50 +209,8 @@ include('config/koneksi.php');
                 <div class="galeri-line"></div>
             </div>
 
-            <div class="row g-4">
-                <!-- Contoh Gambar 1 -->
-                <div class="col-md-6">
-                    <div class="mb-4">
-                        <img src="asset/img/For PG1.jpg" class="img-fluid rounded-4 shadow gallery-img"
-                             alt="Kerjasama PT. Pramudita"
-                             data-title="Kerjasama PT. Pramudita dengan Telkom University"
-                             data-date="24 Oktober 2025"
-                             data-desc="Kegiatan kerjasama dalam rangka digitalisasi PT. Pramudita Pupuk Nusantara dengan Telkom University dalam rangka mendukung proses bisnis yang lebih modern dan efisien."
-                             data-img="asset/img/For PG1.jpg"
-                             style="width: 100%; object-fit: cover; cursor:pointer;">
-                    </div>
-                    <div class="mb-4">
-                        <img src="asset/img/For PG3.jpg" class="img-fluid rounded-4 shadow gallery-img"
-                             alt="Program Pertanian Berkelanjutan"
-                             data-title="Program Pertanian Berkelanjutan"
-                             data-date="10 Oktober 2025"
-                             data-desc="Inisiatif ramah lingkungan untuk mendukung pertanian berkelanjutan di wilayah Jawa Barat."
-                             data-img="asset/img/For PG3.jpg"
-                             style="width: 100%; object-fit: cover; cursor:pointer;">
-                    </div>
-                </div>
-
-                <!-- Contoh Gambar 2 -->
-                <div class="col-md-6">
-                    <div class="mb-4">
-                        <img src="asset/img/For PG2.jpg" class="img-fluid rounded-4 shadow gallery-img"
-                             alt="Inovasi Digitalisasi Pupuk"
-                             data-title="Inovasi Digitalisasi Pupuk"
-                             data-date="5 Oktober 2025"
-                             data-desc="Proyek pengembangan sistem digitalisasi distribusi pupuk untuk efisiensi rantai pasok nasional."
-                             data-img="asset/img/For PG2.jpg"
-                             style="width: 100%; object-fit: cover; cursor:pointer;">
-                    </div>
-                    <div class="mb-4">
-                        <img src="asset/img/For PG4.jpg" class="img-fluid rounded-4 shadow gallery-img"
-                             alt="Kegiatan Sosial PPN"
-                             data-title="Kegiatan Sosial PPN"
-                             data-date="20 September 2025"
-                             data-desc="PT. Pramudita Pupuk Nusantara melaksanakan kegiatan sosial bersama masyarakat sekitar."
-                             data-img="asset/img/For PG4.jpg"
-                             style="width: 100%; object-fit: cover; cursor:pointer;">
-                    </div>
-                </div>
+            <div class="row g-4" id="galleryContainer">
+                <!-- Data akan dimuat dari database -->
             </div>
         </div>
     </div>
@@ -281,15 +240,75 @@ include('config/koneksi.php');
             keyboard: true
         });
 
-        document.querySelectorAll('.gallery-img').forEach(img => {
-            img.addEventListener('click', () => {
-                document.getElementById('modalImg').src = img.dataset.img;
-                document.getElementById('modalTitle').textContent = img.dataset.title;
-                document.getElementById('modalDate').textContent = img.dataset.date;
-                document.getElementById('modalDesc').textContent = img.dataset.desc;
-                modal.show();
-            });
-        });
+        // Load gallery data
+        function loadGallery() {
+            fetch('admin/proses/proses_galeri.php?action=get_all')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('galleryContainer');
+                    container.innerHTML = '';
+
+                    if (data.success && data.data.length > 0) {
+                        // Filter hanya yang ditampilkan
+                        const displayedItems = data.data.filter(item => item.status === 'Ditampilkan');
+                        
+                        if (displayedItems.length === 0) {
+                            container.innerHTML = '<p class="text-center text-muted">Tidak ada galeri untuk ditampilkan</p>';
+                            return;
+                        }
+
+                        // Arrange in 2 columns
+                        let leftCol = '<div class="col-md-6">';
+                        let rightCol = '<div class="col-md-6">';
+                        
+                        displayedItems.forEach((item, index) => {
+                            const itemHtml = `
+                                <div class="mb-4">
+                                    <img src="asset/img/${item.gambar}" 
+                                         class="img-fluid rounded-4 shadow gallery-img"
+                                         alt="${item.judul}"
+                                         data-title="${item.judul}"
+                                         data-date="${new Date(item.tanggal).toLocaleDateString('id-ID', {year: 'numeric', month: 'long', day: 'numeric'})}"
+                                         data-desc="${item.deskripsi}"
+                                         data-img="asset/img/${item.gambar}"
+                                         style="width: 100%; object-fit: cover; cursor:pointer;">
+                                </div>
+                            `;
+                            
+                            if (index % 2 === 0) {
+                                leftCol += itemHtml;
+                            } else {
+                                rightCol += itemHtml;
+                            }
+                        });
+
+                        leftCol += '</div>';
+                        rightCol += '</div>';
+                        
+                        container.innerHTML = leftCol + rightCol;
+
+                        // Attach click listeners
+                        document.querySelectorAll('.gallery-img').forEach(img => {
+                            img.addEventListener('click', () => {
+                                document.getElementById('modalImg').src = img.dataset.img;
+                                document.getElementById('modalTitle').textContent = img.dataset.title;
+                                document.getElementById('modalDate').textContent = img.dataset.date;
+                                document.getElementById('modalDesc').textContent = img.dataset.desc;
+                                modal.show();
+                            });
+                        });
+                    } else {
+                        container.innerHTML = '<p class="text-center text-muted">Tidak ada galeri untuk ditampilkan</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('galleryContainer').innerHTML = '<p class="text-center text-danger">Gagal memuat galeri</p>';
+                });
+        }
+
+        // Load on page load
+        document.addEventListener('DOMContentLoaded', loadGallery);
     </script>
 
     <!-- WA -->
