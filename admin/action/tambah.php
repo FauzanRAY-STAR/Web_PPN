@@ -91,6 +91,15 @@ switch ($mod) {
         $query = "INSERT INTO diskon (id_produk, diskon, tanggal_mulai, tanggal_selesai, status)
                   VALUES ('$id_produk', '$diskon', '$tanggal_mulai', '$tanggal_selesai', '$status')";
         break;
+
+    case 'faq':
+        $judul = $_POST['judul'];
+        $deskripsi = $_POST['deskripsi'];
+        $status = isset($_POST['status']) && $_POST['status'] == 'on' ? 'Ditampilkan' : 'Disembunyikan';
+
+        $query = "INSERT INTO faq (judul, deskripsi, status, tanggal)
+                  VALUES ('$judul', '$deskripsi', '$status', NOW())";
+        break;
 }
 
 mysqli_query($conn, $query);

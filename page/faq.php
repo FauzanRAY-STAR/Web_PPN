@@ -5,6 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 if (!isset($base_url)) {
     include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/config.php');
 }
+include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
 ?>
 
 <!DOCTYPE html>
@@ -255,44 +256,37 @@ if (!isset($base_url)) {
 
       <!-- KANAN -->
       <div class="faq-right">
-
+        <?php
+        $query = "SELECT * FROM faq WHERE status = 'Ditampilkan' ORDER BY tanggal DESC";
+        $result = mysqli_query($conn, $query);
+        if (mysqli_num_rows($result) > 0) {
+          while ($faq = mysqli_fetch_assoc($result)) {
+        ?>
         <div class="faq-item">
           <button class="faq-question">
-            <span>Apa keunggulan Pupuk Silika dibandingkan pupuk pelengkap lainnya?</span>
+            <span><?php echo htmlspecialchars($faq['judul']); ?></span>
             <i class="bi bi-chevron-down icon"></i>
           </button>
           <div class="faq-answer">
-            <p>
-              Pupuk Silika tidak hanya menyuplai nutrisi, tetapi juga berperan penting dalam memperkuat dinding sel tanaman (physical barrier),
-              membuat tanaman lebih tegak dan lebih tahan terhadap serangan hama dan penyakit, bahkan di cuaca ekstrem.
-            </p>
+            <p><?php echo nl2br(htmlspecialchars($faq['deskripsi'])); ?></p>
           </div>
         </div>
-
+        <?php
+          }
+        } else {
+        ?>
         <div class="faq-item">
           <button class="faq-question">
-            <span>Bagaimana cara mengaplikasikan Pupuk Silika Pramudita ini pada tanaman padi/sayuran?</span>
+            <span>Tidak ada FAQ yang ditampilkan saat ini.</span>
             <i class="bi bi-chevron-down icon"></i>
           </button>
           <div class="faq-answer">
-            <p>
-              Larutkan pupuk silika sesuai dosis anjuran dalam air, lalu semprotkan secara merata pada daun tanaman atau campurkan ke dalam tanah.
-            </p>
+            <p>Silakan hubungi admin untuk informasi lebih lanjut.</p>
           </div>
         </div>
-
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>Apakah Pupuk Silika ini dapat dicampur dengan pupuk kimia (NPK) yang sudah saya gunakan?</span>
-            <i class="bi bi-chevron-down icon"></i>
-          </button>
-          <div class="faq-answer">
-            <p>
-              Bisa, Pupuk Silika kompatibel dengan sebagian besar pupuk kimia dan organik. Namun, sebaiknya lakukan uji coba kecil terlebih dahulu.
-            </p>
-          </div>
-        </div>
-
+        <?php
+        }
+        ?>
       </div>
     </div>
   </div>

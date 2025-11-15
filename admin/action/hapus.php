@@ -33,8 +33,12 @@ switch ($mod) {
         $query = "DELETE FROM galeri WHERE id='" .$id. "'"; 
         break;
 
-    case 'diskon': 
-        $query = "DELETE FROM diskon WHERE id='" .$id. "'"; 
+    case 'diskon':
+        $query = "DELETE FROM diskon WHERE id='" .$id. "'";
+        break;
+
+    case 'faq':
+        $query = "DELETE FROM faq WHERE id='" .$id. "'";
         break;
     
 }
