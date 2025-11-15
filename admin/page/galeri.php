@@ -65,6 +65,44 @@
       outline-offset: -3px;
     }
 
+    /* Edit Icon */
+    .edit-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .edit-icon i {
+      font-size: 16px;
+      color: white;
+    }
+
+    .gallery-card:hover .edit-icon {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .edit-icon:hover {
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      transform: scale(1.2) !important;
+    }
+
+    .edit-icon:active {
+      transform: scale(0.95) !important;
+    }
+
     .modal-content {
       border-radius: 20px;
       border: none;
@@ -204,17 +242,32 @@
             card.setAttribute('data-id', item.id);
             card.innerHTML = `
               <img src="/WEB_PPN/asset/img/${item.gambar}" alt="${item.judul}">
+              <div class="edit-icon" data-edit-id="${item.id}">
+                <i class="bi bi-pencil-fill"></i>
+              </div>
               <div class="check-icon"><i class="bi bi-check-circle-fill"></i></div>
             `;
             
+            // Click handler untuk card (selection mode)
             card.addEventListener('click', (e) => {
+              // Jangan toggle selection jika klik tombol edit
+              if (e.target.closest('.edit-icon')) {
+                return;
+              }
+
               if (isPilihMode) {
                 const isSelected = card.getAttribute('data-selected') === 'true';
                 card.setAttribute('data-selected', !isSelected);
                 updateSelectedIds();
-              } else if (e.target.closest('.check-icon') === null) {
-                editGaleri(item.id);
               }
+            });
+
+            // Click handler khusus untuk tombol edit
+            const editBtn = card.querySelector('.edit-icon');
+            editBtn.addEventListener('click', (e) => {
+              e.stopPropagation(); // Prevent card click
+              const editId = editBtn.getAttribute('data-edit-id');
+              editGaleri(editId);
             });
             
             galleryGrid.appendChild(card);
