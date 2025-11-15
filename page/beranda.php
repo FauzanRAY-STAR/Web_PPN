@@ -269,26 +269,28 @@ include('config/koneksi.php');
                 </div>
 
                 <!-- FORM KALKULATOR -->
-                <form id="formKalkulator" class="p-2">
+                <form id="formKalkulator" class="p-2" method="POST" action="">
                     <!-- Jenis Tanaman -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold" style="color:#000;">Jenis Tanaman</label>
-                        <select class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;">
-                            <option selected>Jenis Tanaman</option>
-                            <option>Padi</option>
-                            <option>Jagung</option>
-                            <option>Kedelai</option>
+                        <select name="jenis_tanaman" class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;" required>
+                            <option value="" selected>Pilih Jenis Tanaman</option>
+                            <option value="Padi">Padi</option>
+                            <option value="Jagung">Jagung</option>
+                            <option value="Kedelai">Kedelai</option>
                         </select>
                     </div>
 
                     <!-- Jenis Produk -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold" style="color:#000;">Jenis Produk</label>
-                        <select class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;">
-                            <option selected>Jenis Produk</option>
-                            <option>Silika V-0D01</option>
-                            <option>Silika Plus</option>
-                            <option>Silika Premium</option>
+                        <select name="jenis_produk" class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;" required>
+                            <option value="" selected>Pilih Jenis Produk</option>
+                            <option value="Silika 5kg">Silika 5kg</option>
+                            <option value="Maxi D 1 Liter">Maxi D 1 Liter</option>
+                            <option value="Maxi B 1 Liter">Maxi B 1 Liter</option>
+                            <option value="Hama 1/2 Liter">Hama ½ Liter</option>
+                            <option value="Silika Cair 1/2 Liter">Silika Cair ½ Liter</option>
                         </select>
                     </div>
 
@@ -296,13 +298,13 @@ include('config/koneksi.php');
                     <div class="mb-4">
                         <label class="form-label fw-semibold" style="color:#000;">Luas Tanah</label>
                         <div class="input-group">
-                            <input type="number" class="form-control rounded-start-3 py-2" placeholder="Masukan Luas Tanah" style="border: 2px solid #A4C37F;">
+                            <input type="number" name="luas_tanah" class="form-control rounded-start-3 py-2" placeholder="Masukan Luas Tanah" style="border: 2px solid #A4C37F;" required min="1" step="0.01">
                             <span class="input-group-text rounded-end-3" style="border: 2px solid #A4C37F; border-left: none;">M²</span>
                         </div>
                     </div>
 
                     <!-- Tombol Hitung -->
-                    <button type="submit" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;">
+                    <button type="submit" name="hitung" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;">
                         Hitung
                     </button>
                 </form>
@@ -315,36 +317,362 @@ include('config/koneksi.php');
                 </div>
             </div>
         </div>
+
     </div>
 </div>
+
+<?php
+// ============================================
+// PROSES PERHITUNGAN PUPUK
+// ============================================
+$showPopup = false;
+$hasil_data = array();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
+    $showPopup = true;
+    
+    $jenis_tanaman = htmlspecialchars($_POST['jenis_tanaman']);
+    $jenis_produk = htmlspecialchars($_POST['jenis_produk']);
+    $luas_tanah_m2 = floatval($_POST['luas_tanah']);
+    
+    // Konversi M² ke Bau (1 Bau = 7.000 M²)
+    $luas_tanah_bau = $luas_tanah_m2 / 7000;
+    
+    // Variabel hasil
+    $kebutuhan_produk = 0;
+    $satuan_produk = "";
+    $keterangan_tambahan = "";
+    $gambar_produk = "produk1.png";
+    
+    // Perhitungan berdasarkan jenis produk
+    switch ($jenis_produk) {
+        case "Silika 5kg":
+            // 8 bungkus untuk 1 Bau
+            $kebutuhan_produk = $luas_tanah_bau * 8;
+            $satuan_produk = "bungkus (@ 5kg)";
+            $keterangan_tambahan = "Pupuk padat untuk memperkuat struktur tanaman";
+            $gambar_produk = "produk1.png";
+            break;
+            
+        case "Maxi D 1 Liter":
+            // 1 botol untuk ½ Bau
+            $kebutuhan_produk = ($luas_tanah_bau / 0.5);
+            $satuan_produk = "botol (@ 1 Liter)";
+            $keterangan_tambahan = "Kombinasi silika aktif dan nutrisi mikro";
+            $gambar_produk = "produk2.png";
+            break;
+            
+        case "Maxi B 1 Liter":
+            // 1 botol untuk ½ Bau
+            $kebutuhan_produk = ($luas_tanah_bau / 0.5);
+            $satuan_produk = "botol (@ 1 Liter)";
+            $keterangan_tambahan = "Nutrisi untuk fase pembuahan";
+            $gambar_produk = "produk3.png";
+            break;
+            
+        case "Hama 1/2 Liter":
+            // 1 botol (½ liter) untuk ¼ Bau
+            $kebutuhan_produk = ($luas_tanah_bau / 0.25);
+            $satuan_produk = "botol (@ ½ Liter)";
+            $keterangan_tambahan = "Pengendali hama dan penyakit";
+            $gambar_produk = "produk1.png";
+            break;
+            
+        case "Silika Cair 1/2 Liter":
+            // 1 botol (½ liter) untuk ½ Bau
+            $kebutuhan_produk = ($luas_tanah_bau / 0.5);
+            $satuan_produk = "botol (@ ½ Liter)";
+            $keterangan_tambahan = "Silika dalam bentuk larutan, mudah diserap";
+            $gambar_produk = "produk1.png";
+            break;
+            
+        default:
+            $kebutuhan_produk = 0;
+            $satuan_produk = "tidak diketahui";
+            break;
+    }
+    
+    // Bulatkan hasil ke 2 desimal
+    $kebutuhan_produk = round($kebutuhan_produk, 2);
+    $luas_tanah_bau_display = round($luas_tanah_bau, 4);
+    
+    // Simpan data ke array untuk popup
+    $hasil_data = array(
+        'jenis_tanaman' => $jenis_tanaman,
+        'jenis_produk' => $jenis_produk,
+        'luas_tanah_m2' => $luas_tanah_m2,
+        'luas_tanah_bau' => $luas_tanah_bau_display,
+        'kebutuhan_produk' => $kebutuhan_produk,
+        'satuan_produk' => $satuan_produk,
+        'keterangan_tambahan' => $keterangan_tambahan,
+        'gambar_produk' => $gambar_produk
+    );
+}
+?>
 
 <!-- POPUP HASIL KALKULATOR -->
-    <div id="popupHasil" style="display:none; position: fixed; top: 50px; left: 50px; background-color: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); padding: 20px; width: 350px; z-index: 1050;">
-<div class="d-flex justify-content-between align-items-start mb-3">
-        <div class="d-flex align-items-center gap-2">
-          <img src="asset/img/logo.png" alt="Logo" width="100">
-          <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
-          <h5 class="fw-bold mb-0">Hasil</h5>
+<div id="popupHasil" class="popup-overlay" style="display:<?= $showPopup ? 'flex' : 'none' ?>;">
+    <div class="popup-content">
+        <!-- Header Popup -->
+        <div class="popup-header">
+            <div class="d-flex align-items-center gap-2">
+                <img src="asset/img/Logo.png" alt="Logo" style="height: 50px;">
+                <div class="vr" style="height: 40px; width: 2px; background-color: #fff;"></div>
+                <h4 class="fw-bold mb-0 text-white">Hasil Perhitungan</h4>
+            </div>
+            <button type="button" class="btn-close-popup" onclick="closePopup()">
+                <i class="bi bi-x-lg"></i>
+            </button>
         </div>
-      </div>
 
-    <div class="mb-2"><strong>Jenis Tanaman:</strong> <span id="hasilJenisTanaman"></span></div>
-    <div class="mb-2"><strong>Jenis Produk:</strong> <span id="hasilJenisProduk"></span></div>
-    <div class="mb-3"><strong>Luas Tanah:</strong> <span id="hasilLuasTanah"></span> M²</div>
+        <!-- Body Popup -->
+        <div class="popup-body">
+            <?php if ($showPopup) : ?>
+            <!-- Info Input -->
+            <div class="info-section">
+                <div class="info-item">
+                    <i class="bi bi-flower1"></i>
+                    <div>
+                        <small class="text-muted">Jenis Tanaman</small>
+                        <div class="fw-semibold"><?= $hasil_data['jenis_tanaman'] ?></div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="bi bi-box-seam"></i>
+                    <div>
+                        <small class="text-muted">Jenis Produk</small>
+                        <div class="fw-semibold"><?= $hasil_data['jenis_produk'] ?></div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="bi bi-rulers"></i>
+                    <div>
+                        <small class="text-muted">Luas Tanah</small>
+                        <div class="fw-semibold"><?= number_format($hasil_data['luas_tanah_m2'], 0, ',', '.') ?> M²</div>
+                        <small class="text-muted">(≈ <?= $hasil_data['luas_tanah_bau'] ?> Bau)</small>
+                    </div>
+                </div>
+            </div>
 
-    <div class="d-flex align-items-center justify-content-center mb-3">
-    <img src="asset/img/produk1.png" alt="Produk" 
-        class="me-3" 
-        style="height:80px; object-fit:contain; display:block;">
-    <span style="font-weight:500; font-size:1.25rem; line-height:1;">5kg</span>
+            <!-- Hasil Kebutuhan -->
+            <div class="hasil-section">
+                <div class="d-flex align-items-center justify-content-center gap-4 mb-3">
+                    <img src="asset/img/<?= $hasil_data['gambar_produk'] ?>" alt="Produk" style="height:100px; object-fit:contain;">
+                    <div class="text-center">
+                        <div class="display-5 fw-bold" style="color: #2B8D4C;">
+                            <?= rtrim(rtrim(number_format($hasil_data['kebutuhan_produk'], 2, ',', '.'), '0'), ',') ?>
+                        </div>
+                        <div class="fs-6 fw-semibold" style="color: #1a5c30;">
+                            <?= $hasil_data['satuan_produk'] ?>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-muted small mb-0">
+                    <i class="bi bi-info-circle"></i> <?= $hasil_data['keterangan_tambahan'] ?>
+                </p>
+            </div>
+
+            <!-- Tombol Aksi -->
+            <div class="d-grid gap-2">
+                <a href="page/shop.php" class="btn btn-pesan">
+                    <i class="bi bi-cart-plus me-2"></i>Pesan Sekarang
+                </a>
+                <button type="button" class="btn btn-tutup" onclick="closePopup()">
+                    <i class="bi bi-x-circle me-2"></i>Tutup
+                </button>
+            </div>
+            <?php endif; ?>
+        </div>
     </div>
-
-
-    <button id="btnPesanSekarang" type="button" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;" onclick="window.location.href='<?= $base_url ?>page/shop.php'">
-        Pesan Sekarang
-    </button>
-
 </div>
+
+<!-- STYLE POPUP -->
+<style>
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.popup-content {
+    background: white;
+    border-radius: 20px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+.popup-header {
+    background: linear-gradient(135deg, #2B8D4C 0%, #1a5c30 100%);
+    padding: 1.5rem;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-close-popup {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-close-popup:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.popup-body {
+    padding: 2rem;
+}
+
+.info-section {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-item i {
+    color: #2B8D4C;
+    font-size: 1.5rem;
+    margin-top: 0.25rem;
+}
+
+.hasil-section {
+    background: linear-gradient(135deg, #FFED64 0%, #ffd700 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.jadwal-section {
+    background: #e8f5e9;
+    border-left: 4px solid #2B8D4C;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.jadwal-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.jadwal-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed #ddd;
+}
+
+.jadwal-list li:last-child {
+    border-bottom: none;
+}
+
+.jadwal-list i {
+    color: #2B8D4C;
+    margin-right: 0.5rem;
+}
+
+.btn-pesan {
+    background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%);
+    color: white;
+    font-weight: 600;
+    padding: 0.875rem;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.btn-pesan:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(43, 141, 76, 0.3);
+    color: white;
+}
+
+.btn-tutup {
+    background: linear-gradient(90deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    font-weight: 600;
+    padding: 0.875rem;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.btn-tutup:hover {
+    background: linear-gradient(90deg, #c82333 0%, #bd2130 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px); 
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0); 
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .popup-content {
+        max-width: 100%;
+        margin: 10px;
+    }
+    
+    .popup-body {
+        padding: 1.5rem;
+    }
+    
+    .hasil-section .d-flex {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+}
+</style>
+
+
     <!-- ============================================ -->
 <!-- HASIL PEMAKAIAN PUPUK SILIKA SECTION -->
 <!-- ============================================ -->
@@ -792,41 +1120,74 @@ label.small {
         });
 
 
+    // Fungsi untuk menutup popup dan reset form
+    function closePopup() {
+        document.getElementById('popupHasil').style.display = 'none';
+        // Reset form kalkulator
+        const form = document.getElementById('formKalkulator');
+        if (form) {
+            form.reset();
+        }
+        // Hapus hash dari URL tanpa reload atau scroll
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.pathname);
+        }
+    }
+
+    // Tutup popup saat klik di luar area popup
     document.addEventListener('DOMContentLoaded', function() {
-    const kalkulatorForm = document.getElementById('formKalkulator');
-    const popupHasil = document.getElementById('popupHasil');
-    const btnPesanSekarang = document.getElementById('btnPesanSekarang');
-
-    kalkulatorForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // cegah reload
-
-        const jenisTanaman = kalkulatorForm.querySelectorAll('select')[0].value;
-        const jenisProduk = kalkulatorForm.querySelectorAll('select')[1].value;
-        const luasTanah = kalkulatorForm.querySelector('input[type="number"]').value;
-
-        document.getElementById('hasilJenisTanaman').textContent = jenisTanaman;
-        document.getElementById('hasilJenisProduk').textContent = jenisProduk;
-        document.getElementById('hasilLuasTanah').textContent = luasTanah;
-
-        // tampilkan popup di tengah layar
-        popupHasil.style.display = 'block';
-        popupHasil.style.top = '50%';
-        popupHasil.style.left = '50%';
-        popupHasil.style.transform = 'translate(-50%, -50%)';
+        const popupOverlay = document.getElementById('popupHasil');
+        const popupContent = document.querySelector('.popup-content');
+        
+        if (popupOverlay) {
+            popupOverlay.addEventListener('click', function(e) {
+                if (e.target === popupOverlay) {
+                    closePopup();
+                }
+            });
+        }
+        
+        // Tutup dengan tombol ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && popupOverlay.style.display === 'flex') {
+                closePopup();
+            }
+        });
     });
 
-    // Tutup popup saat klik Pesan Sekarang
-    btnPesanSekarang.addEventListener('click', function() {
-        popupHasil.style.display = 'none';
-    });
-
-    // Tutup popup kalau klik di luar
-    window.addEventListener('click', function(e) {
-        if (popupHasil.style.display === 'block' && !popupHasil.contains(e.target) && !kalkulatorForm.contains(e.target)) {
-            popupHasil.style.display = 'none';
+    // Prevent scroll when popup is shown
+    <?php if ($showPopup) : ?>
+    // Prevent browser scroll restoration
+    if (window.history.scrollRestoration) {
+        window.history.scrollRestoration = 'manual';
+    }
+    
+    // Restore scroll position immediately
+    window.addEventListener('DOMContentLoaded', function() {
+        const savedScrollPosition = sessionStorage.getItem('scrollPosition');
+        if (savedScrollPosition) {
+            // Use requestAnimationFrame for smooth restoration
+            requestAnimationFrame(function() {
+                window.scrollTo({
+                    top: parseInt(savedScrollPosition),
+                    behavior: 'instant'
+                });
+                sessionStorage.removeItem('scrollPosition');
+            });
         }
     });
-});
+    <?php endif; ?>
+
+    // Save scroll position before form submit
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('formKalkulator');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                // Save current scroll position
+                sessionStorage.setItem('scrollPosition', window.pageYOffset || document.documentElement.scrollTop);
+            });
+        }
+    });
 
 </script>
 
