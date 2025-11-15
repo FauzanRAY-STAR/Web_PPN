@@ -1,3 +1,42 @@
+<?php
+include(__DIR__ . '/../../config/koneksi.php');
+$produkList = mysqli_query($conn, "SELECT nama, gambar FROM produk ORDER BY nama ASC");
+
+// ============================================
+// PAGINATION, SEARCH & SORTING LOGIC
+// ============================================
+
+// Ambil parameter dari URL
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'DESC'; // DESC atau ASC
+
+// Limit per halaman
+$limit = 7;
+$offset = ($page - 1) * $limit;
+
+// Query dengan filter search
+$whereClause = "";
+if (!empty($search)) {
+    $whereClause = "WHERE nama LIKE '%$search%' 
+                    OR produk LIKE '%$search%' 
+                    OR alamat LIKE '%$search%' 
+                    OR ulasan LIKE '%$search%'";
+}
+
+// Query untuk menghitung total data
+$countQuery = "SELECT COUNT(*) as total FROM ulasan $whereClause";
+$countResult = mysqli_query($conn, $countQuery);
+$totalData = mysqli_fetch_assoc($countResult)['total'];
+$totalPages = ceil($totalData / $limit);
+
+// Query data dengan pagination
+$sql = "SELECT * FROM ulasan 
+        $whereClause 
+        ORDER BY id $sort 
+        LIMIT $limit OFFSET $offset";
+$res = mysqli_query($conn, $sql);
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -9,8 +48,64 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
   <!-- Custom CSS -->
   <link rel="stylesheet" href="../../asset/style/ulasan.css">
+  
+  <style>
+    /* Fix untuk tabel agar tidak berantakan */
+    .table {
+      table-layout: fixed;
+      width: 100%;
+    }
+    
+    .table th, .table td {
+      vertical-align: middle;
+      padding: 12px 8px;
+    }
+    
+    /* Lebar kolom tetap */
+    .table th:nth-child(1), .table td:nth-child(1) { width: 12%; } /* Nama */
+    .table th:nth-child(2), .table td:nth-child(2) { width: 12%; } /* Produk */
+    .table th:nth-child(3), .table td:nth-child(3) { width: 10%; } /* Alamat */
+    .table th:nth-child(4), .table td:nth-child(4) { width: 8%; }  /* Foto */
+    .table th:nth-child(5), .table td:nth-child(5) { width: 28%; } /* Review */
+    .table th:nth-child(6), .table td:nth-child(6) { width: 10%; } /* Nilai */
+    .table th:nth-child(7), .table td:nth-child(7) { width: 10%; } /* Status */
+    .table th:nth-child(8), .table td:nth-child(8) { width: 10%; } /* Aksi */
+    
+    /* Text wrap untuk kolom review */
+    .review-text {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      max-height: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+    
+    /* Style untuk gambar */
+    .table img {
+      border-radius: 8px;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+    }
+    
+    /* Rating stars */
+    .rating-container {
+      white-space: nowrap;
+    }
+    
+    .rating-container i {
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
@@ -23,180 +118,310 @@
       <!-- SEARCH BAR -->
       <div class="search-bar-top">
         <div class="left-col">
-          <div class="search-box">
-            <i class="bi bi-search"></i>
-            <input type="text" placeholder="Search testimoni...">
-          </div>
-          <button class="search-btn" style="background-color: #4E8E55;"><i class="bi bi-sort-down"></i></button>
+          <form method="GET" action="" class="d-flex gap-2">
+            <div class="search-box">
+              <input type="text" 
+                     name="search" 
+                     placeholder="Search testimoni..." 
+                     value="<?= htmlspecialchars($search) ?>">
+            </div>
+            
+            <!-- Button Search -->
+            <button type="submit" 
+                    class="search-btn" 
+                    style="background-color: #4E8E55;">
+              <i class="bi bi-search"></i>
+            </button>
+            
+            <!-- Button Sort -->
+            <button type="button" 
+                    class="search-btn" 
+                    style="background-color: #4E8E55;" 
+                    id="btnSort"
+                    data-sort="<?= $sort ?>">
+              <i class="bi bi-sort-<?= $sort == 'ASC' ? 'up' : 'down' ?>"></i>
+            </button>
+            
+            
+            <!-- Button Reset (jika ada pencarian) -->
+            <?php if(!empty($search)) : ?>
+            <a href="ulasan.php" 
+               class="search-btn" 
+               style="background-color: #dc3545; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+              <i class="bi bi-x-lg"></i>
+            </a>
+            <?php endif; ?>
+          </form>
         </div>
         <div class="right-col">
           <button class="search-btn" style="background-color: #4E8E55;"><i class="bi bi-plus"></i></button>
         </div>
       </div>
 
+      <!-- INFO HASIL PENCARIAN -->
+      <?php if(!empty($search)) : ?>
+      <div class="alert alert-info d-flex align-items-center">
+        <i class="bi bi-info-circle me-2"></i>
+        Menampilkan <strong class="mx-1"><?= $totalData ?></strong> hasil untuk 
+        "<strong><?= htmlspecialchars($search) ?></strong>"
+      </div>
+      <?php endif; ?>
+
       <!-- TABEL TESTIMONI -->
       <div class="table-responsive">
         <table class="table align-middle table-bordered">
-          <thead>
+          <thead style="background-color: #f8f9fa;">
             <tr class="text-center">
               <th>Nama Pembeli</th>
               <th>Nama Produk</th>
               <th>Alamat</th>
               <th>Foto</th>
               <th>Review</th>
+              <th>Nilai</th>
               <th>Status</th>
               <th>Aksi</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="tblBody">
+          <?php if(mysqli_num_rows($res) > 0) : ?>
+            <?php while($row = mysqli_fetch_assoc($res)) : ?>
             <tr>
-              <td>Adi Tani</td>
-              <td>Maxi-D</td>
-              <td>Kab. Bandung</td>
+              <td><?= htmlspecialchars($row['nama']) ?></td>
+              <td><?= htmlspecialchars($row['produk']) ?></td>
+              <td><?= htmlspecialchars($row['alamat']) ?></td>
               <td class="text-center">
-                <img src="../../asset/img/Testimoni1.png" alt="Foto Adi">
+                <img src="../../asset/img/testimoni/<?= htmlspecialchars($row['gambar']) ?>" 
+                     width="60" 
+                     height="60"
+                     alt="Testimoni">
               </td>
-              <td>Setelah pakai Maxi-D, tanaman jagung saya tumbuh lebih cepat dan subur!</td>
-              <td class="text-success fw-semibold text-center">Ditampilkan</td>
+              <td>
+                <div class="review-text">
+                  <?= nl2br(htmlspecialchars($row['ulasan'])) ?>
+                </div>
+              </td>
               <td class="text-center">
-                <div class="d-flex justify-content-center align-items-center gap-2">
-                  <button class="btn btn-danger btn-sm rounded-circle d-flex align-items-center justify-content-center">
+                <div class="rating-container mb-1">
+                  <?php 
+                  for($i = 1; $i <= 5; $i++) {
+                      if($i <= $row['nilai']) {
+                          echo '<i class="bi bi-star-fill text-warning"></i>';
+                      } else {
+                          echo '<i class="bi bi-star text-muted"></i>';
+                      }
+                  }
+                  ?>
+                </div>
+                <small class="text-muted"><?= $row['nilai'] ?>/5</small>
+              </td>
+              <td class="text-center">
+                <span class="badge <?= $row['status'] == 'Ditampilkan' ? 'bg-success' : 'bg-danger' ?>">
+                  <?= $row['status'] ?>
+                </span>
+              </td>
+              <td class="text-center">
+                <div class="d-flex justify-content-center gap-1">
+                  <button class="btn btn-danger btn-sm btnHapus"
+                          data-id="<?= $row['id'] ?>"
+                          title="Hapus">
                     <i class="bi bi-trash"></i>
                   </button>
-                  <button class="btn btn-warning btn-sm rounded-circle d-flex align-items-center justify-content-center text-white">
+
+                  <button class="btn btn-warning btn-sm btnEdit text-white"
+                          data-id="<?= $row['id'] ?>"
+                          data-nama="<?= htmlspecialchars($row['nama']) ?>"
+                          data-produk="<?= htmlspecialchars($row['produk']) ?>"
+                          data-alamat="<?= htmlspecialchars($row['alamat']) ?>"
+                          data-ulasan="<?= htmlspecialchars($row['ulasan']) ?>"
+                          data-nilai="<?= $row['nilai'] ?>"
+                          data-gambar="<?= htmlspecialchars($row['gambar']) ?>"
+                          data-status="<?= $row['status'] ?>"
+                          title="Edit">
                     <i class="bi bi-pencil"></i>
                   </button>
                 </div>
               </td>
             </tr>
+            <?php endwhile; ?>
+          <?php else : ?>
             <tr>
-              <td>Rina Agustina</td>
-              <td>TeraNusa Silika</td>
-              <td>Sleman, Yogyakarta</td>
-              <td class="text-center">
-                <img src="../../asset/img/Testimoni2.png" alt="Foto Rina">
-              </td>
-              <td>Daun padi jadi lebih kuat, nggak gampang rebah. Keren banget produknya!</td>
-              <td class="text-danger fw-semibold text-center">Disembunyikan</td>
-              <td class="text-center">
-                <div class="d-flex justify-content-center align-items-center gap-2">
-                  <button class="btn btn-danger btn-sm rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                  <button class="btn btn-warning btn-sm rounded-circle d-flex align-items-center justify-content-center text-white">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                </div>
+              <td colspan="8" class="text-center py-5">
+                <i class="bi bi-inbox fs-1 text-muted"></i>
+                <p class="mt-3 text-muted">
+                  <?= !empty($search) ? 'Tidak ada hasil yang ditemukan' : 'Belum ada testimoni' ?>
+                </p>
               </td>
             </tr>
-            <tr>
-              <td>Bambang</td>
-              <td>TeraNusa Probiotik</td>
-              <td>Sidoarjo, Jawa Timur</td>
-              <td class="text-center">
-                <img src="../../asset/img/Testimoni3.png" alt="Foto Bambang">
-              </td>
-              <td>Bagus buat padi, tapi kemasannya agak susah dibuka!</td>
-              <td class="text-danger fw-semibold text-center">Disembunyikan</td>
-              <td class="text-center">
-                <div class="d-flex justify-content-center align-items-center gap-2">
-                  <button class="btn btn-danger btn-sm rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                  <button class="btn btn-warning btn-sm rounded-circle d-flex align-items-center justify-content-center text-white">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Sari Pratama</td>
-              <td>TeraTusa Hama</td>
-              <td>Cilacap, Jawa Tengah</td>
-              <td class="text-center">
-                <img src="../../asset/img/Testimoni4.png" alt="Foto Sari">
-              </td>
-              <td>Produknya bagus tapi agak susah didapat di toko sekitar sini.</td>
-              <td class="text-danger fw-semibold text-center">Disembunyikan</td>
-              <td class="text-center">
-                <div class="d-flex justify-content-center align-items-center gap-2">
-                  <button class="btn btn-danger btn-sm rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                  <button class="btn btn-warning btn-sm rounded-circle d-flex align-items-center justify-content-center text-white">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
+          <?php endif; ?>
           </tbody>
         </table>
       </div>
 
-      <!-- PAGINATION -->
-      <div class="d-flex justify-content-center mt-4 gap-2">
-        <button class="btn btn-warning rounded-circle d-flex align-items-center justify-content-center">
-          <i class="bi bi-chevron-left text-white" ></i>
-        </button>
-        <button class="btn btn-success rounded-circle d-flex align-items-center justify-content-center fw-semibold text-white">
-          1
-        </button>
-        <button class="btn btn-warning rounded-circle d-flex align-items-center justify-content-center" style>
-          <i class="bi bi-chevron-right text-white"></i>
-        </button>
+      <!-- PAGINATION - Hanya tampil jika data > 7 -->
+      <?php if($totalData > $limit) : ?>
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <!-- Info Halaman -->
+        <div class="text-muted small">
+          Menampilkan <?= ($offset + 1) ?> - <?= min($offset + $limit, $totalData) ?> dari <?= $totalData ?> data
+        </div>
+        
+        <!-- Pagination Buttons -->
+        <div class="d-flex gap-2">
+          <!-- Previous Button -->
+          <?php if($page > 1) : ?>
+          <a href="?page=<?= $page - 1 ?><?= !empty($search) ? '&search=' . urlencode($search) : '' ?>&sort=<?= $sort ?>" 
+             class="btn btn-warning rounded-circle d-flex align-items-center justify-content-center"
+             style="width: 40px; height: 40px;">
+            <i class="bi bi-chevron-left text-white"></i>
+          </a>
+          <?php else : ?>
+          <button class="btn btn-secondary rounded-circle d-flex align-items-center justify-content-center" 
+                  disabled
+                  style="width: 40px; height: 40px; opacity: 0.5;">
+            <i class="bi bi-chevron-left text-white"></i>
+          </button>
+          <?php endif; ?>
+
+          <!-- Page Numbers -->
+          <?php 
+          // Hitung range halaman yang ditampilkan
+          $startPage = max(1, $page - 2);
+          $endPage = min($totalPages, $page + 2);
+          
+          // Tampilkan halaman pertama jika tidak termasuk range
+          if($startPage > 1) : ?>
+            <a href="?page=1<?= !empty($search) ? '&search=' . urlencode($search) : '' ?>&sort=<?= $sort ?>" 
+               class="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
+               style="width: 40px; height: 40px;">
+              1
+            </a>
+            <?php if($startPage > 2) : ?>
+              <span class="d-flex align-items-center px-2">...</span>
+            <?php endif; ?>
+          <?php endif; ?>
+
+          <?php for($i = $startPage; $i <= $endPage; $i++) : ?>
+            <a href="?page=<?= $i ?><?= !empty($search) ? '&search=' . urlencode($search) : '' ?>&sort=<?= $sort ?>" 
+               class="btn <?= $i == $page ? 'btn-success' : 'btn-outline-success' ?> rounded-circle d-flex align-items-center justify-content-center fw-semibold text-white"
+               style="width: 40px; height: 40px;">
+              <?= $i ?>
+            </a>
+          <?php endfor; ?>
+
+          <!-- Tampilkan halaman terakhir jika tidak termasuk range -->
+          <?php if($endPage < $totalPages) : ?>
+            <?php if($endPage < $totalPages - 1) : ?>
+              <span class="d-flex align-items-center px-2">...</span>
+            <?php endif; ?>
+            <a href="?page=<?= $totalPages ?><?= !empty($search) ? '&search=' . urlencode($search) : '' ?>&sort=<?= $sort ?>" 
+               class="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
+               style="width: 40px; height: 40px;">
+              <?= $totalPages ?>
+            </a>
+          <?php endif; ?>
+
+          <!-- Next Button -->
+          <?php if($page < $totalPages) : ?>
+          <a href="?page=<?= $page + 1 ?><?= !empty($search) ? '&search=' . urlencode($search) : '' ?>&sort=<?= $sort ?>" 
+             class="btn btn-warning rounded-circle d-flex align-items-center justify-content-center"
+             style="width: 40px; height: 40px;">
+            <i class="bi bi-chevron-right text-white"></i>
+          </a>
+          <?php else : ?>
+          <button class="btn btn-secondary rounded-circle d-flex align-items-center justify-content-center" 
+                  disabled
+                  style="width: 40px; height: 40px; opacity: 0.5;">
+            <i class="bi bi-chevron-right text-white"></i>
+          </button>
+          <?php endif; ?>
+        </div>
       </div>
+      <?php elseif($totalData > 0) : ?>
+      <!-- Info jika data kurang dari 7 -->
+      <div class="text-center text-muted small mt-3">
+        Menampilkan semua <?= $totalData ?> data
+      </div>
+      <?php endif; ?>
     </div>
   </div>
 
-<!-- ======================
-MODAL TAMBAH / EDIT TESTIMONI
-====================== -->
+<!-- MODAL TESTIMONI (TAMBAH & EDIT) -->
 <div class="modal fade" id="testimoniModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content p-4 rounded-4 border-0 shadow-sm">
-      <!-- HEADER -->
+      
       <div class="d-flex justify-content-between align-items-start mb-3">
         <div class="d-flex align-items-center gap-2">
           <img src="../../asset/img/logo.png" alt="Logo" width="100">
           <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
-          <h5 class="fw-bold mb-0">Testimoni</h5>
+          <h5 class="fw-bold mb-0" id="modalTitle">Tambah Testimoni</h5>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
-      <!-- FORM BODY -->
-      <label class="fw-semibold mb-1">Nama Pembeli</label>
-      <input type="text" class="form-control border-success mb-3" placeholder="Masukan Nama Pembeli" id="namaPembeli">
+      <form id="formTestimoni" enctype="multipart/form-data">
+        <input type="hidden" id="editId" name="id">
 
-      <label class="fw-semibold mb-1">Nama Produk</label>
-      <input type="text" class="form-control border-success mb-3" placeholder="Masukan Nama Produk" id="namaProduk">
+        <label class="fw-semibold mb-1">Nama Pembeli</label>
+        <input type="text" class="form-control border-success mb-3"
+               placeholder="Masukan Nama Pembeli" id="namaPembeli" 
+               name="nama" required>
 
-      <label class="fw-semibold mb-1">Alamat</label>
-      <input type="text" class="form-control border-success mb-3" placeholder="Masukan Alamat" id="alamat">
+        <label class="fw-semibold mb-1">Nama Produk</label>
+        <select class="form-control border-success mb-3" id="namaProduk" name="produk" required>
+            <?php 
+            mysqli_data_seek($produkList, 0);
+            while ($p = mysqli_fetch_assoc($produkList)) : 
+            ?>
+                <option value="<?= htmlspecialchars($p['nama']) ?>"
+                        data-custom-properties='{"img": "<?= '../../asset/img/' . $p['gambar'] ?>"}'>
+                    <?= htmlspecialchars($p['nama']) ?>
+                </option>
+            <?php endwhile; ?>
+        </select>
 
-      <label class="fw-semibold mb-1">Review</label>
-      <textarea class="form-control border-success mb-3" placeholder="Masukan Review" id="reviewInput" rows="4"></textarea>
+        <label class="fw-semibold mb-1">Alamat</label>
+        <input type="text" class="form-control border-success mb-3"
+               placeholder="Masukan Alamat" id="alamat" 
+               name="alamat" required>
 
-      <label class="fw-semibold mb-1">Unggah Gambar</label>
-      <input type="file" class="form-control border-success mb-3" id="gambarInput">
+        <label class="fw-semibold mb-1">Review</label>
+        <textarea class="form-control border-success mb-3"
+                  placeholder="Masukan Review" id="reviewInput" 
+                  name="ulasan" rows="4" required></textarea>
 
-      <label class="fw-semibold mb-1">Status</label>
-      <div class="form-check mt-2 mb-4">
-        <input class="form-check-input" type="checkbox" id="statusInput">
-        <label class="form-check-label">Tampilkan</label>
-      </div>
+        <label class="fw-semibold mb-1">Nilai</label>
+        <select name="nilai" id="form_nilai" class="form-select mb-3" style="max-width:120px;" required>
+          <option value="5">5</option>
+          <option value="4">4</option>
+          <option value="3">3</option>
+          <option value="2">2</option>
+          <option value="1">1</option>
+        </select>
+
+        <label class="fw-semibold mb-1" id="labelGambar">Unggah Gambar</label>
+        <input type="file" class="form-control border-success mb-3"
+               id="gambarInput" name="gambar" accept="image/*">
+        <small class="text-muted d-none mb-3 d-block" id="infoGambarLama"></small>
+
+        <label class="fw-semibold mb-1">Status</label>
+        <div class="form-check mt-2 mb-4">
+          <input class="form-check-input" type="checkbox" id="statusInput" name="status">
+          <label class="form-check-label">Tampilkan</label>
+        </div>
+
+      </form>
 
       <button class="btn w-100 text-white fw-semibold" id="btnSimpanTestimoni"
         style="background: linear-gradient(90deg, #4E8E55, #D6C72A); border-radius: 12px;">
         Simpan
       </button>
+
     </div>
   </div>
 </div>
 
-<!-- ======================
-MODAL HAPUS TESTIMONI
-====================== -->
+<!-- MODAL HAPUS -->
 <div class="modal fade" id="hapusTestimoniModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content p-4 rounded-4 text-center border-0 shadow-sm">
@@ -209,9 +434,7 @@ MODAL HAPUS TESTIMONI
   </div>
 </div>
 
-<!-- ======================
-MODAL NOTIFIKASI
-====================== -->
+<!-- MODAL NOTIFIKASI -->
 <div class="modal fade" id="notifModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content notif-card text-center p-4 rounded-4 border-0 shadow">
@@ -222,9 +445,6 @@ MODAL NOTIFIKASI
   </div>
 </div>
 
-<!-- ======================
-STYLE TAMBAHAN
-====================== -->
 <style>
   .notif-card {
     background: #fff;
@@ -239,9 +459,6 @@ STYLE TAMBAHAN
   }
 </style>
 
-<!-- ======================
-SCRIPT
-====================== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   const testimoniModal = new bootstrap.Modal(document.getElementById('testimoniModal'));
@@ -250,65 +467,184 @@ SCRIPT
   const notifText = document.getElementById('notifText');
   const notifIcon = document.getElementById('notifIcon');
 
-  // Tombol Tambah Testimoni
-  document.querySelectorAll('.btnTambahTestimoni, .bi-plus').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.getElementById('namaPembeli').value = '';
-      document.getElementById('namaProduk').value = '';
-      document.getElementById('alamat').value = '';
-      document.getElementById('reviewInput').value = '';
-      document.getElementById('gambarInput').value = '';
-      document.getElementById('statusInput').checked = false;
-      testimoniModal.show();
+  let currentChoices = null;
+  let isEditMode = false;
+
+  // Inisialisasi Choices.js
+  document.addEventListener('DOMContentLoaded', function () {
+    const produkSelect = document.getElementById('namaProduk');
+
+    currentChoices = new Choices(produkSelect, {
+        searchPlaceholderValue: 'Cari produk...',
+        itemSelectText: '',
+        callbackOnCreateTemplates: function (template) {
+            return {
+                option: (classNames, data) => {
+                    const props = data.customProperties;
+                    return template(`
+                        <div class="d-flex align-items-center gap-2">
+                            <img src="${props?.img || ''}" width="30" height="30" style="object-fit:cover; border-radius:4px;">
+                            <span>${data.label}</span>
+                        </div>
+                    `);
+                },
+                item: (classNames, data) => {
+                    const props = data.customProperties;
+                    return template(`
+                        <div class="d-flex align-items-center gap-2">
+                            <img src="${props?.img || ''}" width="30" height="30" style="object-fit:cover; border-radius:4px;">
+                            <span>${data.label}</span>
+                        </div>
+                    `);
+                }
+            };
+        }
     });
   });
 
-  // Tombol Edit Testimoni
-  document.querySelectorAll('.btnEditTestimoni, .bi-pencil').forEach(btn => {
-    btn.addEventListener('click', () => {
-      // Isi form dengan data testimoni (dummy untuk sekarang)
-      document.getElementById('namaPembeli').value = 'Adi Tani';
-      document.getElementById('namaProduk').value = 'Maxi-D';
-      document.getElementById('alamat').value = 'Kab. Bandung';
-      document.getElementById('reviewInput').value = 'Tanaman saya tumbuh lebih cepat!';
-      document.getElementById('statusInput').checked = true;
-      testimoniModal.show();
+  // Tombol Sort
+  document.getElementById('btnSort').addEventListener('click', function() {
+    const currentSort = this.getAttribute('data-sort');
+    const newSort = currentSort === 'DESC' ? 'ASC' : 'DESC';
+    const search = new URLSearchParams(window.location.search).get('search') || '';
+    const page = new URLSearchParams(window.location.search).get('page') || 1;
+    
+    window.location.href = `?page=${page}&sort=${newSort}${search ? '&search=' + search : ''}`;
+  });
+
+  // Tombol Tambah
+  document.querySelector('.bi-plus').closest('button').addEventListener('click', () => {
+    isEditMode = false;
+    document.getElementById('formTestimoni').reset();
+    document.getElementById('editId').value = '';
+    if (currentChoices) currentChoices.setChoiceByValue('');
+    document.getElementById('modalTitle').textContent = 'Tambah Testimoni';
+    document.getElementById('gambarInput').setAttribute('required', 'required');
+    document.getElementById('labelGambar').textContent = 'Unggah Gambar';
+    document.getElementById('infoGambarLama').classList.add('d-none');
+    testimoniModal.show();
+  });
+
+  // Tombol Edit
+  document.querySelectorAll('.btnEdit').forEach(btn => {
+    btn.addEventListener('click', function() {
+        isEditMode = true;
+        const id = this.getAttribute('data-id');
+        const nama = this.getAttribute('data-nama');
+        const produk = this.getAttribute('data-produk');
+        const alamat = this.getAttribute('data-alamat');
+        const ulasan = this.getAttribute('data-ulasan');
+        const nilai = this.getAttribute('data-nilai');
+        const status = this.getAttribute('data-status');
+        const gambar = this.getAttribute('data-gambar');
+
+        document.getElementById('editId').value = id;
+        document.getElementById('namaPembeli').value = nama;
+        document.getElementById('alamat').value = alamat;
+        document.getElementById('reviewInput').value = ulasan;
+        document.getElementById('form_nilai').value = nilai;
+        document.getElementById('statusInput').checked = (status === 'Ditampilkan');
+
+        if (currentChoices) currentChoices.setChoiceByValue(produk);
+
+        document.getElementById('modalTitle').textContent = 'Edit Testimoni';
+        document.getElementById('gambarInput').removeAttribute('required');
+        document.getElementById('labelGambar').textContent = 'Unggah Gambar Baru (Opsional)';
+        
+        const infoGambar = document.getElementById('infoGambarLama');
+        infoGambar.textContent = `📷 Gambar saat ini: ${gambar}`;
+        infoGambar.classList.remove('d-none');
+
+        testimoniModal.show();
     });
   });
 
-  // Simpan Testimoni
+  // Simpan
   document.getElementById('btnSimpanTestimoni').addEventListener('click', () => {
-    testimoniModal.hide();
-    setTimeout(() => {
-      const isSuccess = Math.random() > 0.2; // contoh 80% berhasil
-      if (isSuccess) {
+    const nama = document.getElementById("namaPembeli").value.trim();
+    const produk = document.getElementById("namaProduk").value.trim();
+    const alamat = document.getElementById("alamat").value.trim();
+    const ulasan = document.getElementById("reviewInput").value.trim();
+    const nilai = document.getElementById("form_nilai").value.trim();
+    const gambar = document.getElementById("gambarInput").files.length > 0;
+
+    if (!nama || !produk || !alamat || !ulasan || !nilai) {
+        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+        notifText.textContent = "Semua field wajib diisi!";
+        notifModal.show();
+        return;
+    }
+
+    if (!isEditMode && !gambar) {
+        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+        notifText.textContent = "Gambar wajib diupload!";
+        notifModal.show();
+        return;
+    }
+
+    const form = document.getElementById('formTestimoni');
+    const formData = new FormData(form);
+
+    let url = '../action/ulasan_add.php';
+    if (isEditMode) url = '../action/ulasan_edit.php';
+
+    fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.text())
+    .then(result => {
+        testimoniModal.hide();
         notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
-        notifText.textContent = "Berhasil menyimpan testimoni!";
-      } else {
+        notifText.textContent = isEditMode ? "Berhasil mengupdate testimoni!" : "Berhasil menambahkan testimoni!";
+        notifModal.show();
+        setTimeout(() => location.reload(), 1500);
+    })
+    .catch(err => {
+        console.error(err);
         notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
         notifText.textContent = "Gagal menyimpan testimoni!";
-      }
-      notifModal.show();
-      setTimeout(() => notifModal.hide(), 1600);
-    }, 400);
-  });
-
-  // Tombol Hapus Testimoni
-  document.querySelectorAll('.btnHapusTestimoni, .bi-trash').forEach(btn => {
-    btn.addEventListener('click', () => {
-      hapusTestimoniModal.show();
+        notifModal.show();
     });
   });
 
-  // Konfirmasi Hapus
+  // Hapus
+  let hapusId = null;
+  document.querySelectorAll('.btnHapus').forEach(btn => {
+    btn.addEventListener('click', function() {
+        hapusId = this.getAttribute('data-id');
+        hapusTestimoniModal.show();
+    });
+  });
+
   document.getElementById('btnKonfirmasiHapusTestimoni').addEventListener('click', () => {
-    hapusTestimoniModal.hide();
-    setTimeout(() => {
-      notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
-      notifText.textContent = "Berhasil menghapus testimoni!";
-      notifModal.show();
-      setTimeout(() => notifModal.hide(), 1500);
-    }, 400);
+    if (hapusId === null) {
+        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+        notifText.textContent = "ID testimoni tidak ditemukan!";
+        notifModal.show();
+        return;
+    }
+
+    fetch(`../action/ulasan_hapus.php?id=${hapusId}`, {
+        method: 'GET'
+    })
+    .then(res => res.text())
+    .then(result => {
+        hapusTestimoniModal.hide();
+        setTimeout(() => {
+            notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+            notifText.textContent = "Berhasil menghapus testimoni!";
+            notifModal.show();
+            setTimeout(() => location.reload(), 1500);
+        }, 400);
+    })
+    .catch(err => {
+        console.error(err);
+        hapusTestimoniModal.hide();
+        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+        notifText.textContent = "Gagal menghapus testimoni!";
+        notifModal.show();
+    });
   });
 </script>
 </body>
