@@ -1,149 +1,188 @@
 <?php
 include('config/koneksi.php');
+
+// Query untuk mengambil carousel aktif
+$query_carousel = "SELECT * FROM carousel WHERE status = 'Aktif' ORDER BY urutan ASC";
+$result_carousel = mysqli_query($conn, $query_carousel);
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PTPPN</title>
     
-    <!-- Favicon -->
     <link href="asset/img/LogoIco.ico" rel="icon">
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheets -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    <!-- Bootstrap CSS -->
     <link href="asset/style/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
     <link href="asset/style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="asset/style/fab.css">
     <link rel="stylesheet" href="asset/style/beranda.css">
 
-    <!-- Custom CSS for Poppins Font -->
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 400; /* Default font weight */
+        * { font-family: 'Poppins', sans-serif; }
+        body { font-family: 'Poppins', sans-serif; font-weight: 400; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; font-weight: 600; }
+        .fw-bold { font-weight: 700 !important; }
+        .fw-semibold { font-weight: 600 !important; }
+        .fw-normal { font-weight: 400 !important; }
+        .fw-light { font-weight: 300 !important; }
+
+        /* Hero Carousel Styling */
+        .hero-carousel-item {
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
         }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600; /* Semi-bold for headings */
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
         }
-        .fw-bold {
-            font-weight: 700 !important; /* Bold for emphasized text */
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            align-items: center;
         }
-        .fw-semibold {
-            font-weight: 600 !important; /* Semi-bold */
+
+        .hero-title {
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            letter-spacing: 1px;
         }
-        .fw-normal {
-            font-weight: 400 !important; /* Normal */
+
+        .hero-description {
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
-        .fw-light {
-            font-weight: 300 !important; /* Light */
+
+        /* Carousel Controls */
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 50%;
+            opacity: 0;
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            opacity: 0.1;
+        }
+
+        .carousel-indicators {
+            bottom: 30px;
+        }
+
+        .carousel-indicators button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+
+        /* Empty State */
+        .hero-empty {
+            height: 100vh;
+            background: linear-gradient(135deg, #2B8D4C 0%, #1B5930 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
         }
     </style>
 </head>
 
 <body>
     
-    <?php
-    include('admin/template/navbar.php');
-    ?>
+<?php include('admin/template/navbar.php'); ?>
 
-   <!-- Hero Section Carousel -->
+<!-- ============================================ -->
+<!-- HERO CAROUSEL SECTION (DYNAMIC FROM DATABASE) -->
+<!-- ============================================ -->
+<?php if ($result_carousel && mysqli_num_rows($result_carousel) > 0): ?>
 <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-<div class="carousel-inner">
-    <!-- Slide 1 -->
-    <div class="carousel-item active">
-        <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner1.png') center/cover no-repeat; position: relative;">
-            <!-- Overlay gelap -->
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
-            
-            <div class="container text-center text-lg-start" style="position: relative; z-index: 2;">
-                <h1 class="display-3 text-white fw-bold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); letter-spacing: 1px;">Pupuk Silika</h1>
-                <p class="text-white mb-4" style="text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); font-size: 1.1rem; line-height: 1.6;">
-                    Pupuk Silika mengandung silikon aktif yang memperkuat tanaman, meningkatkan ketahanan terhadap hama dan penyakit, serta mendukung panen yang lebih melimpah dan berkualitas.
-                </p>
+    <div class="carousel-inner">
+        <?php 
+        $index = 0;
+        while ($carousel = mysqli_fetch_assoc($result_carousel)): 
+            $active_class = ($index === 0) ? 'active' : '';
+        ?>
+        <div class="carousel-item <?= $active_class ?>">
+            <div class="hero-carousel-item" style="background-image: url('asset/img/<?= htmlspecialchars($carousel['gambar']) ?>');">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <div class="container text-center text-lg-start">
+                        <h1 class="display-3 text-white fw-bold hero-title">
+                            <?= htmlspecialchars($carousel['judul']) ?>
+                        </h1>
+                        <?php if (!empty($carousel['deskripsi'])): ?>
+                        <p class="text-white mb-4 hero-description">
+                            <?= htmlspecialchars($carousel['deskripsi']) ?>
+                        </p>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
         </div>
+        <?php 
+            $index++;
+        endwhile; 
+        ?>
     </div>
 
-    <!-- Slide 2 -->
-    <div class="carousel-item">
-        <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner2.png') center/cover no-repeat; position: relative;">
-            <!-- Overlay gelap -->
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
-            
-            <div class="container text-center text-lg-start" style="position: relative; z-index: 2;">
-                <h1 class="display-3 text-white fw-bold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); letter-spacing: 1px;">Tera Nusa Maxi-D</h1>
-                <p class="text-white mb-4" style="text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); font-size: 1.1rem; line-height: 1.6;">
-                    Kombinasi silika aktif dan nutrisi mikro untuk pertumbuhan optimal tanaman.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 3 -->
-    <div class="carousel-item">
-        <div class="d-flex align-items-center" style="height: 100vh; background: url('asset/img/Banner3.png') center/cover no-repeat; position: relative;">
-            <!-- Overlay gelap -->
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
-            
-            <div class="container text-center text-lg-start" style="position: relative; z-index: 2;">
-                <h1 class="display-3 text-white fw-bold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); letter-spacing: 1px;">Silika Premium</h1>
-                <p class="text-white mb-4" style="text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); font-size: 1.1rem; line-height: 1.6;">
-                    Diformulasikan khusus untuk meningkatkan ketahanan tanaman terhadap penyakit.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-    <!-- Indicators (optional) -->
+    <!-- Carousel Indicators -->
+    <?php if (mysqli_num_rows($result_carousel) > 1): ?>
     <div class="carousel-indicators">
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        <?php 
+        mysqli_data_seek($result_carousel, 0);
+        $btn_index = 0;
+        while ($carousel = mysqli_fetch_assoc($result_carousel)): 
+            $active_btn = ($btn_index === 0) ? 'active' : '';
+        ?>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?= $btn_index ?>" class="<?= $active_btn ?>" aria-label="Slide <?= $btn_index + 1 ?>"></button>
+        <?php 
+            $btn_index++;
+        endwhile; 
+        ?>
     </div>
+    <?php endif; ?>
 
-    <!-- Overlay klik kiri/kanan -->
-    <div style="position: absolute; top: 0; left: 0; width: 50%; height: 100%; cursor: pointer;" id="carouselPrev"></div>
-    <div style="position: absolute; top: 0; right: 0; width: 50%; height: 100%; cursor: pointer;" id="carouselNext"></div>
+    <!-- Carousel Controls (Click Areas) -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
 
-<script>
-    const heroCarousel = document.querySelector('#heroCarousel');
-    const carousel = new bootstrap.Carousel(heroCarousel);
-
-    // Klik sisi kiri → prev
-    document.querySelector('#carouselPrev').addEventListener('click', () => {
-        carousel.prev();
-    });
-
-    // Klik sisi kanan → next
-    document.querySelector('#carouselNext').addEventListener('click', () => {
-        carousel.next();
-    });
-</script>
-
+<?php else: ?>
+<!-- Empty State jika tidak ada carousel aktif -->
+<div class="hero-empty">
+    <div class="container">
+        <i class="bi bi-images" style="font-size: 5rem; opacity: 0.5;"></i>
+        <h2 class="mt-3">Tidak ada carousel tersedia</h2>
+        <p class="mb-0">Silakan hubungi administrator untuk menambahkan carousel</p>
+    </div>
+</div>
+<?php endif; ?>
 
 <?php
-// page/beranda.php - SECTION PRODUK KAMI YANG DIUPDATE (Dynamic from Database)
-include('config/koneksi.php');
-
 // Query untuk mengambil produk yang dipajang (maksimal 5 produk)
 $query_produk = "SELECT * FROM produk WHERE status = 'Dipajang' ORDER BY tanggal DESC LIMIT 5";
 $result_produk = mysqli_query($conn, $query_produk);
@@ -166,7 +205,6 @@ $result_produk = mysqli_query($conn, $query_produk);
             while ($produk = mysqli_fetch_assoc($result_produk)): 
                 $active_class = ($index === 0) ? 'active' : '';
             ?>
-                <!-- ITEM <?= $index + 1 ?> -->
                 <div class="carousel-item <?= $active_class ?>">
                     <div class="row align-items-center justify-content-center">
                         <div class="col-md-5">
@@ -181,7 +219,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                                 <?= htmlspecialchars($produk['nama']) ?>
                             </h4>
                             
-                            <!-- Atribut/Badge -->
                             <?php if (!empty($produk['atribut'])): ?>
                                 <div class="mb-2">
                                     <?php 
@@ -207,7 +244,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                                 <?= htmlspecialchars($produk['deskripsi']) ?>
                             </p>
                             
-                            <!-- Link ke Detail Produk -->
                             <a href="page/detail_produk.php?id=<?= $produk['id'] ?>" 
                                class="btn-selengkapnya mt-2">
                                 Selengkapnya
@@ -223,15 +259,13 @@ $result_produk = mysqli_query($conn, $query_produk);
 
         <!-- NAVIGATION PREVIEW -->
         <div class="d-flex justify-content-center align-items-center mt-5 position-relative">
-            <!-- Panah kiri -->
             <button class="btn btn-prev" type="button" data-bs-target="#produkCarousel" data-bs-slide="prev" style="background: none; border: none;">
                 <div style="width: 0; height: 0; border-top: 25px solid transparent; border-bottom: 25px solid transparent; border-right: 25px solid #FFED64;"></div>
             </button>
 
-            <!-- Thumbnail preview -->
             <div class="d-flex mx-3 gap-3" id="thumbnailContainer">
                 <?php 
-                mysqli_data_seek($result_produk, 0); // Reset pointer
+                mysqli_data_seek($result_produk, 0);
                 $thumb_index = 0;
                 while ($produk = mysqli_fetch_assoc($result_produk)): 
                     $active_thumb = ($thumb_index === 0) ? 'active' : '';
@@ -240,7 +274,7 @@ $result_produk = mysqli_query($conn, $query_produk);
                          data-bs-target="#produkCarousel" 
                          data-bs-slide-to="<?= $thumb_index ?>" 
                          style="width: 120px; height: 120px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;">
-                        <img src="asset/img/<?= htmlspecialchars($produk['gambar_kecil']) ?>" 
+                        <img src="asset/img/<?= htmlspecialchars($produk['gambar_kecil'] ?? $produk['gambar']) ?>" 
                              class="w-100 h-100 p-3" 
                              style="object-fit: contain;"
                              alt="<?= htmlspecialchars($produk['nama']) ?>"
@@ -252,7 +286,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                 ?>
             </div>
 
-            <!-- Panah kanan -->
             <button class="btn btn-next" type="button" data-bs-target="#produkCarousel" data-bs-slide="next" style="background: none; border: none;">
                 <div style="width: 0; height: 0; border-top: 25px solid transparent; border-bottom: 25px solid transparent; border-left: 25px solid #FFED64;"></div>
             </button>
@@ -260,7 +293,6 @@ $result_produk = mysqli_query($conn, $query_produk);
     </div>
     
     <?php else: ?>
-    <!-- Jika tidak ada produk -->
     <div class="text-center py-5">
         <p class="text-muted">Belum ada produk yang dipajang saat ini.</p>
         <a href="produk" class="btn btn-success mt-3">Lihat Semua Produk</a>
@@ -268,37 +300,12 @@ $result_produk = mysqli_query($conn, $query_produk);
     <?php endif; ?>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const carousel = document.getElementById('produkCarousel');
-        const thumbs = document.querySelectorAll('.thumb');
-        
-        if (carousel && thumbs.length > 0) {
-            carousel.addEventListener('slide.bs.carousel', function(e) {
-                thumbs.forEach(thumb => thumb.classList.remove('active'));
-                
-                if (thumbs[e.to]) {
-                    thumbs[e.to].classList.add('active');
-                }
-            });
-            
-            thumbs.forEach((thumb, index) => {
-                thumb.addEventListener('click', function() {
-                    thumbs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-        }
-    });
-</script>
-
 <!-- ============================================ -->
 <!-- KALKULATOR TANI SECTION -->
 <!-- ============================================ -->
 <div class="container-fluid py-5" id="kalkulator-tani">
     <div class="container py-5">
         <div class="row align-items-center justify-content-center">
-            <!-- Kolom Kiri: Form -->
             <div class="col-lg-6 col-md-10 mb-5 mb-lg-0">
                 <div class="d-flex align-items-center mb-4">
                     <img src="asset/img/Logo.png" alt="Logo PPN" style="height: 40px;" class="me-2">
@@ -306,9 +313,7 @@ $result_produk = mysqli_query($conn, $query_produk);
                     <h4 class="fw-bold mb-0" style="color:#000;">Kalkulator Tani</h4>
                 </div>
 
-                <!-- FORM KALKULATOR -->
                 <form id="formKalkulator" class="p-2">
-                    <!-- Jenis Tanaman -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold" style="color:#000;">Jenis Tanaman</label>
                         <select class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;">
@@ -319,7 +324,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                         </select>
                     </div>
 
-                    <!-- Jenis Produk -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold" style="color:#000;">Jenis Produk</label>
                         <select class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;">
@@ -330,7 +334,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                         </select>
                     </div>
 
-                    <!-- Luas Tanah -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold" style="color:#000;">Luas Tanah</label>
                         <div class="input-group">
@@ -339,14 +342,12 @@ $result_produk = mysqli_query($conn, $query_produk);
                         </div>
                     </div>
 
-                    <!-- Tombol Hitung -->
                     <button type="submit" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;">
                         Hitung
                     </button>
                 </form>
             </div>
 
-            <!-- Kolom Kanan: Gambar -->
             <div class="col-lg-6 col-md-10 text-center">
                 <div class="position-relative">
                     <img src="asset/img/KalkulatorBanner.png" alt="Kalkulator Tani" class="img-fluid rounded kalkulator-img">
@@ -357,37 +358,33 @@ $result_produk = mysqli_query($conn, $query_produk);
 </div>
 
 <!-- POPUP HASIL KALKULATOR -->
-    <div id="popupHasil" style="display:none; position: fixed; top: 50px; left: 50px; background-color: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); padding: 20px; width: 350px; z-index: 1050;">
-<div class="d-flex justify-content-between align-items-start mb-3">
+<div id="popupHasil" style="display:none; position: fixed; top: 50px; left: 50px; background-color: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); padding: 20px; width: 350px; z-index: 1050;">
+    <div class="d-flex justify-content-between align-items-start mb-3">
         <div class="d-flex align-items-center gap-2">
-          <img src="asset/img/logo.png" alt="Logo" width="100">
-          <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
-          <h5 class="fw-bold mb-0">Hasil</h5>
+            <img src="asset/img/logo.png" alt="Logo" width="100">
+            <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
+            <h5 class="fw-bold mb-0">Hasil</h5>
         </div>
-      </div>
+    </div>
 
     <div class="mb-2"><strong>Jenis Tanaman:</strong> <span id="hasilJenisTanaman"></span></div>
     <div class="mb-2"><strong>Jenis Produk:</strong> <span id="hasilJenisProduk"></span></div>
     <div class="mb-3"><strong>Luas Tanah:</strong> <span id="hasilLuasTanah"></span> M²</div>
 
     <div class="d-flex align-items-center justify-content-center mb-3">
-    <img src="asset/img/produk1.png" alt="Produk" 
-        class="me-3" 
-        style="height:80px; object-fit:contain; display:block;">
-    <span style="font-weight:500; font-size:1.25rem; line-height:1;">5kg</span>
+        <img src="asset/img/produk1.png" alt="Produk" class="me-3" style="height:80px; object-fit:contain; display:block;">
+        <span style="font-weight:500; font-size:1.25rem; line-height:1;">5kg</span>
     </div>
 
-
-    <button id="btnPesanSekarang" type="button" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;" onclick="window.location.href='<?= $base_url ?>page/shop.php'">
+    <button id="btnPesanSekarang" type="button" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;" onclick="window.location.href='page/shop.php'">
         Pesan Sekarang
     </button>
-
 </div>
-    <!-- ============================================ -->
+
+<!-- ============================================ -->
 <!-- HASIL PEMAKAIAN PUPUK SILIKA SECTION -->
 <!-- ============================================ -->
 <section class="hasil-pupuk-section">
-    <!-- Banner Daun -->
     <div class="hasil-banner position-relative">
         <img src="asset/img/HeadBanner.png" alt="Banner Daun" class="w-100 banner-img">
         <div class="banner-text position-absolute top-50 start-50 translate-middle text-center">
@@ -397,10 +394,8 @@ $result_produk = mysqli_query($conn, $query_produk);
         </div>
     </div>
 
-    <!-- Konten Kartu - Overlapping Banner -->
     <div class="container cards-container">
         <div class="row g-4 justify-content-center">
-            <!-- Card 1 -->
             <div class="col-md-6 col-lg-4">
                 <div class="hasil-card-modern">
                     <div class="card-icon-wrapper">
@@ -411,7 +406,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                 </div>
             </div>
 
-            <!-- Card 2 -->
             <div class="col-md-6 col-lg-4">
                 <div class="hasil-card-modern">
                     <div class="card-icon-wrapper">
@@ -422,7 +416,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                 </div>
             </div>
 
-            <!-- Card 3 -->
             <div class="col-md-6 col-lg-4">
                 <div class="hasil-card-modern">
                     <div class="card-icon-wrapper">
@@ -433,7 +426,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                 </div>
             </div>
 
-            <!-- Card 4 -->
             <div class="col-md-6 col-lg-4">
                 <div class="hasil-card-modern">
                     <div class="card-icon-wrapper">
@@ -444,7 +436,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                 </div>
             </div>
 
-            <!-- Card 5 -->
             <div class="col-md-6 col-lg-4">
                 <div class="hasil-card-modern">
                     <div class="card-icon-wrapper">
@@ -455,7 +446,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                 </div>
             </div>
 
-            <!-- Card 6 -->
             <div class="col-md-6 col-lg-4">
                 <div class="hasil-card-modern">
                     <div class="card-icon-wrapper">
@@ -469,46 +459,45 @@ $result_produk = mysqli_query($conn, $query_produk);
     </div>
 </section>
 
-
-    <!-- ============================================ -->
-    <!-- GALERI SECTION -->
-    <!-- ============================================ -->
-    <div class="container-fluid py-5" id="anima-3">
-        <div class="container">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-6">
-                    <div class="row g-3">
-                        <div class="col-6 text-start">
-                            <img class="img-fluid rounded w-100 wow zoomIn" src="asset/img/Galeri1.png" alt="">
-                        </div>
-                        <div class="col-6 text-start">
-                            <img class="img-fluid rounded w-75 wow zoomIn" src="asset/img/Galeri2.png" style="margin-top: 25%;" alt="">
-                        </div>
-                        <div class="col-6 text-end">
-                            <img class="img-fluid rounded w-75 wow zoomIn" src="asset/img/Galeri3.png" alt="">
-                        </div>
-                        <div class="col-6 text-end">
-                            <img class="img-fluid rounded w-100 wow zoomIn" src="asset/img/Galeri4.png" alt="">
-                        </div>
+<!-- ============================================ -->
+<!-- GALERI SECTION -->
+<!-- ============================================ -->
+<div class="container-fluid py-5" id="anima-3">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6 text-start">
+                        <img class="img-fluid rounded w-100 wow zoomIn" src="asset/img/Galeri1.png" alt="">
+                    </div>
+                    <div class="col-6 text-start">
+                        <img class="img-fluid rounded w-75 wow zoomIn" src="asset/img/Galeri2.png" style="margin-top: 25%;" alt="">
+                    </div>
+                    <div class="col-6 text-end">
+                        <img class="img-fluid rounded w-75 wow zoomIn" src="asset/img/Galeri3.png" alt="">
+                    </div>
+                    <div class="col-6 text-end">
+                        <img class="img-fluid rounded w-100 wow zoomIn" src="asset/img/Galeri4.png" alt="">
                     </div>
                 </div>
+            </div>
 
-                <div class="col-lg-6">
-                    <h5 class="section-title ff-secondary text-start fu-normal" style="color: #2B8D4C;">Galeri</h5>
-                    <h1>
-                        Selamat datang di
-                        <img src="asset/img/Logo.png" alt="Logo" class="me-2" style="height: 1.5em;">
-                    </h1>
-                    <p style="text-align: justify;">
-                        PT. Pramudita Pupuk Nusantara berkomitmen untuk memberikan kontribusi nyata dalam kemajuan pertanian Indonesia melalui inovasi pupuk berkualitas tinggi. Kami memastikan hanya produk terbaik yang dihasilkan untuk mendukung kesuburan tanah, meningkatkan hasil panen, dan menjaga keberlanjutan pertanian Anda.
-                    </p>
-                    <a href="galeri" class="btn-selengkapnya mt-2">Selengkapnya</a>
-                </div>
+            <div class="col-lg-6">
+                <h5 class="section-title ff-secondary text-start fu-normal" style="color: #2B8D4C;">Galeri</h5>
+                <h1>
+                    Selamat datang di
+                    <img src="asset/img/Logo.png" alt="Logo" class="me-2" style="height: 1.5em;">
+                </h1>
+                <p style="text-align: justify;">
+                    PT. Pramudita Pupuk Nusantara berkomitmen untuk memberikan kontribusi nyata dalam kemajuan pertanian Indonesia melalui inovasi pupuk berkualitas tinggi. Kami memastikan hanya produk terbaik yang dihasilkan untuk mendukung kesuburan tanah, meningkatkan hasil panen, dan menjaga keberlanjutan pertanian Anda.
+                </p>
+                <a href="galeri" class="btn-selengkapnya mt-2">Selengkapnya</a>
             </div>
         </div>
     </div>
+</div>
 
-   <!-- ============================================ -->
+<!-- ============================================ -->
 <!-- TESTIMONI SECTION -->
 <!-- ============================================ -->
 <div class="container-fluid py-5" style="background-color: #2B8D4C;">
@@ -519,7 +508,6 @@ $result_produk = mysqli_query($conn, $query_produk);
         </div>
 
         <div class="row g-4">
-            <!-- Testimoni 1 -->
             <div class="col-lg-3 col-md-6">
                 <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal1">
                     <div class="d-flex align-items-center mb-3">
@@ -535,7 +523,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                 </div>
             </div>
 
-            <!-- Testimoni 2 -->
             <div class="col-lg-3 col-md-6">
                 <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal2">
                     <div class="d-flex align-items-center mb-3">
@@ -551,7 +538,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                 </div>
             </div>
 
-            <!-- Testimoni 3 -->
             <div class="col-lg-3 col-md-6">
                 <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal3">
                     <div class="d-flex align-items-center mb-3">
@@ -567,7 +553,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                 </div>
             </div>
 
-            <!-- Testimoni 4 -->
             <div class="col-lg-3 col-md-6">
                 <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal4">
                     <div class="d-flex align-items-center mb-3">
@@ -593,7 +578,6 @@ $result_produk = mysqli_query($conn, $query_produk);
             <div class="modal-body p-0">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
                 <div class="bg-white p-5" style="border-radius: 20px;">
-                    <!-- Header dengan Logo -->
                     <div class="d-flex align-items-center mb-4">
                         <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
                         <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
@@ -601,19 +585,16 @@ $result_produk = mysqli_query($conn, $query_produk);
                         </div>
                     </div>
 
-                    <!-- Foto Testimoni -->
                     <div class="text-center mb-4">
                         <img src="asset/img/Testimoni1.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
                     </div>
 
-                    <!-- Info Testimoni -->
                     <div class="text-center mb-3">
                         <h3 class="fw-bold mb-1">Asep Alexander</h3>
                         <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Tera Nusa Maxi-D</h5>
                         <p class="text-muted mb-0">Purwokerto Timur</p>
                     </div>
 
-                    <!-- Testimoni Text -->
                     <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
                         Sejak rutin pakai pupuk silika, tanaman padi saya lebih kokoh dan tidak gampang rebah. Hasil panen naik sekitar 20% dibanding musim sebelumnya. Hemat biaya pestisida juga!
                     </p>
@@ -630,7 +611,6 @@ $result_produk = mysqli_query($conn, $query_produk);
             <div class="modal-body p-0">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
                 <div class="bg-white p-5" style="border-radius: 20px;">
-                    <!-- Header dengan Logo -->
                     <div class="d-flex align-items-center mb-4">
                         <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
                         <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
@@ -638,19 +618,16 @@ $result_produk = mysqli_query($conn, $query_produk);
                         </div>
                     </div>
 
-                    <!-- Foto Testimoni -->
                     <div class="text-center mb-4">
                         <img src="asset/img/Testimoni2.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
                     </div>
 
-                    <!-- Info Testimoni -->
                     <div class="text-center mb-3">
                         <h3 class="fw-bold mb-1">Budi Santoso</h3>
                         <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Silika V-0D01</h5>
                         <p class="text-muted mb-0">Desa Karangrau</p>
                     </div>
 
-                    <!-- Testimoni Text -->
                     <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
                         Dulu sering gagal panen karena cuaca ekstrem. Sekarang dengan silika, tanaman lebih kuat meskipun hujan deras atau panas. Lahan saya jadi lebih subur juga.
                     </p>
@@ -667,7 +644,6 @@ $result_produk = mysqli_query($conn, $query_produk);
             <div class="modal-body p-0">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
                 <div class="bg-white p-5" style="border-radius: 20px;">
-                    <!-- Header dengan Logo -->
                     <div class="d-flex align-items-center mb-4">
                         <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
                         <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
@@ -675,19 +651,16 @@ $result_produk = mysqli_query($conn, $query_produk);
                         </div>
                     </div>
 
-                    <!-- Foto Testimoni -->
                     <div class="text-center mb-4">
                         <img src="asset/img/Testimoni3.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
                     </div>
 
-                    <!-- Info Testimoni -->
                     <div class="text-center mb-3">
                         <h3 class="fw-bold mb-1">Dr. Agung Wijaya</h3>
                         <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Tera Nusa Silika</h5>
                         <p class="text-muted mb-0">IPB University</p>
                     </div>
 
-                    <!-- Testimoni Text -->
                     <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
                         Pupuk silika bukan sekadar pelengkap, tapi solusi untuk meningkatkan daya tahan tanaman tanpa ketergantungan pada pestisida berlebihan. Saya selalu rekomendasikan ke mitra tani saya.
                     </p>
@@ -704,7 +677,6 @@ $result_produk = mysqli_query($conn, $query_produk);
             <div class="modal-body p-0">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
                 <div class="bg-white p-5" style="border-radius: 20px;">
-                    <!-- Header dengan Logo -->
                     <div class="d-flex align-items-center mb-4">
                         <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
                         <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
@@ -712,19 +684,16 @@ $result_produk = mysqli_query($conn, $query_produk);
                         </div>
                     </div>
 
-                    <!-- Foto Testimoni -->
                     <div class="text-center mb-4">
                         <img src="asset/img/Testimoni4.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
                     </div>
 
-                    <!-- Info Testimoni -->
                     <div class="text-center mb-3">
                         <h3 class="fw-bold mb-1">Ibu Siti Aminah</h3>
                         <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Tera Nusa Hama</h5>
                         <p class="text-muted mb-0">Bandung</p>
                     </div>
 
-                    <!-- Testimoni Text -->
                     <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
                         Tanaman cabai saya lebih tahan penyakit sejak pakai pupuk silika. Buahnya besar-besar dan tidak mudah busuk. Panen jadi lebih banyak dan tahan lama di pasar.
                     </p>
@@ -734,78 +703,105 @@ $result_produk = mysqli_query($conn, $query_produk);
     </div>
 </div>
 
+<!-- ============================================ -->
+<!-- JAVASCRIPT LIBRARIES -->
+<!-- ============================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="asset/js/anima.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- ============================================ -->
+<!-- CUSTOM JAVASCRIPT -->
+<!-- ============================================ -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize hero carousel
+        var heroCarousel = document.querySelector('#heroCarousel');
+        if (heroCarousel) {
+            var carousel = new bootstrap.Carousel(heroCarousel, {
+                interval: 5000,
+                ride: 'carousel',
+                pause: 'hover'
+            });
+        }
 
-
-    <!-- ============================================ -->
-    <!-- JAVASCRIPT LIBRARIES -->
-    <!-- ============================================ -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="asset/js/anima.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-    <!-- ============================================ -->
-    <!-- CUSTOM JAVASCRIPT -->
-    <!-- ============================================ -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var myCarousel = document.querySelector('#carouselMenu');
-            var carousel = new bootstrap.Carousel(myCarousel, {
-                interval: 1300,
+        // Initialize produk carousel
+        var produkCarousel = document.querySelector('#produkCarousel');
+        if (produkCarousel) {
+            var carouselProduk = new bootstrap.Carousel(produkCarousel, {
+                interval: 4000,
                 ride: 'carousel'
             });
-        });
 
+            // Thumbnail active state sync
+            const thumbs = document.querySelectorAll('.thumb');
+            
+            produkCarousel.addEventListener('slide.bs.carousel', function(e) {
+                thumbs.forEach(thumb => thumb.classList.remove('active'));
+                
+                if (thumbs[e.to]) {
+                    thumbs[e.to].classList.add('active');
+                }
+            });
+            
+            thumbs.forEach((thumb, index) => {
+                thumb.addEventListener('click', function() {
+                    thumbs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
 
-    document.addEventListener('DOMContentLoaded', function() {
-    const kalkulatorForm = document.getElementById('formKalkulator');
-    const popupHasil = document.getElementById('popupHasil');
-    const btnPesanSekarang = document.getElementById('btnPesanSekarang');
+        // Kalkulator Tani
+        const kalkulatorForm = document.getElementById('formKalkulator');
+        const popupHasil = document.getElementById('popupHasil');
+        const btnPesanSekarang = document.getElementById('btnPesanSekarang');
 
-    kalkulatorForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // cegah reload
+        if (kalkulatorForm) {
+            kalkulatorForm.addEventListener('submit', function(e) {
+                e.preventDefault();
 
-        const jenisTanaman = kalkulatorForm.querySelectorAll('select')[0].value;
-        const jenisProduk = kalkulatorForm.querySelectorAll('select')[1].value;
-        const luasTanah = kalkulatorForm.querySelector('input[type="number"]').value;
+                const jenisTanaman = kalkulatorForm.querySelectorAll('select')[0].value;
+                const jenisProduk = kalkulatorForm.querySelectorAll('select')[1].value;
+                const luasTanah = kalkulatorForm.querySelector('input[type="number"]').value;
 
-        document.getElementById('hasilJenisTanaman').textContent = jenisTanaman;
-        document.getElementById('hasilJenisProduk').textContent = jenisProduk;
-        document.getElementById('hasilLuasTanah').textContent = luasTanah;
+                if (!luasTanah || jenisTanaman === 'Jenis Tanaman' || jenisProduk === 'Jenis Produk') {
+                    alert('Mohon lengkapi semua data!');
+                    return;
+                }
 
-        // tampilkan popup di tengah layar
-        popupHasil.style.display = 'block';
-        popupHasil.style.top = '50%';
-        popupHasil.style.left = '50%';
-        popupHasil.style.transform = 'translate(-50%, -50%)';
-    });
+                document.getElementById('hasilJenisTanaman').textContent = jenisTanaman;
+                document.getElementById('hasilJenisProduk').textContent = jenisProduk;
+                document.getElementById('hasilLuasTanah').textContent = luasTanah;
 
-    // Tutup popup saat klik Pesan Sekarang
-    btnPesanSekarang.addEventListener('click', function() {
-        popupHasil.style.display = 'none';
-    });
+                // Show popup centered
+                popupHasil.style.display = 'block';
+                popupHasil.style.top = '50%';
+                popupHasil.style.left = '50%';
+                popupHasil.style.transform = 'translate(-50%, -50%)';
+            });
+        }
 
-    // Tutup popup kalau klik di luar
-    window.addEventListener('click', function(e) {
-        if (popupHasil.style.display === 'block' && !popupHasil.contains(e.target) && !kalkulatorForm.contains(e.target)) {
-            popupHasil.style.display = 'none';
+        // Close popup
+        if (popupHasil) {
+            window.addEventListener('click', function(e) {
+                if (popupHasil.style.display === 'block' && 
+                    !popupHasil.contains(e.target) && 
+                    !kalkulatorForm.contains(e.target)) {
+                    popupHasil.style.display = 'none';
+                }
+            });
         }
     });
-});
-
 </script>
 
-<!-- WA -->
-<?php include ('admin/template/whatsapp_float.php'); ?>
-
+<!-- WA Float Button -->
+<?php include('admin/template/whatsapp_float.php'); ?>
 
 <!-- Footer -->
-<?php
-include('admin/template/footer.php');
-?>
+<?php include('admin/template/footer.php'); ?>
 
 </body>
-
 </html>

@@ -9,58 +9,26 @@ include('config/koneksi.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PTPPN Galeri</title>
     
-    <!-- Favicon -->
     <link href="asset/img/LogoIco.ico" rel="icon">
-
-    <!-- Google Fonts - Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheets -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="asset/style/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
     <link href="asset/style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="asset/style/fab.css">
     <link rel="stylesheet" href="asset/style/galeri.css">
 
-    <!-- Custom Poppins Styling -->
     <style>
-        * {
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 400;
-        }
-        
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-        }
-        
-        .fw-bold {
-            font-weight: 700 !important;
-        }
-        
-        .fw-semibold {
-            font-weight: 600 !important;
-        }
-        
-        .fw-normal {
-            font-weight: 400 !important;
-        }
-        
-        .fw-light {
-            font-weight: 300 !important;
-        }
+        * { font-family: 'Poppins', sans-serif; }
+        body { font-family: 'Poppins', sans-serif; font-weight: 400; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; font-weight: 600; }
+        .fw-bold { font-weight: 700 !important; }
+        .fw-semibold { font-weight: 600 !important; }
+        .fw-normal { font-weight: 400 !important; }
+        .fw-light { font-weight: 300 !important; }
 
         /* Galeri Title dengan Garis Rapi */
         .galeri-title-container {
@@ -95,6 +63,8 @@ include('config/koneksi.php');
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             height: 300px;
             cursor: pointer;
+            object-fit: cover;
+            width: 100%;
         }
 
         .gallery-img:hover {
@@ -105,11 +75,14 @@ include('config/koneksi.php');
         /* Modal Styling */
         .modal-content {
             font-family: 'Poppins', sans-serif;
+            background-color: #F5FAF6;
+            border-radius: 20px;
         }
 
         .modal-header {
             font-family: 'Poppins', sans-serif;
             padding: 1.5rem;
+            border: none;
         }
 
         .modal-body {
@@ -141,28 +114,31 @@ include('config/koneksi.php');
             color: #333;
         }
 
-        /* Container Styling */
-        .container-fluid {
-            font-family: 'Poppins', sans-serif;
+        #modalImg {
+            max-height: 400px;
+            object-fit: contain;
+            width: 100%;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 5rem 0;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            opacity: 0.3;
+            margin-bottom: 1rem;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .galeri-title-container {
-                gap: 1rem;
-            }
-
-            .galeri-line {
-                max-width: 80px;
-            }
-
-            .galeri-title-line {
-                font-size: 2rem;
-            }
-
-            .gallery-img {
-                height: 250px;
-            }
+            .galeri-title-container { gap: 1rem; }
+            .galeri-line { max-width: 80px; }
+            .galeri-title-line { font-size: 2rem; }
+            .gallery-img { height: 250px; }
         }
 
         @media (max-width: 576px) {
@@ -170,29 +146,18 @@ include('config/koneksi.php');
                 gap: 0.8rem;
                 flex-wrap: wrap;
             }
-
             .galeri-line {
                 max-width: 60px;
                 height: 2px;
             }
-
             .galeri-title-line {
                 font-size: 1.5rem;
                 width: 100%;
                 order: 2;
             }
-
-            .galeri-line:first-child {
-                order: 1;
-            }
-
-            .galeri-line:last-child {
-                order: 3;
-            }
-
-            .gallery-img {
-                height: 200px;
-            }
+            .galeri-line:first-child { order: 1; }
+            .galeri-line:last-child { order: 3; }
+            .gallery-img { height: 200px; }
         }
     </style>
 
@@ -210,7 +175,12 @@ include('config/koneksi.php');
             </div>
 
             <div class="row g-4" id="galleryContainer">
-                <!-- Data akan dimuat dari database -->
+                <!-- Data akan dimuat dari database via JavaScript -->
+                <div class="col-12 text-center">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -218,12 +188,12 @@ include('config/koneksi.php');
     <!-- Modal Popup -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 rounded-4" style="background-color:#F5FAF6;">
+            <div class="modal-content border-0 rounded-4">
                 <div class="modal-header border-0 justify-content-start">
                     <img src="asset/img/logo.png" alt="Logo" style="height:40px;">
                 </div>
                 <div class="modal-body text-center">
-                    <img id="modalImg" src="" alt="Detail Gambar" class="img-fluid rounded-4 mb-3 shadow" style="max-height:300px; object-fit:cover;">
+                    <img id="modalImg" src="" alt="Detail Gambar" class="img-fluid rounded-4 mb-3 shadow">
                     <p class="text-muted mb-1 fw-semibold" id="modalDate"></p>
                     <h5 class="fw-bold mb-2" id="modalTitle"></h5>
                     <p class="px-3 fw-normal" id="modalDesc"></p>
@@ -232,7 +202,6 @@ include('config/koneksi.php');
         </div>
     </div>
 
-    <!-- Bootstrap JS + Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const modal = new bootstrap.Modal(document.getElementById('imageModal'), {
@@ -240,7 +209,7 @@ include('config/koneksi.php');
             keyboard: true
         });
 
-        // Load gallery data
+        // Load gallery data dynamically
         function loadGallery() {
             fetch('admin/proses/proses_galeri.php?action=get_all')
                 .then(response => response.json())
@@ -253,28 +222,40 @@ include('config/koneksi.php');
                         const displayedItems = data.data.filter(item => item.status === 'Ditampilkan');
                         
                         if (displayedItems.length === 0) {
-                            container.innerHTML = '<p class="text-center text-muted">Tidak ada galeri untuk ditampilkan</p>';
+                            container.innerHTML = `
+                                <div class="col-12 empty-state">
+                                    <i class="bi bi-images"></i>
+                                    <p class="text-muted">Tidak ada galeri untuk ditampilkan</p>
+                                </div>
+                            `;
                             return;
                         }
 
-                        // Arrange in 2 columns
+                        // Arrange in 2 columns (masonry style)
                         let leftCol = '<div class="col-md-6">';
                         let rightCol = '<div class="col-md-6">';
                         
                         displayedItems.forEach((item, index) => {
+                            const date = new Date(item.tanggal).toLocaleDateString('id-ID', {
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric'
+                            });
+
                             const itemHtml = `
                                 <div class="mb-4">
                                     <img src="asset/img/${item.gambar}" 
                                          class="img-fluid rounded-4 shadow gallery-img"
                                          alt="${item.judul}"
                                          data-title="${item.judul}"
-                                         data-date="${new Date(item.tanggal).toLocaleDateString('id-ID', {year: 'numeric', month: 'long', day: 'numeric'})}"
-                                         data-desc="${item.deskripsi}"
+                                         data-date="${date}"
+                                         data-desc="${item.deskripsi || ''}"
                                          data-img="asset/img/${item.gambar}"
-                                         style="width: 100%; object-fit: cover; cursor:pointer;">
+                                         onerror="this.src='asset/img/placeholder.png'">
                                 </div>
                             `;
                             
+                            // Alternate between left and right columns
                             if (index % 2 === 0) {
                                 leftCol += itemHtml;
                             } else {
@@ -287,7 +268,7 @@ include('config/koneksi.php');
                         
                         container.innerHTML = leftCol + rightCol;
 
-                        // Attach click listeners
+                        // Attach click listeners to images
                         document.querySelectorAll('.gallery-img').forEach(img => {
                             img.addEventListener('click', () => {
                                 document.getElementById('modalImg').src = img.dataset.img;
@@ -298,12 +279,22 @@ include('config/koneksi.php');
                             });
                         });
                     } else {
-                        container.innerHTML = '<p class="text-center text-muted">Tidak ada galeri untuk ditampilkan</p>';
+                        container.innerHTML = `
+                            <div class="col-12 empty-state">
+                                <i class="bi bi-exclamation-circle"></i>
+                                <p class="text-danger">Gagal memuat galeri</p>
+                            </div>
+                        `;
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    document.getElementById('galleryContainer').innerHTML = '<p class="text-center text-danger">Gagal memuat galeri</p>';
+                    document.getElementById('galleryContainer').innerHTML = `
+                        <div class="col-12 empty-state">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <p class="text-danger">Terjadi kesalahan saat memuat galeri</p>
+                        </div>
+                    `;
                 });
         }
 
@@ -311,8 +302,8 @@ include('config/koneksi.php');
         document.addEventListener('DOMContentLoaded', loadGallery);
     </script>
 
-    <!-- WA -->
-    <?php include ('admin/template/whatsapp_float.php'); ?>
+    <!-- WA Float -->
+    <?php include('admin/template/whatsapp_float.php'); ?>
 
     <!-- Footer -->
     <?php include('admin/template/footer.php'); ?>
