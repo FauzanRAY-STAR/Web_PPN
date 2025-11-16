@@ -1,5 +1,5 @@
 <?php
-// admin/page/logbook.php - COMPLETE VERSION WITH ANALYTICS
+// admin/page/logbook.php - COMPLETE WITH WORKING SEARCH, FILTER, SORT
 require_once __DIR__ . '/../auth_check.php';
 require_once __DIR__ . '/../../config/koneksi.php';
 
@@ -20,9 +20,60 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
     exit;
 }
 
-// Get logbook data from database
-$query = "SELECT * FROM logbook ORDER BY tanggal DESC LIMIT 50";
-$result = mysqli_query($conn, $query);
+// Get filter parameters
+$search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+$keterangan = isset($_GET['keterangan']) ? mysqli_real_escape_string($conn, $_GET['keterangan']) : '';
+$tanggal_mulai = isset($_GET['tanggal_mulai']) ? $_GET['tanggal_mulai'] : '';
+$tanggal_selesai = isset($_GET['tanggal_selesai']) ? $_GET['tanggal_selesai'] : '';
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'DESC';
+
+// Build WHERE clause
+$where = [];
+$params = [];
+$types = '';
+
+if (!empty($search)) {
+    $where[] = "(koordinator LIKE ? OR presenter LIKE ? OR marketing LIKE ? OR alamat LIKE ?)";
+    $search_param = "%$search%";
+    $params[] = $search_param;
+    $params[] = $search_param;
+    $params[] = $search_param;
+    $params[] = $search_param;
+    $types .= 'ssss';
+}
+
+if (!empty($keterangan)) {
+    $where[] = "keterangan = ?";
+    $params[] = $keterangan;
+    $types .= 's';
+}
+
+if (!empty($tanggal_mulai)) {
+    $where[] = "tanggal >= ?";
+    $params[] = $tanggal_mulai;
+    $types .= 's';
+}
+
+if (!empty($tanggal_selesai)) {
+    $where[] = "tanggal <= ?";
+    $params[] = $tanggal_selesai;
+    $types .= 's';
+}
+
+$where_sql = !empty($where) ? "WHERE " . implode(' AND ', $where) : "";
+$order_sql = "ORDER BY tanggal " . ($sort === 'ASC' ? 'ASC' : 'DESC');
+
+// Query logbook
+$query = "SELECT * FROM logbook $where_sql $order_sql LIMIT 100";
+
+if (!empty($params)) {
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param($types, ...$params);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    $result = mysqli_query($conn, $query);
+}
 
 // Get statistics
 $stats_query = "SELECT 
@@ -91,7 +142,6 @@ $product_values = json_encode(array_values($product_stats));
       to { transform: translateX(0); opacity: 1; }
     }
 
-    /* Button Analytics Styling */
     .btn-analitik {
       position: absolute;
       bottom: 8px;
@@ -108,8 +158,7 @@ $product_values = json_encode(array_values($product_stats));
       font-size: 13px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       transition: all 0.2s ease;
-      cursor: pointer;
-
+      cursor: pointer;
     }
 
     .btn-analitik:hover {
@@ -118,13 +167,13 @@ $product_values = json_encode(array_values($product_stats));
       background: linear-gradient(90deg, #238B3E, #C5C140);
     }
 
-    .btn-analitik i {
-      font-size: 1.2rem;
-    }
-
     .card-stat {
       position: relative;
       min-height: 250px;
+    }
+
+    .search-box input {
+      width: 300px;
     }
   </style>
 </head>
@@ -158,8 +207,7 @@ $product_values = json_encode(array_values($product_stats));
         <div class="col-md-4 col-lg-3">
           <div class="card-stat">
             <canvas id="chartProduk" height="200"></canvas>
-            <!-- TOMBOL ANALYTICS - INI YANG DITAMBAHKAN -->
-            <button class="btn-analitik" onclick="showAnalyticsModal()" title="Lihat Detail Analitik" width="5" >
+            <button class="btn-analitik" onclick="showAnalyticsModal()" title="Lihat Detail Analitik">
               <i class="bi bi-search"></i>
             </button>
           </div>
@@ -185,21 +233,30 @@ $product_values = json_encode(array_values($product_stats));
       </div>
 
       <!-- Search & Button -->
-      <div class="search-bar-top mb-3">
-        <div class="d-flex gap-2">
-          <div class="search-box">
-            <i class="bi bi-search"></i>
-            <input type="text" placeholder="Cari logbook..." id="searchInput">
+      <form method="GET" id="searchForm">
+        <div class="search-bar-top mb-3">
+          <div class="d-flex gap-2">
+            <div class="search-box">
+              <i class="bi bi-search"></i>
+              <input type="text" name="search" placeholder="Cari koordinator, presenter, marketing..." 
+                     id="searchInput" value="<?= htmlspecialchars($search) ?>" autocomplete="off">
+            </div>
+            <button type="button" class="btn-filter" data-bs-toggle="modal" data-bs-target="#filterModal">
+              <i class="bi bi-funnel"></i>
+            </button>
+            <button type="button" class="btn-sort" onclick="toggleSort()">
+              <i class="bi bi-sort-<?= $sort === 'ASC' ? 'up' : 'down' ?>" id="sortIcon"></i>
+            </button>
           </div>
-          <button class="btn-filter" data-bs-toggle="modal" data-bs-target="#filterModal">
-            <i class="bi bi-funnel"></i>
+          <button type="button" class="btn-add" data-bs-toggle="modal" data-bs-target="#logbookModal" onclick="resetForm()">
+            <i class="bi bi-plus"></i>
           </button>
-          <button class="btn-sort"><i class="bi bi-sort-down"></i></button>
         </div>
-        <button class="btn-add" data-bs-toggle="modal" data-bs-target="#logbookModal" onclick="resetForm()">
-          <i class="bi bi-plus"></i>
-        </button>
-      </div>
+        <input type="hidden" name="sort" id="sortInput" value="<?= htmlspecialchars($sort) ?>">
+        <input type="hidden" name="keterangan" id="hiddenKeterangan" value="<?= htmlspecialchars($keterangan) ?>">
+        <input type="hidden" name="tanggal_mulai" id="hiddenTanggalMulai" value="<?= htmlspecialchars($tanggal_mulai) ?>">
+        <input type="hidden" name="tanggal_selesai" id="hiddenTanggalSelesai" value="<?= htmlspecialchars($tanggal_selesai) ?>">
+      </form>
 
       <!-- Table -->
       <div class="table-wrapper">
@@ -268,17 +325,10 @@ $product_values = json_encode(array_values($product_stats));
           </table>
         </div>
       </div>
-
-      <!-- Pagination -->
-      <div class="pagination-wrapper d-flex justify-content-center mt-3 gap-3">
-        <button class="btn-page nav"><i class="bi bi-chevron-left"></i></button>
-        <button class="btn-page active">1</button>
-        <button class="btn-page nav"><i class="bi bi-chevron-right"></i></button>
-      </div>
     </div>
   </div>
 
-<!-- ================== MODAL ANALITIK (NEW) ================== -->
+<!-- MODAL ANALITIK -->
 <div class="modal fade" id="analitikModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content p-4 rounded-4">
@@ -294,29 +344,15 @@ $product_values = json_encode(array_values($product_stats));
       </div>
       
       <div class="modal-body">
-        <!-- Filter Form -->
         <div class="row mb-4">
           <div class="col-md-5">
             <label class="form-label fw-semibold">Pilih Produk</label>
             <select id="produkSelect" class="form-select border-success">
-              <option value=""> Semua Produk</option>
+              <option value="">Semua Produk</option>
               <?php
-              // Ambil daftar produk unik dari logbook
-              $produk_query = "SELECT DISTINCT produk_json FROM logbook";
-              $produk_result = mysqli_query($conn, $produk_query);
-              
-              $unique_products = [];
-              while ($row = mysqli_fetch_assoc($produk_result)) {
-                  $products = json_decode($row['produk_json'], true);
-                  if (is_array($products)) {
-                      foreach ($products as $product) {
-                          $nama = $product['nama'] ?? '';
-                          if (!empty($nama) && !in_array($nama, $unique_products)) {
-                              $unique_products[] = $nama;
-                              echo '<option value="' . htmlspecialchars($nama) . '">' . htmlspecialchars($nama) . '</option>';
-                          }
-                      }
-                  }
+              $unique_products = array_keys($product_stats);
+              foreach ($unique_products as $prod) {
+                  echo '<option value="' . htmlspecialchars($prod) . '">' . htmlspecialchars($prod) . '</option>';
               }
               ?>
             </select>
@@ -335,7 +371,6 @@ $product_values = json_encode(array_values($product_stats));
           </div>
         </div>
 
-        <!-- Chart Container -->
         <div class="position-relative" style="min-height: 400px;">
           <canvas id="chartAnalitik" height="100"></canvas>
           <div id="chartLoading" class="text-center py-5 position-absolute top-50 start-50 translate-middle" style="display: none;">
@@ -346,7 +381,6 @@ $product_values = json_encode(array_values($product_stats));
           </div>
         </div>
 
-        <!-- Summary Info -->
         <div class="row mt-4 g-3">
           <div class="col-md-4">
             <div class="p-3 bg-success bg-opacity-10 rounded-3 border border-success text-center">
@@ -391,27 +425,15 @@ $product_values = json_encode(array_values($product_stats));
       <div class="modal-body">
         <label class="fw-semibold mb-1">Keterangan</label>
         <select id="filterKeterangan" class="form-control border-success mb-3">
-          <option value="">Pilih</option>
-          <option>Lunas</option>
-          <option>Belum Lunas</option>
+          <option value="">Semua</option>
+          <option value="Lunas" <?= $keterangan === 'Lunas' ? 'selected' : '' ?>>Lunas</option>
+          <option value="Belum Lunas" <?= $keterangan === 'Belum Lunas' ? 'selected' : '' ?>>Belum Lunas</option>
         </select>
 
-        <label class="fw-semibold mb-1">Nama Koordinator</label>
-        <input type="text" class="form-control border-success mb-3" placeholder="Masukkan nama koordinator">
-
-        <label class="fw-semibold mb-1">Nama Presenter</label>
-        <input type="text" class="form-control border-success mb-3" placeholder="Masukkan nama presenter">
-
-        <label class="fw-semibold mb-1">Nama Marketing</label>
-        <input type="text" class="form-control border-success mb-3" placeholder="Masukkan nama marketing">
-
-        <label class="fw-semibold mb-1">Alamat</label>
-        <input type="text" class="form-control border-success mb-3" placeholder="Masukkan alamat">
-
         <label class="fw-semibold mb-1">Tanggal Transaksi</label>
-        <div class="d-flex gap-2">
-          <input type="date" class="form-control border-success mb-3">
-          <input type="date" class="form-control border-success mb-3">
+        <div class="d-flex gap-2 mb-3">
+          <input type="date" class="form-control border-success" id="filterTanggalMulai" value="<?= htmlspecialchars($tanggal_mulai) ?>">
+          <input type="date" class="form-control border-success" id="filterTanggalSelesai" value="<?= htmlspecialchars($tanggal_selesai) ?>">
         </div>
 
         <div class="d-flex justify-content-between mt-4">
@@ -567,6 +589,42 @@ new Chart(ctx, {
   }
 });
 
+// Real-time search
+let searchTimeout;
+document.getElementById('searchInput').addEventListener('input', function() {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    document.getElementById('searchForm').submit();
+  }, 500);
+});
+
+// Toggle sort
+function toggleSort() {
+  const currentSort = document.getElementById('sortInput').value;
+  document.getElementById('sortInput').value = currentSort === 'ASC' ? 'DESC' : 'ASC';
+  document.getElementById('searchForm').submit();
+}
+
+// Filter
+document.getElementById('btnTerapkanFilter').addEventListener('click', () => {
+  document.getElementById('hiddenKeterangan').value = document.getElementById('filterKeterangan').value;
+  document.getElementById('hiddenTanggalMulai').value = document.getElementById('filterTanggalMulai').value;
+  document.getElementById('hiddenTanggalSelesai').value = document.getElementById('filterTanggalSelesai').value;
+  filterModal.hide();
+  document.getElementById('searchForm').submit();
+});
+
+document.getElementById('btnBersihkanFilter').addEventListener('click', () => {
+  document.getElementById('hiddenKeterangan').value = '';
+  document.getElementById('hiddenTanggalMulai').value = '';
+  document.getElementById('hiddenTanggalSelesai').value = '';
+  document.getElementById('filterKeterangan').value = '';
+  document.getElementById('filterTanggalMulai').value = '';
+  document.getElementById('filterTanggalSelesai').value = '';
+  filterModal.hide();
+  document.getElementById('searchForm').submit();
+});
+
 // Tambah produk
 document.getElementById('btnTambahProduk').addEventListener('click', function() {
   const container = document.getElementById('produkContainer');
@@ -709,7 +767,6 @@ function showAnalyticsModal() {
   const analitikModal = new bootstrap.Modal(document.getElementById('analitikModal'));
   analitikModal.show();
   
-  // Load data pertama kali
   setTimeout(() => {
     loadChartData();
   }, 300);
@@ -719,13 +776,11 @@ async function loadChartData() {
   const produk = document.getElementById('produkSelect').value;
   const tahun = document.getElementById('tahunInput').value || new Date().getFullYear();
   
-  // Validasi tahun
   if (tahun < 2020 || tahun > new Date().getFullYear() + 1) {
     showNotif(false, 'Tahun tidak valid!');
     return;
   }
   
-  // Show loading
   document.getElementById('chartLoading').style.display = 'block';
   document.getElementById('chartAnalitik').style.opacity = '0.3';
   
@@ -750,12 +805,10 @@ async function loadChartData() {
 function updateAnalyticsChart(data) {
   const ctx = document.getElementById('chartAnalitik');
   
-  // Destroy chart lama jika ada
   if (analyticsChart) {
     analyticsChart.destroy();
   }
   
-  // Create new chart
   analyticsChart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -834,11 +887,9 @@ function updateAnalyticsChart(data) {
 }
 
 function updateSummaryInfo(data) {
-  // Total penjualan
   document.getElementById('totalPenjualan').textContent = data.total.toLocaleString('id-ID');
   document.getElementById('periodePenjualan').textContent = `${data.produk} - ${data.tahun}`;
   
-  // Bulan tertinggi
   const maxValue = Math.max(...data.values);
   const maxIndex = data.values.indexOf(maxValue);
   
@@ -850,7 +901,6 @@ function updateSummaryInfo(data) {
     document.getElementById('nilaiTertinggi').textContent = '0 unit';
   }
   
-  // Rata-rata per bulan
   const average = data.total > 0 ? Math.round(data.total / 12) : 0;
   document.getElementById('rataRata').textContent = average.toLocaleString('id-ID');
 }
