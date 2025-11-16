@@ -61,7 +61,26 @@ if (!empty($kategori_filter)) {
 
 $where_sql = !empty($where) ? "WHERE " . implode(' AND ', $where) : "";
 
-$query = "SELECT * FROM produk $where_sql ORDER BY tanggal DESC";
+// PAGINATION SETTINGS
+$limit = 2; // 5 data per halaman
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+
+$offset = ($page - 1) * $limit;
+
+// Hitung total produk
+$count_sql = "SELECT COUNT(*) AS total FROM produk $where_sql";
+$count_stmt = $conn->prepare($count_sql);
+if (!empty($params)) {
+    $count_stmt->bind_param($types, ...$params);
+}
+$count_stmt->execute();
+$total_result = $count_stmt->get_result();
+$total_rows = $total_result->fetch_assoc()['total'];
+
+$total_pages = ceil($total_rows / $limit);
+
+$query = "SELECT * FROM produk $where_sql ORDER BY tanggal DESC LIMIT $limit OFFSET $offset";
 
 if (!empty($params)) {
     $stmt = $conn->prepare($query);
@@ -204,7 +223,35 @@ $kategori_result = mysqli_query($conn, $kategori_query);
       <p class="text-muted">Tidak ada produk ditemukan</p>
     </div>
   <?php endif; ?>
+  <!-- PAGINATION -->
+      <div class="d-flex justify-content-center mt-4 gap-2">
+    <!-- Tombol Previous -->
+    <?php if ($page > 1): ?>
+        <a href="?page=<?= $page - 1 ?>&search=<?= $search ?>&kategori=<?= $kategori_filter ?>"
+           class="btn btn-warning rounded-circle d-flex align-items-center justify-content-center">
+            <i class="bi bi-chevron-left text-white"></i>
+        </a>
+    <?php endif; ?>
+
+    <!-- Page Numbers -->
+    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+        <a href="?page=<?= $i ?>&search=<?= $search ?>&kategori=<?= $kategori_filter ?>"
+           class="btn <?= ($i == $page) ? 'btn-success' : 'btn-warning' ?> rounded-circle text-white fw-semibold">
+           <?= $i ?>
+        </a>
+    <?php endfor; ?>
+
+    <!-- Tombol Next -->
+    <?php if ($page < $total_pages): ?>
+        <a href="?page=<?= $page + 1 ?>&search=<?= $search ?>&kategori=<?= $kategori_filter ?>"
+           class="btn btn-warning rounded-circle d-flex align-items-center justify-content-center">
+            <i class="bi bi-chevron-right text-white"></i>
+        </a>
+    <?php endif; ?>
 </div>
+
+</div>
+
 
 <!-- MODAL TAMBAH/EDIT PRODUK -->
 <div class="modal fade" id="produkModal" tabindex="-1">

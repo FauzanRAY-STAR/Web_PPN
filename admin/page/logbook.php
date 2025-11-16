@@ -27,6 +27,13 @@ $tanggal_mulai = isset($_GET['tanggal_mulai']) ? $_GET['tanggal_mulai'] : '';
 $tanggal_selesai = isset($_GET['tanggal_selesai']) ? $_GET['tanggal_selesai'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'DESC';
 
+// --- PAGINATION SETUP ---
+$limit = 7; // jumlah data per halaman
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+if ($page < 1) $page = 1;
+
+$offset = ($page - 1) * $limit;
+
 // Build WHERE clause
 $where = [];
 $params = [];
@@ -63,8 +70,22 @@ if (!empty($tanggal_selesai)) {
 $where_sql = !empty($where) ? "WHERE " . implode(' AND ', $where) : "";
 $order_sql = "ORDER BY tanggal " . ($sort === 'ASC' ? 'ASC' : 'DESC');
 
+// --- HITUNG TOTAL DATA ---
+$countQuery = "SELECT COUNT(*) AS total FROM logbook $where_sql";
+$countStmt = $conn->prepare($countQuery);
+
+if (!empty($params)) {
+    $countStmt->bind_param($types, ...$params);
+}
+
+$countStmt->execute();
+$countResult = $countStmt->get_result();
+$totalData = $countResult->fetch_assoc()['total'];
+
+$totalPages = ceil($totalData / $limit);
+
 // Query logbook
-$query = "SELECT * FROM logbook $where_sql $order_sql LIMIT 100";
+$query = "SELECT * FROM logbook $where_sql $order_sql LIMIT $limit OFFSET $offset";
 
 if (!empty($params)) {
     $stmt = $conn->prepare($query);
@@ -323,6 +344,51 @@ $product_values = json_encode(array_values($product_stats));
               <?php endif; ?>
             </tbody>
           </table>
+          <!-- PAGINATION CUSTOM -->
+<div class="d-flex justify-content-center mt-4 gap-2">
+
+    <!-- Tombol Prev -->
+    <?php if ($page > 1): ?>
+        <a href="?page=<?= $page - 1 ?>" 
+           class="btn btn-warning rounded-circle d-flex align-items-center justify-content-center">
+            <i class="bi bi-chevron-left text-white"></i>
+        </a>
+    <?php else: ?>
+        <button class="btn btn-secondary rounded-circle d-flex align-items-center justify-content-center" disabled>
+            <i class="bi bi-chevron-left text-white"></i>
+        </button>
+    <?php endif; ?>
+
+
+    <!-- Nomor halaman dinamis -->
+    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+        <?php if ($page == $i): ?>
+            <button class="btn btn-success rounded-circle d-flex align-items-center justify-content-center fw-bold text-white">
+                <?= $i ?>
+            </button>
+        <?php else: ?>
+            <a href="?page=<?= $i ?>" 
+               class="btn btn-warning rounded-circle d-flex align-items-center justify-content-center text-white fw-semibold">
+                <?= $i ?>
+            </a>
+        <?php endif; ?>
+    <?php endfor; ?>
+
+
+    <!-- Tombol Next -->
+    <?php if ($page < $totalPages): ?>
+        <a href="?page=<?= $page + 1 ?>" 
+           class="btn btn-warning rounded-circle d-flex align-items-center justify-content-center">
+            <i class="bi bi-chevron-right text-white"></i>
+        </a>
+    <?php else: ?>
+        <button class="btn btn-secondary rounded-circle d-flex align-items-center justify-content-center" disabled>
+            <i class="bi bi-chevron-right text-white"></i>
+        </button>
+    <?php endif; ?>
+
+</div>
+
         </div>
       </div>
     </div>
