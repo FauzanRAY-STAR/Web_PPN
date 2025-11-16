@@ -140,8 +140,17 @@ include('config/koneksi.php');
 </script>
 
 
+<?php
+// page/beranda.php - SECTION PRODUK KAMI YANG DIUPDATE (Dynamic from Database)
+include('config/koneksi.php');
+
+// Query untuk mengambil produk yang dipajang (maksimal 5 produk)
+$query_produk = "SELECT * FROM produk WHERE status = 'Dipajang' ORDER BY tanggal DESC LIMIT 5";
+$result_produk = mysqli_query($conn, $query_produk);
+?>
+
 <!-- ============================================ -->
-<!-- PRODUK KAMI SECTION -->
+<!-- PRODUK KAMI SECTION (DYNAMIC) -->
 <!-- ============================================ -->
 <div class="container my-5 py-5">
     <h3 class="text-center fw-bold" style="color: #2B8D4C;">PRODUK KAMI</h3>
@@ -149,55 +158,67 @@ include('config/koneksi.php');
         <div style="width: 100px; height: 2px; background-color: #2B8D4C; margin: 0 10px;"></div>
     </div>
 
+    <?php if ($result_produk && mysqli_num_rows($result_produk) > 0): ?>
     <div id="produkCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner text-center">
-            <!-- ITEM 1 -->
-            <div class="carousel-item active">
-                <div class="row align-items-center justify-content-center">
-                    <div class="col-md-5">
-                        <img src="asset/img/produk1.png" class="img-fluid" alt="Silika V-0D01" style="max-width: 300px;">
-                    </div>
-                    <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
-                        <h4 class="fw-bold" style="color: #2B8D4C;">Silika V-0D01</h4>
-                        <p style="color: #2B8D4C;">
-                            Mengandung silika dalam bentuk larutan, mudah diserap daun melalui penyemprotan.
-                        </p>
-                        <a href="#" class="btn-selengkapnya mt-2">Selengkapnya</a>
+            <?php 
+            $index = 0;
+            while ($produk = mysqli_fetch_assoc($result_produk)): 
+                $active_class = ($index === 0) ? 'active' : '';
+            ?>
+                <!-- ITEM <?= $index + 1 ?> -->
+                <div class="carousel-item <?= $active_class ?>">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-5">
+                            <img src="asset/img/<?= htmlspecialchars($produk['gambar']) ?>" 
+                                 class="img-fluid" 
+                                 alt="<?= htmlspecialchars($produk['nama']) ?>" 
+                                 style="max-width: 300px;"
+                                 onerror="this.src='asset/img/placeholder.png'">
+                        </div>
+                        <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
+                            <h4 class="fw-bold" style="color: #2B8D4C;">
+                                <?= htmlspecialchars($produk['nama']) ?>
+                            </h4>
+                            
+                            <!-- Atribut/Badge -->
+                            <?php if (!empty($produk['atribut'])): ?>
+                                <div class="mb-2">
+                                    <?php 
+                                    $atribut_array = explode(' ', $produk['atribut']);
+                                    foreach ($atribut_array as $atribut):
+                                        $badge_class = '';
+                                        switch($atribut) {
+                                            case 'Baru': $badge_class = 'bg-primary'; break;
+                                            case 'Laris': $badge_class = 'bg-warning text-dark'; break;
+                                            case 'Promo': $badge_class = 'bg-success'; break;
+                                            case 'Bonus': $badge_class = 'bg-info text-dark'; break;
+                                            case 'Habis': $badge_class = 'bg-danger'; break;
+                                        }
+                                    ?>
+                                        <span class="badge <?= $badge_class ?> me-1">
+                                            <?= htmlspecialchars($atribut) ?>
+                                        </span>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <p style="color: #2B8D4C;">
+                                <?= htmlspecialchars($produk['deskripsi']) ?>
+                            </p>
+                            
+                            <!-- Link ke Detail Produk -->
+                            <a href="page/detail_produk.php?id=<?= $produk['id'] ?>" 
+                               class="btn-selengkapnya mt-2">
+                                Selengkapnya
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- ITEM 2 -->
-            <div class="carousel-item">
-                <div class="row align-items-center justify-content-center">
-                    <div class="col-md-5">
-                        <img src="asset/img/produk2.png" class="img-fluid" alt="Silika Plus" style="max-width: 300px;">
-                    </div>
-                    <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
-                        <h4 class="fw-bold" style="color: #2B8D4C;">Tera Nusa Maxi-D</h4>
-                        <p style="color: #2B8D4C;">
-                            Kombinasi silika aktif dan nutrisi mikro untuk pertumbuhan optimal tanaman.
-                        </p>
-                        <a href="page/detail_produk.php" class="btn-selengkapnya mt-2">Selengkapnya</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ITEM 3 -->
-            <div class="carousel-item">
-                <div class="row align-items-center justify-content-center">
-                    <div class="col-md-5">
-                        <img src="asset/img/produk3.png" class="img-fluid" alt="Silika Premium" style="max-width: 300px;">
-                    </div>
-                    <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
-                        <h4 class="fw-bold" style="color: #2B8D4C;">Silika Premium</h4>
-                        <p style="color: #2B8D4C;">
-                            Diformulasikan khusus untuk meningkatkan ketahanan tanaman terhadap penyakit.
-                        </p>
-                        <a href="#" class="btn-selengkapnya mt-2">Selengkapnya</a>
-                    </div>
-                </div>
-            </div>
+            <?php 
+                $index++;
+            endwhile; 
+            ?>
         </div>
 
         <!-- NAVIGATION PREVIEW -->
@@ -208,16 +229,27 @@ include('config/koneksi.php');
             </button>
 
             <!-- Thumbnail preview -->
-            <div class="d-flex mx-3 gap-3">
-                <div class="thumb bg-secondary bg-opacity-10 rounded active" data-bs-target="#produkCarousel" data-bs-slide-to="0" style="width: 120px; height: 120px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;">
-                    <img src="asset/img/produk1.png" class="w-100 h-100 p-3" style="object-fit: contain;">
-                </div>
-                <div class="thumb bg-secondary bg-opacity-10 rounded" data-bs-target="#produkCarousel" data-bs-slide-to="1" style="width: 120px; height: 120px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;">
-                    <img src="asset/img/produk2.png" class="w-100 h-100 p-3" style="object-fit: contain;">
-                </div>
-                <div class="thumb bg-secondary bg-opacity-10 rounded" data-bs-target="#produkCarousel" data-bs-slide-to="2" style="width: 120px; height: 120px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;">
-                    <img src="asset/img/produk3.png" class="w-100 h-100 p-3" style="object-fit: contain;">
-                </div>
+            <div class="d-flex mx-3 gap-3" id="thumbnailContainer">
+                <?php 
+                mysqli_data_seek($result_produk, 0); // Reset pointer
+                $thumb_index = 0;
+                while ($produk = mysqli_fetch_assoc($result_produk)): 
+                    $active_thumb = ($thumb_index === 0) ? 'active' : '';
+                ?>
+                    <div class="thumb bg-secondary bg-opacity-10 rounded <?= $active_thumb ?>" 
+                         data-bs-target="#produkCarousel" 
+                         data-bs-slide-to="<?= $thumb_index ?>" 
+                         style="width: 120px; height: 120px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;">
+                        <img src="asset/img/<?= htmlspecialchars($produk['gambar_kecil']) ?>" 
+                             class="w-100 h-100 p-3" 
+                             style="object-fit: contain;"
+                             alt="<?= htmlspecialchars($produk['nama']) ?>"
+                             onerror="this.src='asset/img/placeholder.png'">
+                    </div>
+                <?php 
+                    $thumb_index++;
+                endwhile; 
+                ?>
             </div>
 
             <!-- Panah kanan -->
@@ -226,31 +258,37 @@ include('config/koneksi.php');
             </button>
         </div>
     </div>
+    
+    <?php else: ?>
+    <!-- Jika tidak ada produk -->
+    <div class="text-center py-5">
+        <p class="text-muted">Belum ada produk yang dipajang saat ini.</p>
+        <a href="produk" class="btn btn-success mt-3">Lihat Semua Produk</a>
+    </div>
+    <?php endif; ?>
 </div>
-
-<style>
-
-</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const carousel = document.getElementById('produkCarousel');
         const thumbs = document.querySelectorAll('.thumb');
         
-        if (carousel) {
+        if (carousel && thumbs.length > 0) {
             carousel.addEventListener('slide.bs.carousel', function(e) {
                 thumbs.forEach(thumb => thumb.classList.remove('active'));
                 
-                thumbs[e.to].classList.add('active');
+                if (thumbs[e.to]) {
+                    thumbs[e.to].classList.add('active');
+                }
+            });
+            
+            thumbs.forEach((thumb, index) => {
+                thumb.addEventListener('click', function() {
+                    thumbs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
         }
-        
-        thumbs.forEach((thumb, index) => {
-            thumb.addEventListener('click', function() {
-                thumbs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
     });
 </script>
 
