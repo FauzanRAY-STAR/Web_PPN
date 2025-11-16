@@ -348,31 +348,30 @@ $product_values = json_encode(array_values($product_stats));
 
         <!-- Summary Info -->
         <div class="row mt-4 g-3">
-  <div class="col-md-4">
-    <div class="p-3 bg-success bg-opacity-10 rounded-3 border border-success text-center">
-      <h6 class="text-muted mb-2">Total Penjualan</h6>
-      <h3 class="fw-bold text-success mb-1" id="totalPenjualan">0</h3>
-      <small class="text-muted" id="periodePenjualan">unit terjual</small>
-    </div>
-  </div>
+          <div class="col-md-4">
+            <div class="p-3 bg-success bg-opacity-10 rounded-3 border border-success text-center">
+              <h6 class="text-muted mb-2">Total Penjualan</h6>
+              <h3 class="fw-bold text-success mb-1" id="totalPenjualan">0</h3>
+              <small class="text-muted" id="periodePenjualan">unit terjual</small>
+            </div>
+          </div>
 
-  <div class="col-md-4">
-    <div class="p-3 bg-success bg-opacity-10 rounded-3 border border-success text-center">
-      <h6 class="text-muted mb-2">Bulan Tertinggi</h6>
-      <h3 class="fw-bold text-success mb-1" id="bulanTertinggi">-</h3>
-      <small class="text-muted" id="nilaiTertinggi">0 unit</small>
-    </div>
-  </div>
+          <div class="col-md-4">
+            <div class="p-3 bg-success bg-opacity-10 rounded-3 border border-success text-center">
+              <h6 class="text-muted mb-2">Bulan Tertinggi</h6>
+              <h3 class="fw-bold text-success mb-1" id="bulanTertinggi">-</h3>
+              <small class="text-muted" id="nilaiTertinggi">0 unit</small>
+            </div>
+          </div>
 
-  <div class="col-md-4">
-    <div class="p-3 bg-success bg-opacity-10 rounded-3 border border-success text-center">
-      <h6 class="text-muted mb-2">Rata-rata per Bulan</h6>
-      <h3 class="fw-bold text-success mb-1" id="rataRata">0</h3>
-      <small class="text-muted">unit per bulan</small>
-    </div>
-  </div>
-</div>
-
+          <div class="col-md-4">
+            <div class="p-3 bg-success bg-opacity-10 rounded-3 border border-success text-center">
+              <h6 class="text-muted mb-2">Rata-rata per Bulan</h6>
+              <h3 class="fw-bold text-success mb-1" id="rataRata">0</h3>
+              <small class="text-muted">unit per bulan</small>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
