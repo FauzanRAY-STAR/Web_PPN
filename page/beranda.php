@@ -335,8 +335,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
     $jenis_produk = htmlspecialchars($_POST['jenis_produk']);
     $luas_tanah_m2 = floatval($_POST['luas_tanah']);
     
-    // Konversi M² ke Bau (1 Bau = 7.000 M²)
-    $luas_tanah_bau = $luas_tanah_m2 / 7000;
+    // Konversi M² ke Bau (1 Bau = 7.140 M²)
+    $luas_tanah_bau = $luas_tanah_m2 / 7140;
     
     // Variabel hasil
     $kebutuhan_produk = 0;
