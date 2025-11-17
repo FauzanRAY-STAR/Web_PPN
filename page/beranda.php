@@ -329,7 +329,286 @@ include('config/koneksi.php');
 
 <?php
 // ============================================
-// PROSES PERHITUNGAN PUPUK
+// BACKEND KALKULATOR PUPUK - PHP NATIVE
+// ============================================
+
+/**
+ * Function untuk menghitung kebutuhan pupuk
+ * @param array $input - Data input dari form atau JSON
+ * @return array - Hasil perhitungan dalam format terstruktur
+ */
+function hitungKebutuhanPupuk($input) {
+    // Konstanta konversi
+    define('BAU_TO_M2', 7140); // 1 Bau = 7,140 M²
+    
+    // Ekstrak input
+    $jenis_tanaman = isset($input['jenis_tanaman']) ? $input['jenis_tanaman'] : '';
+    $jenis_produk = isset($input['jenis_produk']) ? $input['jenis_produk'] : '';
+    $luas_lahan_m2 = isset($input['luas_lahan']) ? floatval($input['luas_lahan']) : 0;
+    $luas_lahan_bau = $luas_lahan_m2 / BAU_TO_M2;
+    
+    // Data tambahan untuk perhitungan advanced (opsional)
+    $umur_tanaman_hst = isset($input['umur_tanaman']) ? intval($input['umur_tanaman']) : null;
+    $musim = isset($input['musim']) ? $input['musim'] : null;
+    $status_hama = isset($input['status_hama']) ? $input['status_hama'] : 'Preventif';
+    $kebiasaan_urea = isset($input['kebiasaan_urea']) ? floatval($input['kebiasaan_urea']) : null;
+    $kebiasaan_phonska = isset($input['kebiasaan_phonska']) ? floatval($input['kebiasaan_phonska']) : null;
+    
+    // ============================================
+    // 1. HITUNG TOTAL KEBUTUHAN PRODUK (PER 1 MUSIM)
+    // ============================================
+    $total_kebutuhan = array(
+        'silika_5kg_bungkus' => 0,
+        'maxi_d_1L_botol' => 0,
+        'maxi_b_1L_botol' => 0,
+        'hama_1_5L_botol' => 0,
+        'silika_cair_0_5L_botol' => 0
+    );
+    
+    // Hitung berdasarkan jenis tanaman (Padi dan Jagung menggunakan rasio yang sama)
+    if (in_array(strtolower($jenis_tanaman), ['padi', 'jagung'])) {
+        // SILIKA 5KG: 8 bungkus per 1 Bau (hanya untuk Padi)
+        if (strtolower($jenis_tanaman) === 'padi') {
+            $total_kebutuhan['silika_5kg_bungkus'] = $luas_lahan_bau * 8;
+        }
+        
+        // MAXI D (1 LITER): 1 botol per 0.5 Bau
+        $total_kebutuhan['maxi_d_1L_botol'] = $luas_lahan_bau / 0.5;
+        
+        // MAXI B (1 LITER): 1 botol per 0.5 Bau
+        $total_kebutuhan['maxi_b_1L_botol'] = $luas_lahan_bau / 0.5;
+        
+        // HAMA (1.5 LITER): 1 botol per 0.25 Bau
+        $total_kebutuhan['hama_1_5L_botol'] = $luas_lahan_bau / 0.25;
+        
+        // SILIKA CAIR (0.5 LITER): 1 botol per 0.5 Bau
+        $total_kebutuhan['silika_cair_0_5L_botol'] = $luas_lahan_bau / 0.5;
+    }
+    
+    // ============================================
+    // 2. HITUNG PENGURANGAN PUPUK TABUR (HANYA UNTUK PADI)
+    // ============================================
+    $pengurangan_pupuk = null;
+    
+    if (strtolower($jenis_tanaman) === 'padi' && $musim && ($kebiasaan_urea || $kebiasaan_phonska)) {
+        $pengurangan_pupuk = array(
+            'urea_lama_kg' => $kebiasaan_urea,
+            'urea_baru_kg' => null,
+            'phonska_lama_kg' => $kebiasaan_phonska,
+            'phonska_baru_kg' => null
+        );
+        
+        if (strtolower($musim) === 'penghujan') {
+            // Berkurang 50% untuk musim penghujan
+            $pengurangan_pupuk['urea_baru_kg'] = $kebiasaan_urea ? $kebiasaan_urea * 0.5 : null;
+            $pengurangan_pupuk['phonska_baru_kg'] = $kebiasaan_phonska ? $kebiasaan_phonska * 0.5 : null;
+        } elseif (strtolower($musim) === 'kemarau') {
+            // Berkurang 30% untuk musim kemarau
+            $pengurangan_pupuk['urea_baru_kg'] = $kebiasaan_urea ? $kebiasaan_urea * 0.7 : null;
+            $pengurangan_pupuk['phonska_baru_kg'] = $kebiasaan_phonska ? $kebiasaan_phonska * 0.7 : null;
+        }
+    }
+    
+    // ============================================
+    // 3. REKOMENDASI SEMPROT SAAT INI (BERDASARKAN HST)
+    // ============================================
+    $rekomendasi_semprot = null;
+    
+    if ($umur_tanaman_hst !== null) {
+        if (strtolower($jenis_tanaman) === 'padi') {
+            // Logika untuk PADI berdasarkan HST
+            $dosis_hama = ($status_hama === 'Ada Serangan') ? '7-10 tutup (serangan hama)' : '5 tutup';
+            
+            if ($umur_tanaman_hst <= 15) {
+                $rekomendasi_semprot = array(
+                    'jadwal_terdekat' => '15 HST',
+                    'dosis_per_tangki_16L' => array(
+                        'MAXI D: 6 tutup',
+                        'HAMA: ' . $dosis_hama,
+                        'SILIKA CAIR: 3-5 tutup'
+                    ),
+                    'catatan' => 'Digunakan berbarengan dalam tangki 16 Liter'
+                );
+            } elseif ($umur_tanaman_hst <= 30) {
+                $rekomendasi_semprot = array(
+                    'jadwal_terdekat' => '30 HST',
+                    'dosis_per_tangki_16L' => array(
+                        'MAXI D: 8 tutup',
+                        'HAMA: ' . $dosis_hama,
+                        'SILIKA CAIR: 3-5 tutup'
+                    ),
+                    'catatan' => 'Digunakan berbarengan dalam tangki 16 Liter'
+                );
+            } elseif ($umur_tanaman_hst <= 45) {
+                $rekomendasi_semprot = array(
+                    'jadwal_terdekat' => '45 HST',
+                    'dosis_per_tangki_16L' => array(
+                        'MAXI B: 8 tutup',
+                        'HAMA: ' . $dosis_hama,
+                        'SILIKA CAIR: 3-5 tutup'
+                    ),
+                    'catatan' => 'Digunakan berbarengan dalam tangki 16 Liter'
+                );
+            } elseif ($umur_tanaman_hst <= 70) {
+                $rekomendasi_semprot = array(
+                    'jadwal_terdekat' => '70 HST',
+                    'dosis_per_tangki_16L' => array(
+                        'MAXI B: 10 tutup',
+                        'HAMA: ' . $dosis_hama,
+                        'SILIKA CAIR: 3-5 tutup'
+                    ),
+                    'catatan' => 'Digunakan berbarengan dalam tangki 16 Liter'
+                );
+            } else {
+                $rekomendasi_semprot = array(
+                    'jadwal_terdekat' => 'Selesai',
+                    'dosis_per_tangki_16L' => array(),
+                    'catatan' => 'Jadwal semprot Padi telah selesai (> 70 HST)'
+                );
+            }
+        } elseif (strtolower($jenis_tanaman) === 'jagung') {
+            // Logika PLACEHOLDER untuk JAGUNG berdasarkan HST
+            $dosis_hama = ($status_hama === 'Ada Serangan') ? '7-10 tutup (serangan hama)' : '5 tutup';
+            
+            if ($umur_tanaman_hst <= 20) {
+                $rekomendasi_semprot = array(
+                    'jadwal_terdekat' => 'Fase Awal (0-20 HST)',
+                    'dosis_per_tangki_16L' => array(
+                        'MAXI D: 7 tutup',
+                        'HAMA: ' . $dosis_hama
+                    ),
+                    'catatan' => 'Fase Awal Jagung (placeholder logika)'
+                );
+            } elseif ($umur_tanaman_hst <= 40) {
+                $rekomendasi_semprot = array(
+                    'jadwal_terdekat' => 'Fase Pertumbuhan (21-40 HST)',
+                    'dosis_per_tangki_16L' => array(
+                        'MAXI B: 8 tutup',
+                        'HAMA: ' . $dosis_hama
+                    ),
+                    'catatan' => 'Fase Pertumbuhan Jagung (placeholder logika)'
+                );
+            } else {
+                $rekomendasi_semprot = array(
+                    'jadwal_terdekat' => 'Fase Pembungaan/Pembuahan (> 40 HST)',
+                    'dosis_per_tangki_16L' => array(
+                        'MAXI B: 10 tutup',
+                        'HAMA: ' . $dosis_hama
+                    ),
+                    'catatan' => 'Fase Pembuahan Jagung (placeholder logika)'
+                );
+            }
+        }
+    }
+    
+    // ============================================
+    // RETURN HASIL DALAM FORMAT JSON
+    // ============================================
+    return array(
+        'input' => array(
+            'jenis_tanaman' => $jenis_tanaman,
+            'jenis_produk' => $jenis_produk,
+            'luas_lahan_bau' => round($luas_lahan_bau, 4),
+            'luas_lahan_m2' => $luas_lahan_m2,
+            'umur_tanaman_hst' => $umur_tanaman_hst,
+            'musim' => $musim,
+            'status_hama' => $status_hama,
+            'kebiasaan_urea_kg' => $kebiasaan_urea,
+            'kebiasaan_phonska_kg' => $kebiasaan_phonska
+        ),
+        'total_kebutuhan_produk_1_musim' => array(
+            'silika_5kg_bungkus' => round($total_kebutuhan['silika_5kg_bungkus'], 2),
+            'maxi_d_1L_botol' => round($total_kebutuhan['maxi_d_1L_botol'], 2),
+            'maxi_b_1L_botol' => round($total_kebutuhan['maxi_b_1L_botol'], 2),
+            'hama_1_5L_botol' => round($total_kebutuhan['hama_1_5L_botol'], 2),
+            'silika_cair_0_5L_botol' => round($total_kebutuhan['silika_cair_0_5L_botol'], 2)
+        ),
+        'pengurangan_pupuk_tabur' => $pengurangan_pupuk,
+        'rekomendasi_semprot_saat_ini' => $rekomendasi_semprot
+    );
+}
+
+/**
+ * Function untuk mencocokkan produk berdasarkan nama dan menghitung kebutuhannya
+ * Ini adalah wrapper yang kompatibel dengan UI lama
+ */
+function hitungProdukSpesifik($jenis_tanaman, $jenis_produk, $luas_tanah_bau) {
+    $kebutuhan_produk = 0;
+    $satuan_produk = "";
+    $keterangan_tambahan = "";
+    
+    // Normalisasi nama produk untuk pencocokan
+    $produk_lower = strtolower($jenis_produk);
+    
+    // Deteksi produk berdasarkan keyword - sesuai panduan resmi PT Pramudita Pupuk Nusantara
+    if ((stripos($produk_lower, 'silika') !== false && 
+         (stripos($produk_lower, '5kg') !== false || 
+          stripos($produk_lower, '5 kg') !== false ||
+          stripos($produk_lower, '5-kg') !== false ||
+          stripos($produk_lower, 'padat') !== false)) ||
+        stripos($produk_lower, 'silika v') !== false) {
+        // SILIKA 5KG: Untuk 1 Bau menggunakan 8 bungkus (kemasan 5 kg, totalnya 40 kg/bau)
+        $kebutuhan_produk = $luas_tanah_bau * 8;
+        $satuan_produk = "bungkus (@ 5kg)";
+        $keterangan_tambahan = "Sebelum tanam atau pada saat pemupukan pertama (10-15 HST). Total 40 kg/Bau";
+    } 
+    elseif (stripos($produk_lower, 'maxi d') !== false || 
+            stripos($produk_lower, 'maxi-d') !== false ||
+            stripos($produk_lower, 'maxid') !== false ||
+            stripos($produk_lower, 'tera nusa maxi d') !== false ||
+            (stripos($produk_lower, 'maxi') !== false && stripos($produk_lower, 'd') !== false)) {
+        // MAXI D (1 LITER): Luasan ½ Bau (Setengah Bau) = 1 botol
+        // Rumus: jumlah botol = luas_tanah_bau / 0.5
+        $kebutuhan_produk = $luas_tanah_bau / 0.5;
+        $satuan_produk = "botol (@ 1 Liter)";
+        $keterangan_tambahan = "Aplikasi: 15 HST (6 tutup) & 30 HST (8 tutup). Dosis per tangki semprot 16 liter";
+    } 
+    elseif (stripos($produk_lower, 'maxi b') !== false || 
+            stripos($produk_lower, 'maxi-b') !== false ||
+            stripos($produk_lower, 'maxib') !== false ||
+            stripos($produk_lower, 'tera nusa maxi b') !== false ||
+            (stripos($produk_lower, 'maxi') !== false && stripos($produk_lower, 'b') !== false)) {
+        // MAXI B (1 LITER): Luasan ½ Bau (Setengah Bau) = 1 botol
+        // Rumus: jumlah botol = luas_tanah_bau / 0.5
+        $kebutuhan_produk = $luas_tanah_bau / 0.5;
+        $satuan_produk = "botol (@ 1 Liter)";
+        $keterangan_tambahan = "Aplikasi: 45 HST (8 tutup) & 70 HST/Nyckor (10 tutup). Dosis per tangki semprot 16 liter";
+    } 
+    elseif (stripos($produk_lower, 'hama') !== false ||
+            stripos($produk_lower, 'pestisida') !== false ||
+            stripos($produk_lower, 'pengendali') !== false) {
+        // HAMA (½ LITER): Luasan ¼ Bau (Seperempat Bau) = 1 botol
+        // Rumus: jumlah botol = luas_tanah_bau / 0.25
+        $kebutuhan_produk = $luas_tanah_bau / 0.25;
+        $satuan_produk = "botol (@ ½ Liter)";
+        $keterangan_tambahan = "Preventif atau pencegahan: 5 tutup/tangki. Untuk serangan hama, dosis bisa ditingkatkan";
+    } 
+    elseif (stripos($produk_lower, 'silika cair') !== false || 
+            stripos($produk_lower, 'cair') !== false ||
+            (stripos($produk_lower, 'silika') !== false && stripos($produk_lower, 'liquid') !== false)) {
+        // SILIKA CAIR (½ LITER): Luasan ½ Bau (Setengah Bau) = 1 botol
+        // Rumus: jumlah botol = luas_tanah_bau / 0.5
+        $kebutuhan_produk = $luas_tanah_bau / 0.5;
+        $satuan_produk = "botol (@ ½ Liter)";
+        $keterangan_tambahan = "Aplikasi: 15, 30, 45, 70 HST. Dosis 3-5 tutup per tangki semprot 16 liter";
+    } 
+    else {
+        // Jika tidak ada yang cocok, gunakan perhitungan default berdasarkan asumsi umum
+        // Asumsi: 1 unit produk untuk setiap 0.5 Bau (bisa disesuaikan)
+        $kebutuhan_produk = $luas_tanah_bau * 2;
+        $satuan_produk = "unit";
+        $keterangan_tambahan = "Perhitungan estimasi. Hubungi admin untuk dosis spesifik produk ini.";
+    }
+    
+    return array(
+        'kebutuhan_produk' => round($kebutuhan_produk, 2),
+        'satuan_produk' => $satuan_produk,
+        'keterangan_tambahan' => $keterangan_tambahan
+    );
+}
+
+// ============================================
+// PROSES PERHITUNGAN UNTUK UI (BACKWARD COMPATIBLE)
 // ============================================
 $showPopup = false;
 $hasil_data = array();
@@ -340,6 +619,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
     $jenis_tanaman = htmlspecialchars($_POST['jenis_tanaman']);
     $jenis_produk = htmlspecialchars($_POST['jenis_produk']);
     $luas_tanah_m2 = floatval($_POST['luas_tanah']);
+    
+    // Validasi input
+    if ($luas_tanah_m2 <= 0) {
+        $luas_tanah_m2 = 0;
+    }
     
     // Konversi M² ke Bau (1 Bau = 7.140 M²)
     $luas_tanah_bau = $luas_tanah_m2 / 7140;
@@ -356,52 +640,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
     }
     mysqli_stmt_close($stmtGambar);
     
-    // Variabel hasil
-    $kebutuhan_produk = 0;
-    $satuan_produk = "";
-    $keterangan_tambahan = "";
+    // Hitung kebutuhan produk menggunakan function baru
+    $hasil_hitung = hitungProdukSpesifik($jenis_tanaman, $jenis_produk, $luas_tanah_bau);
     
-    // Perhitungan berdasarkan jenis produk
-    // Cek apakah produk mengandung keyword tertentu untuk menentukan perhitungan
-    if (stripos($jenis_produk, 'Silika') !== false && (stripos($jenis_produk, '5kg') !== false || stripos($jenis_produk, '5 kg') !== false)) {
-        // Silika 5kg: 8 bungkus untuk 1 Bau
-        $kebutuhan_produk = $luas_tanah_bau * 8;
-        $satuan_produk = "bungkus (@ 5kg)";
-        $keterangan_tambahan = "Pupuk padat untuk memperkuat struktur tanaman";
-    } 
-    elseif (stripos($jenis_produk, 'Maxi D') !== false || stripos($jenis_produk, 'Maxi-D') !== false) {
-        // Maxi D: 1 botol untuk ½ Bau
-        $kebutuhan_produk = ($luas_tanah_bau / 0.5);
-        $satuan_produk = "botol (@ 1 Liter)";
-        $keterangan_tambahan = "Kombinasi silika aktif dan nutrisi mikro";
-    } 
-    elseif (stripos($jenis_produk, 'Maxi B') !== false || stripos($jenis_produk, 'Maxi-B') !== false) {
-        // Maxi B: 1 botol untuk ½ Bau
-        $kebutuhan_produk = ($luas_tanah_bau / 0.5);
-        $satuan_produk = "botol (@ 1 Liter)";
-        $keterangan_tambahan = "Nutrisi untuk fase pembuahan";
-    } 
-    elseif (stripos($jenis_produk, 'Hama') !== false) {
-        // Hama: 1 botol (½ liter) untuk ¼ Bau
-        $kebutuhan_produk = ($luas_tanah_bau / 0.25);
-        $satuan_produk = "botol (@ ½ Liter)";
-        $keterangan_tambahan = "Pengendali hama dan penyakit";
-    } 
-    elseif (stripos($jenis_produk, 'Silika Cair') !== false || stripos($jenis_produk, 'Cair') !== false) {
-        // Silika Cair: 1 botol (½ liter) untuk ½ Bau
-        $kebutuhan_produk = ($luas_tanah_bau / 0.5);
-        $satuan_produk = "botol (@ ½ Liter)";
-        $keterangan_tambahan = "Silika dalam bentuk larutan, mudah diserap";
-    } 
-    else {
-        // Default untuk produk lain
-        $kebutuhan_produk = 0;
-        $satuan_produk = "tidak diketahui";
-        $keterangan_tambahan = "Silakan hubungi admin untuk informasi dosis produk ini";
-    }
+    $kebutuhan_produk = $hasil_hitung['kebutuhan_produk'];
+    $satuan_produk = $hasil_hitung['satuan_produk'];
+    $keterangan_tambahan = $hasil_hitung['keterangan_tambahan'];
     
-    // Bulatkan hasil ke 2 desimal
-    $kebutuhan_produk = round($kebutuhan_produk, 2);
+    // Format angka untuk display - hapus trailing zeros
+    $kebutuhan_display = rtrim(rtrim(number_format($kebutuhan_produk, 2, '.', ','), '0'), '.');
     $luas_tanah_bau_display = round($luas_tanah_bau, 4);
     
     // Simpan data ke array untuk popup
@@ -410,7 +657,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
         'jenis_produk' => $jenis_produk,
         'luas_tanah_m2' => $luas_tanah_m2,
         'luas_tanah_bau' => $luas_tanah_bau_display,
-        'kebutuhan_produk' => $kebutuhan_produk,
+        'kebutuhan_produk' => $kebutuhan_display,
         'satuan_produk' => $satuan_produk,
         'keterangan_tambahan' => $keterangan_tambahan,
         'gambar_produk' => $gambar_produk
