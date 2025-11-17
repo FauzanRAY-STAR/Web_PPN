@@ -286,11 +286,17 @@ include('config/koneksi.php');
                         <label class="form-label fw-semibold" style="color:#000;">Jenis Produk</label>
                         <select name="jenis_produk" class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;" required>
                             <option value="" selected>Pilih Jenis Produk</option>
-                            <option value="Silika 5kg">Silika 5kg</option>
-                            <option value="Maxi D 1 Liter">Maxi D 1 Liter</option>
-                            <option value="Maxi B 1 Liter">Maxi B 1 Liter</option>
-                            <option value="Hama 1/2 Liter">Hama ½ Liter</option>
-                            <option value="Silika Cair 1/2 Liter">Silika Cair ½ Liter</option>
+                            <?php
+                            // Query untuk mengambil data produk dari database
+                            $queryProduk = "SELECT id, nama, gambar FROM produk ORDER BY nama ASC";
+                            $resultProduk = mysqli_query($conn, $queryProduk);
+                            
+                            if ($resultProduk && mysqli_num_rows($resultProduk) > 0) {
+                                while ($produk = mysqli_fetch_assoc($resultProduk)) {
+                                    echo '<option value="' . htmlspecialchars($produk['nama']) . '" data-gambar="' . htmlspecialchars($produk['gambar']) . '">' . htmlspecialchars($produk['nama']) . '</option>';
+                                }
+                            }
+                            ?>
                         </select>
                     </div>
 
@@ -338,58 +344,60 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
     // Konversi M² ke Bau (1 Bau = 7.140 M²)
     $luas_tanah_bau = $luas_tanah_m2 / 7140;
     
+    // Ambil gambar produk dari database
+    $queryGambarProduk = "SELECT gambar FROM produk WHERE nama = ?";
+    $stmtGambar = mysqli_prepare($conn, $queryGambarProduk);
+    mysqli_stmt_bind_param($stmtGambar, "s", $jenis_produk);
+    mysqli_stmt_execute($stmtGambar);
+    $resultGambar = mysqli_stmt_get_result($stmtGambar);
+    $gambar_produk = "produk1.png"; // default
+    if ($rowGambar = mysqli_fetch_assoc($resultGambar)) {
+        $gambar_produk = $rowGambar['gambar'];
+    }
+    mysqli_stmt_close($stmtGambar);
+    
     // Variabel hasil
     $kebutuhan_produk = 0;
     $satuan_produk = "";
     $keterangan_tambahan = "";
-    $gambar_produk = "produk1.png";
     
     // Perhitungan berdasarkan jenis produk
-    switch ($jenis_produk) {
-        case "Silika 5kg":
-            // 8 bungkus untuk 1 Bau
-            $kebutuhan_produk = $luas_tanah_bau * 8;
-            $satuan_produk = "bungkus (@ 5kg)";
-            $keterangan_tambahan = "Pupuk padat untuk memperkuat struktur tanaman";
-            $gambar_produk = "produk1.png";
-            break;
-            
-        case "Maxi D 1 Liter":
-            // 1 botol untuk ½ Bau
-            $kebutuhan_produk = ($luas_tanah_bau / 0.5);
-            $satuan_produk = "botol (@ 1 Liter)";
-            $keterangan_tambahan = "Kombinasi silika aktif dan nutrisi mikro";
-            $gambar_produk = "produk2.png";
-            break;
-            
-        case "Maxi B 1 Liter":
-            // 1 botol untuk ½ Bau
-            $kebutuhan_produk = ($luas_tanah_bau / 0.5);
-            $satuan_produk = "botol (@ 1 Liter)";
-            $keterangan_tambahan = "Nutrisi untuk fase pembuahan";
-            $gambar_produk = "produk3.png";
-            break;
-            
-        case "Hama 1/2 Liter":
-            // 1 botol (½ liter) untuk ¼ Bau
-            $kebutuhan_produk = ($luas_tanah_bau / 0.25);
-            $satuan_produk = "botol (@ ½ Liter)";
-            $keterangan_tambahan = "Pengendali hama dan penyakit";
-            $gambar_produk = "produk1.png";
-            break;
-            
-        case "Silika Cair 1/2 Liter":
-            // 1 botol (½ liter) untuk ½ Bau
-            $kebutuhan_produk = ($luas_tanah_bau / 0.5);
-            $satuan_produk = "botol (@ ½ Liter)";
-            $keterangan_tambahan = "Silika dalam bentuk larutan, mudah diserap";
-            $gambar_produk = "produk1.png";
-            break;
-            
-        default:
-            $kebutuhan_produk = 0;
-            $satuan_produk = "tidak diketahui";
-            break;
+    // Cek apakah produk mengandung keyword tertentu untuk menentukan perhitungan
+    if (stripos($jenis_produk, 'Silika') !== false && (stripos($jenis_produk, '5kg') !== false || stripos($jenis_produk, '5 kg') !== false)) {
+        // Silika 5kg: 8 bungkus untuk 1 Bau
+        $kebutuhan_produk = $luas_tanah_bau * 8;
+        $satuan_produk = "bungkus (@ 5kg)";
+        $keterangan_tambahan = "Pupuk padat untuk memperkuat struktur tanaman";
+    } 
+    elseif (stripos($jenis_produk, 'Maxi D') !== false || stripos($jenis_produk, 'Maxi-D') !== false) {
+        // Maxi D: 1 botol untuk ½ Bau
+        $kebutuhan_produk = ($luas_tanah_bau / 0.5);
+        $satuan_produk = "botol (@ 1 Liter)";
+        $keterangan_tambahan = "Kombinasi silika aktif dan nutrisi mikro";
+    } 
+    elseif (stripos($jenis_produk, 'Maxi B') !== false || stripos($jenis_produk, 'Maxi-B') !== false) {
+        // Maxi B: 1 botol untuk ½ Bau
+        $kebutuhan_produk = ($luas_tanah_bau / 0.5);
+        $satuan_produk = "botol (@ 1 Liter)";
+        $keterangan_tambahan = "Nutrisi untuk fase pembuahan";
+    } 
+    elseif (stripos($jenis_produk, 'Hama') !== false) {
+        // Hama: 1 botol (½ liter) untuk ¼ Bau
+        $kebutuhan_produk = ($luas_tanah_bau / 0.25);
+        $satuan_produk = "botol (@ ½ Liter)";
+        $keterangan_tambahan = "Pengendali hama dan penyakit";
+    } 
+    elseif (stripos($jenis_produk, 'Silika Cair') !== false || stripos($jenis_produk, 'Cair') !== false) {
+        // Silika Cair: 1 botol (½ liter) untuk ½ Bau
+        $kebutuhan_produk = ($luas_tanah_bau / 0.5);
+        $satuan_produk = "botol (@ ½ Liter)";
+        $keterangan_tambahan = "Silika dalam bentuk larutan, mudah diserap";
+    } 
+    else {
+        // Default untuk produk lain
+        $kebutuhan_produk = 0;
+        $satuan_produk = "tidak diketahui";
+        $keterangan_tambahan = "Silakan hubungi admin untuk informasi dosis produk ini";
     }
     
     // Bulatkan hasil ke 2 desimal
