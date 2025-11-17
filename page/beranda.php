@@ -579,8 +579,8 @@ $jumlahTestimoni = mysqli_num_rows($resultTestimoni);
                             <?php 
                             $ulasan = htmlspecialchars($testimoni['ulasan']);
                             // Potong di 120 karakter
-                            if (strlen($ulasan) > 120) {
-                                $ulasan = substr($ulasan, 0, 120);
+                            if (strlen($ulasan) > 150) {
+                                $ulasan = substr($ulasan, 0, 150);
                                 $lastSpace = strrpos($ulasan, ' ');
                                 $ulasan = substr($ulasan, 0, $lastSpace) . '...';
                             }

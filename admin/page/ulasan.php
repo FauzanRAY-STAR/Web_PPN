@@ -55,57 +55,164 @@ $res = mysqli_query($conn, $sql);
   <link rel="stylesheet" href="../../asset/style/ulasan.css">
   
   <style>
-    /* Fix untuk tabel agar tidak berantakan */
-    .table {
-      table-layout: fixed;
+    
+    /* ==================================
+       SEARCH BAR RESPONSIF
+       ================================== */
+    @media (max-width: 768px) {
+      .search-bar-top {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .search-bar-top .left-col,
+      .search-bar-top .right-col {
+        width: 100%;
+      }
+      
+      .search-bar-top form {
+        width: 100%;
+      }
+      
+      .search-box {
+        flex: 1;
+      }
+    }
+  /* FIX RESPONSIVE AGAR TIDAK TUMPANG TINDIH */
+  .table-responsive {
       width: 100%;
-    }
-    
-    .table th, .table td {
-      vertical-align: middle;
-      padding: 12px 8px;
-    }
-    
-    /* Lebar kolom tetap */
-    .table th:nth-child(1), .table td:nth-child(1) { width: 12%; } /* Nama */
-    .table th:nth-child(2), .table td:nth-child(2) { width: 12%; } /* Produk */
-    .table th:nth-child(3), .table td:nth-child(3) { width: 10%; } /* Alamat */
-    .table th:nth-child(4), .table td:nth-child(4) { width: 8%; }  /* Foto */
-    .table th:nth-child(5), .table td:nth-child(5) { width: 28%; } /* Review */
-    .table th:nth-child(6), .table td:nth-child(6) { width: 10%; } /* Nilai */
-    .table th:nth-child(7), .table td:nth-child(7) { width: 10%; } /* Status */
-    .table th:nth-child(8), .table td:nth-child(8) { width: 10%; } /* Aksi */
-    
-    /* Text wrap untuk kolom review */
-    .review-text {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+  }
+
+  /* Pastikan tabel minimum width agar tidak mepet */
+  .table {
+      min-width: 1000px; /* bisa disesuaikan */
+  }
+
+  /* Kolom review tetap rapi saat layar sempit */
+  .review-text {
+      white-space: normal !important;
       word-wrap: break-word;
-      overflow-wrap: break-word;
-      white-space: normal;
-      max-height: 100px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-    }
-    
-    /* Style untuk gambar */
-    .table img {
-      border-radius: 8px;
-      object-fit: cover;
-      display: block;
-      margin: 0 auto;
-    }
-    
-    /* Rating stars */
-    .rating-container {
+  }
+
+  /* Agar header tidak melipat */
+  .table th {
       white-space: nowrap;
-    }
+  }
+
+  /* Style scroll biar halus */
+  .table-responsive::-webkit-scrollbar {
+      height: 8px;
+  }
+  .table-responsive::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 10px;
+  }
+
+   /* ==================================
+       PAGINATION FIXES
+       ================================== */
     
-    .rating-container i {
-      font-size: 14px;
+    /* Pagination wrapper responsif */
+    .pagination-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
-  </style>
+
+    @media (max-width: 576px) {
+      .pagination-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .pagination-wrapper .text-muted {
+        text-align: center;
+        order: 2;
+        margin-top: 1rem;
+      }
+      
+      .pagination-buttons {
+        order: 1;
+        justify-content: center !important;
+      }
+    }
+
+    /* Style untuk tombol pagination */
+    .pagination-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .page-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      border: 2px solid #4E8E55;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    /* Halaman aktif - HIJAU dengan teks putih */
+    .page-btn.active {
+      background-color: #4E8E55;
+      color: white !important;
+      border-color: #4E8E55;
+    }
+
+    /* Halaman tidak aktif - PUTIH dengan border hijau dan teks hijau */
+    .page-btn.inactive {
+      background-color: white;
+      color: #4E8E55 !important;
+      border-color: #4E8E55;
+    }
+
+    .page-btn.inactive:hover {
+      background-color: #f0f7f1;
+      transform: translateY(-2px);
+    }
+
+    /* Tombol prev/next */
+    .page-btn.nav-btn {
+      background-color: #D6C72A;
+      border-color: #D6C72A;
+      color: white !important;
+    }
+
+    .page-btn.nav-btn:hover:not(:disabled) {
+      background-color: #c4b525;
+      transform: translateY(-2px);
+    }
+
+    .page-btn.nav-btn:disabled {
+      background-color: #6c757d;
+      border-color: #6c757d;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Ellipsis */
+    .page-ellipsis {
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      color: #6c757d;
+    }
+
+
+  
+</style>
+
 </head>
 
 <body>
@@ -195,9 +302,19 @@ $res = mysqli_query($conn, $sql);
                      height="60"
                      alt="Testimoni">
               </td>
+              <?php
+$ulasan = $row['ulasan'];
+$ulimit = 100;
+
+if (mb_strlen($ulasan) > $ulimit) {
+    $text = mb_substr($ulasan, 0, $ulimit);
+    $text = mb_substr($text, 0, mb_strrpos($text, ' ')); // potong sampai spasi terakhir
+    $ulasan = $text . "...";
+}
+?>
               <td>
                 <div class="review-text">
-                  <?= nl2br(htmlspecialchars($row['ulasan'])) ?>
+                  <?= nl2br(htmlspecialchars($ulasan))  ?>
                 </div>
               </td>
               <td class="text-center">
@@ -257,81 +374,71 @@ $res = mysqli_query($conn, $sql);
         </table>
       </div>
 
-      <!-- PAGINATION - Hanya tampil jika data > 7 -->
+      <!-- PAGINATION - RESPONSIVE -->
       <?php if($totalData > $limit) : ?>
-      <div class="d-flex justify-content-between align-items-center mt-4">
+      <div class="pagination-wrapper">
         <!-- Info Halaman -->
         <div class="text-muted small">
           Menampilkan <?= ($offset + 1) ?> - <?= min($offset + $limit, $totalData) ?> dari <?= $totalData ?> data
         </div>
         
         <!-- Pagination Buttons -->
-        <div class="d-flex gap-2">
+        <div class="pagination-buttons">
           <!-- Previous Button -->
           <?php if($page > 1) : ?>
           <a href="?page=<?= $page - 1 ?><?= !empty($search) ? '&search=' . urlencode($search) : '' ?>&sort=<?= $sort ?>" 
-             class="btn btn-warning rounded-circle d-flex align-items-center justify-content-center"
-             style="width: 40px; height: 40px;">
-            <i class="bi bi-chevron-left text-white"></i>
+             class="page-btn nav-btn"
+             title="Previous">
+            <i class="bi bi-chevron-left"></i>
           </a>
           <?php else : ?>
-          <button class="btn btn-secondary rounded-circle d-flex align-items-center justify-content-center" 
-                  disabled
-                  style="width: 40px; height: 40px; opacity: 0.5;">
-            <i class="bi bi-chevron-left text-white"></i>
+          <button class="page-btn nav-btn" disabled title="Previous">
+            <i class="bi bi-chevron-left"></i>
           </button>
           <?php endif; ?>
 
           <!-- Page Numbers -->
-          <?php 
-          // Hitung range halaman yang ditampilkan
-          $startPage = max(1, $page - 2);
-          $endPage = min($totalPages, $page + 2);
-          
-          // Tampilkan halaman pertama jika tidak termasuk range
-          if($startPage > 1) : ?>
-            <a href="?page=1<?= !empty($search) ? '&search=' . urlencode($search) : '' ?>&sort=<?= $sort ?>" 
-               class="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
-               style="width: 40px; height: 40px;">
-              1
-            </a>
-            <?php if($startPage > 2) : ?>
-              <span class="d-flex align-items-center px-2">...</span>
-            <?php endif; ?>
-          <?php endif; ?>
+          <?php
+// Jika total halaman <= 3 → tampilkan semuanya
+if ($totalPages <= 3) {
+    for ($i = 1; $i <= $totalPages; $i++) {
+        echo '<a href="?page='.$i.'" class="page-btn '.($i==$page?'active':'inactive').'">'.$i.'</a>';
+    }
+} else {
 
-          <?php for($i = $startPage; $i <= $endPage; $i++) : ?>
-            <a href="?page=<?= $i ?><?= !empty($search) ? '&search=' . urlencode($search) : '' ?>&sort=<?= $sort ?>" 
-               class="btn <?= $i == $page ? 'btn-success' : 'btn-outline-success' ?> rounded-circle d-flex align-items-center justify-content-center fw-semibold text-white"
-               style="width: 40px; height: 40px;">
-              <?= $i ?>
-            </a>
-          <?php endfor; ?>
+    // Hitung 3 angka utama
+    $start = max(1, $page - 1);
+    $end   = min($totalPages, $page + 1);
 
-          <!-- Tampilkan halaman terakhir jika tidak termasuk range -->
-          <?php if($endPage < $totalPages) : ?>
-            <?php if($endPage < $totalPages - 1) : ?>
-              <span class="d-flex align-items-center px-2">...</span>
-            <?php endif; ?>
-            <a href="?page=<?= $totalPages ?><?= !empty($search) ? '&search=' . urlencode($search) : '' ?>&sort=<?= $sort ?>" 
-               class="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
-               style="width: 40px; height: 40px;">
-              <?= $totalPages ?>
-            </a>
-          <?php endif; ?>
+    // Jika posisi jauh dari awal, tampilkan "..."
+    if ($start > 2) {
+        echo '<span class="page-ellipsis">...</span>';
+    }
+
+    // Angka utama (3 atau kurang)
+    for ($i = $start; $i <= $end; $i++) {
+        echo '<a href="?page='.$i.'" class="page-btn '.($i==$page?'active':'inactive').'">'.$i.'</a>';
+    }
+
+    // Jika posisi jauh dari akhir, tampilkan "..."
+    if ($end < $totalPages - 1) {
+        echo '<span class="page-ellipsis">...</span>';
+    }
+}
+?>
+
+
 
           <!-- Next Button -->
           <?php if($page < $totalPages) : ?>
           <a href="?page=<?= $page + 1 ?><?= !empty($search) ? '&search=' . urlencode($search) : '' ?>&sort=<?= $sort ?>" 
-             class="btn btn-warning rounded-circle d-flex align-items-center justify-content-center"
-             style="width: 40px; height: 40px;">
-            <i class="bi bi-chevron-right text-white"></i>
+             class="page-btn nav-btn"
+             title="Next">
+            <i class="bi bi-chevron-right"></i>
           </a>
           <?php else : ?>
-          <button class="btn btn-secondary rounded-circle d-flex align-items-center justify-content-center" 
-                  disabled
-                  style="width: 40px; height: 40px; opacity: 0.5;">
-            <i class="bi bi-chevron-right text-white"></i>
+          <button class="page-btn nav-btn" disabled title="Next">
+            <i class="bi bi-chevron-right"></i>
           </button>
           <?php endif; ?>
         </div>
