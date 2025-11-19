@@ -283,16 +283,6 @@ $res = mysqli_query($conn, $sql);
                       data-sort="<?= $sort ?>">
                 <i class="bi bi-sort-<?= $sort == 'ASC' ? 'up' : 'down' ?>"></i>
               </button>
-              
-              
-              <!-- Button Reset (jika ada pencarian) -->
-              <!-- <?php if(!empty($search)) : ?>
-              <a href="ulasan.php" 
-                class="search-btn" 
-                style="background-color: #dc3545; text-decoration: none; display: flex; align-items: center; justify-content: center;">
-                <i class="bi bi-x-lg"></i>
-              </a>
-              <?php endif; ?> -->
             </form>
           </div>
           <div class="right-col">
