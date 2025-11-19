@@ -1,2 +1,2 @@
 <?php
-$base_url = '/WEB_PPN/';
+$base_url = '/Web_PPN/';

@@ -37,7 +37,10 @@ body {
     position: relative;
     height: 70vh;
     min-height: 500px;
-    background: #2B8D4C;
+    background-image: url('../img/ptppn3.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,7 +64,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background:#2B8D4C;
+    background: rgba(43, 141, 76, 0.4);
 }
 
 .hero-content {

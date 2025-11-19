@@ -479,16 +479,16 @@ $result_produk = mysqli_query($conn, $query_produk);
                 <div class="col-lg-6">
                     <div class="row g-3">
                         <div class="col-6 text-start">
-                            <img class="img-fluid rounded w-100 wow zoomIn" src="asset/img/Galeri1.png" alt="">
+                            <img class="img-fluid rounded w-100 wow zoomIn" src="asset/img/ptppn16.jpeg" alt="">
                         </div>
                         <div class="col-6 text-start">
-                            <img class="img-fluid rounded w-75 wow zoomIn" src="asset/img/Galeri2.png" style="margin-top: 25%;" alt="">
+                            <img class="img-fluid rounded w-75 wow zoomIn" src="asset/img/ptppn10.jpeg" style="margin-top: 25%;" alt="">
                         </div>
                         <div class="col-6 text-end">
-                            <img class="img-fluid rounded w-75 wow zoomIn" src="asset/img/Galeri3.png" alt="">
+                            <img class="img-fluid rounded w-75 wow zoomIn" src="asset/img/ptppn1.jpeg" alt="">
                         </div>
                         <div class="col-6 text-end">
-                            <img class="img-fluid rounded w-100 wow zoomIn" src="asset/img/Galeri4.png" alt="">
+                            <img class="img-fluid rounded w-100 wow zoomIn" src="asset/img/ptppn15.jpeg" alt="">
                         </div>
                     </div>
                 </div>

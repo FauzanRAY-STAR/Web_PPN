@@ -14,7 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../asset/style/tentang_kami.css">
+    <link rel="stylesheet" href="../asset/style/tentang_kami.css?v=1">
 
     <!-- Custom Poppins Styling -->
     <style>
@@ -134,9 +134,10 @@
     <?php include '../admin/template/navbar.php'; ?>
 
     <div class="main-content">
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
                 <div class="hero-divider left"></div>
                 <div class="hero-text-wrapper">
                     <h1 class="hero-title fw-bold">PT Pramudita Pupuk Nusantara</h1>
