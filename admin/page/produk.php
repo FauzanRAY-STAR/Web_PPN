@@ -330,28 +330,6 @@ $kategori_result = mysqli_query($conn, $kategori_query);
           <option value="Non-aktif">Non-aktif</option>
           <option value="Dipajang">Dipajang</option>
         </select>
-
-        <label class="fw-semibold mb-1">Atribut Produk</label>
-        <div class="mb-3">
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" name="baru" id="baru" value="1">
-            <label class="form-check-label" for="baru">Baru</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" name="laris" id="laris" value="1">
-            <label class="form-check-label" for="laris">Laris</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" name="promo" id="promo" value="1">
-            <label class="form-check-label" for="promo">Promo</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" name="bonus" id="bonus" value="1">
-            <label class="form-check-label" for="bonus">Bonus</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" name="habis" id="habis" value="1">
-            <label class="form-check-label" for="habis">Habis</label>
           </div>
         </div>
 
