@@ -144,3 +144,68 @@ body {
 .btn-success i {
   color: white;
 }
+
+
+
+/* Hover effect untuk thumbnail */
+.img-review-thumbnail:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal backdrop lebih gelap */
+#imageModal .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Animasi zoom in */
+#imageModal .modal-dialog {
+  animation: zoomIn 0.3s ease-out;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Loading spinner untuk gambar */
+#modalImage {
+  min-height: 200px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+#modalImage.loaded {
+  background: none;
+  animation: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #imageModal .modal-lg {
+    max-width: 95%;
+    margin: 1rem auto;
+  }
+
+  #modalImage {
+    max-height: 70vh !important;
+  }
+}

@@ -30,6 +30,7 @@ include('config/koneksi.php');
     <link href="asset/style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="asset/style/fab.css">
     <link rel="stylesheet" href="asset/style/beranda.css">
+    <link rel="stylesheet" href="asset/style/ulasan_beranda.css">
 
     <!-- Custom CSS for Poppins Font -->
     <style>
@@ -510,18 +511,14 @@ $result_produk = mysqli_query($conn, $query_produk);
 
     <?php
 // ============================================
-// QUERY TESTIMONI - Ambil 4 random yang ditampilkan
+// QUERY TESTIMONI - Ambil SEMUA yang ditampilkan
 // ============================================
-// Pastikan koneksi database sudah ada ($conn)
-// include('config/koneksi.php'); // Uncomment jika belum di-include
-
 $queryTestimoni = "
     SELECT u.*, p.gambar as gambar_produk 
     FROM ulasan u 
     LEFT JOIN produk p ON u.produk = p.nama 
     WHERE u.status = 'Ditampilkan' 
-    ORDER BY RAND() 
-    LIMIT 4
+    ORDER BY u.id DESC
 ";
 $resultTestimoni = mysqli_query($conn, $queryTestimoni);
 
@@ -534,191 +531,201 @@ $jumlahTestimoni = mysqli_num_rows($resultTestimoni);
 <!-- ============================================ -->
 <div class="container-fluid py-5" style="background-color: #2B8D4C;">
     <div class="container py-5">
-        <div class="text-start mb-5">
-            <h5 class="fw-normal text-white">Testimoni</h5>
-            <h1 class="fw-semibold text-white">Pupuk Silika Pramudita Pupuk Nusantara</h1>
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h5 class="fw-normal text-white mb-2">Testimoni</h5>
+                <h1 class="fw-semibold text-white mb-0">Pupuk Silika Pramudita Pupuk Nusantara</h1>
+            </div>
+            
+            <!-- Navigation Arrows -->
+            <?php if($jumlahTestimoni > 3) : ?>
+            <div class="d-flex gap-2">
+                <button class="btn btn-light rounded-circle scroll-btn" id="scrollLeft" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-chevron-left fw-bold"></i>
+                </button>
+                <button class="btn btn-light rounded-circle scroll-btn" id="scrollRight" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-chevron-right fw-bold"></i>
+                </button>
+            </div>
+            <?php endif; ?>
         </div>
 
         <?php if($jumlahTestimoni > 0) : ?>
-        <div class="row g-4">
-            <?php 
-            $modalIndex = 1;
-            while($testimoni = mysqli_fetch_assoc($resultTestimoni)) : 
-            ?>
-            <!-- Testimoni Card -->
-            <div class="col-lg-3 col-md-6">
-                <div class="p-4 h-100 testimoni-card" 
-                     style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" 
-                     data-bs-toggle="modal" 
-                     data-bs-target="#testimoniModal<?= $modalIndex ?>">
-                    
-                    <!-- Header dengan Foto -->
-                    <div class="d-flex align-items-center mb-3">
-                        <img src="asset/img/testimoni/<?= htmlspecialchars($testimoni['gambar']) ?>" 
-                             alt="<?= htmlspecialchars($testimoni['nama']) ?>"
-                             style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #333;"
-                             onerror="this.src='asset/img/default-avatar.png'">
-                        <h6 class="ms-2 fw-bold m-0"><?= htmlspecialchars($testimoni['nama']) ?></h6>
-                    </div>
-                    
-                    <!-- Review (Potong jika terlalu panjang) -->
-                    <p style="min-height: 120px;">
-                        <?php 
-                        $ulasan = htmlspecialchars($testimoni['ulasan']);
-                        // Potong di 150 karakter atau di akhir kata terdekat
-                        if (strlen($ulasan) > 150) {
-                            $ulasan = substr($ulasan, 0, 150);
-                            $lastSpace = strrpos($ulasan, ' ');
-                            $ulasan = substr($ulasan, 0, $lastSpace) . '...';
-                        }
-                        echo $ulasan;
-                        ?>
-                    </p>
-                    
-                    <!-- Footer dengan Rating & Info -->
-                    <div class="mt-auto">
-                        <!-- Rating Bintang -->
-                        <div class="mb-2">
+        
+        <!-- Scrollable Container -->
+        <div class="testimoni-scroll-container" id="testimoniContainer">
+            <div class="testimoni-scroll-wrapper">
+                <?php 
+                $modalIndex = 1;
+                while($testimoni = mysqli_fetch_assoc($resultTestimoni)) : 
+                ?>
+                <!-- Testimoni Card -->
+                <div class="testimoni-scroll-item">
+                    <div class="p-4 h-100 testimoni-card" 
+                         style="background-color: #FFED64; border-radius: 15px; color: #333; cursor: pointer;" 
+                         data-bs-toggle="modal" 
+                         data-bs-target="#testimoniModal<?= $modalIndex ?>">
+                        
+                        <!-- Header dengan Foto -->
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="asset/img/testimoni/<?= htmlspecialchars($testimoni['gambar']) ?>" 
+                                 alt="<?= htmlspecialchars($testimoni['nama']) ?>"
+                                 style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #333;"
+                                 onerror="this.src='asset/img/default-avatar.png'">
+                            <h6 class="ms-2 fw-bold m-0"><?= htmlspecialchars($testimoni['nama']) ?></h6>
+                        </div>
+                        
+                        <!-- Review (Potong jika terlalu panjang) -->
+                        <p class="review-preview">
                             <?php 
-                            for($i = 1; $i <= 5; $i++) {
-                                if($i <= $testimoni['nilai']) {
-                                    echo '<i class="bi bi-star-fill text-warning"></i>';
-                                } else {
-                                    echo '<i class="bi bi-star text-warning"></i>';
-                                }
+                            $ulasan = htmlspecialchars($testimoni['ulasan']);
+                            // Potong di 120 karakter
+                            if (strlen($ulasan) > 150) {
+                                $ulasan = substr($ulasan, 0, 150);
+                                $lastSpace = strrpos($ulasan, ' ');
+                                $ulasan = substr($ulasan, 0, $lastSpace) . '...';
                             }
+                            echo $ulasan;
                             ?>
-                        </div>
-                        <small class="text-muted d-block" style="font-size: 0.85rem;">
-                            <i class="bi bi-box-seam"></i> <?= htmlspecialchars($testimoni['produk']) ?>
-                        </small>
-                        <small class="text-muted d-block" style="font-size: 0.85rem;">
-                            <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($testimoni['alamat']) ?>
-                        </small>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal Detail Testimoni -->
-            <div class="modal fade" id="testimoniModal<?= $modalIndex ?>" tabindex="-1" aria-labelledby="modalLabel<?= $modalIndex ?>" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content border-0" style="border-radius: 20px; overflow: hidden;">
+                        </p>
                         
-                        <!-- HEADER MODAL - Design Lebih Rapi -->
-                        <div class="modal-header border-0 position-relative" style="background: linear-gradient(135deg, #2B8D4C 0%, #1a5c30 100%); padding: 1.5rem 2rem;">
-                            <div class="d-flex align-items-center gap-2">
-                                <div style="width: 40px; height: 40px; background-color: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="bi bi-chat-quote-fill text-white fs-5"></i>
-                                </div>
-                                <h5 class="modal-title text-white fw-bold mb-0">Detail Testimoni</h5>
-                            </div>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="filter: brightness(0) invert(1);"></button>
-                        </div>
-                        
-                        <div class="modal-body p-4">
-                            <!-- Profile Section - Lebih Compact -->
-                            <div class="d-flex align-items-center mb-4">
-                                <img src="asset/img/testimoni/<?= htmlspecialchars($testimoni['gambar']) ?>" 
-                                     alt="<?= htmlspecialchars($testimoni['nama']) ?>"
-                                     style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid #2B8D4C; box-shadow: 0 4px 12px rgba(43,141,76,0.2);"
-                                     onerror="this.src='asset/img/default-avatar.png'">
-                                <div class="ms-3 flex-grow-1">
-                                    <h5 class="fw-bold mb-1"><?= htmlspecialchars($testimoni['nama']) ?></h5>
-                                    <div class="d-flex align-items-center gap-2 text-muted">
-                                        <i class="bi bi-geo-alt-fill" style="color: #2B8D4C;"></i>
-                                        <small><?= htmlspecialchars($testimoni['alamat']) ?></small>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Rating Section - Centered dan Compact -->
-                            <div class="text-center mb-4 py-3" style="background-color: #f8f9fa; border-radius: 12px;">
-                                <div class="mb-2">
-                                    <?php 
-                                    for($i = 1; $i <= 5; $i++) {
-                                        if($i <= $testimoni['nilai']) {
-                                            echo '<i class="bi bi-star-fill text-warning fs-4"></i>';
-                                        } else {
-                                            echo '<i class="bi bi-star text-muted fs-4"></i>';
-                                        }
+                        <!-- Footer dengan Rating & Info -->
+                        <div class="mt-auto">
+                            <!-- Rating Bintang -->
+                            <div class="mb-2">
+                                <?php 
+                                for($i = 1; $i <= 5; $i++) {
+                                    if($i <= $testimoni['nilai']) {
+                                        echo '<i class="bi bi-star-fill text-warning"></i>';
+                                    } else {
+                                        echo '<i class="bi bi-star text-warning"></i>';
                                     }
-                                    ?>
+                                }
+                                ?>
+                            </div>
+                            <small class="text-muted d-block" style="font-size: 0.85rem;">
+                                <i class="bi bi-box-seam"></i> <?= htmlspecialchars($testimoni['produk']) ?>
+                            </small>
+                            <small class="text-muted d-block" style="font-size: 0.85rem;">
+                                <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($testimoni['alamat']) ?>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Detail Testimoni -->
+                <div class="modal fade" id="testimoniModal<?= $modalIndex ?>" tabindex="-1" aria-labelledby="modalLabel<?= $modalIndex ?>" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content border-0" style="border-radius: 20px; overflow: hidden;">
+                            
+                            <!-- HEADER MODAL -->
+                            <div class="modal-header border-0 position-relative" style="background: linear-gradient(135deg, #2B8D4C 0%, #1a5c30 100%); padding: 1.5rem 2rem;">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div style="width: 40px; height: 40px; background-color: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="bi bi-chat-quote-fill text-white fs-5"></i>
+                                    </div>
+                                    <h5 class="modal-title text-white fw-bold mb-0">Detail Testimoni</h5>
                                 </div>
-                                <small class="text-muted fw-semibold">Rating: <?= $testimoni['nilai'] ?>/5</small>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="filter: brightness(0) invert(1);"></button>
                             </div>
                             
-                            <!-- Produk Section - Dengan Gambar Produk -->
-                            <div class="mb-4">
-                                <label class="text-muted small mb-2 fw-semibold">Produk yang Digunakan</label>
-                                <div class="d-flex align-items-center p-3 rounded-3" style="background: linear-gradient(135deg, #FFED64 0%, #ffd700 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                                    <!-- Gambar Produk -->
-                                    <?php if(!empty($testimoni['gambar_produk'])) : ?>
-                                    <img src="asset/img/<?= htmlspecialchars($testimoni['gambar_produk']) ?>" 
-                                         alt="<?= htmlspecialchars($testimoni['produk']) ?>"
-                                         style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover; border: 2px solid #2B8D4C; box-shadow: 0 2px 6px rgba(0,0,0,0.15);"
-                                         onerror="this.src='asset/img/default-product.png'">
-                                    <?php else : ?>
-                                    <div style="width: 50px; height: 50px; border-radius: 8px; background-color: #2B8D4C; display: flex; align-items: center; justify-content: center; border: 2px solid #1a5c30;">
-                                        <i class="bi bi-box-seam text-white fs-5"></i>
-                                    </div>
-                                    <?php endif; ?>
-                                    
+                            <div class="modal-body p-4">
+                                <!-- Profile Section -->
+                                <div class="d-flex align-items-center mb-4">
+                                    <img src="asset/img/testimoni/<?= htmlspecialchars($testimoni['gambar']) ?>" 
+                                         alt="<?= htmlspecialchars($testimoni['nama']) ?>"
+                                         style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid #2B8D4C; box-shadow: 0 4px 12px rgba(43,141,76,0.2);"
+                                         onerror="this.src='asset/img/default-avatar.png'">
                                     <div class="ms-3 flex-grow-1">
-                                        <div class="fw-bold" style="color: #2B8D4C; font-size: 1.1rem;">
-                                            <?= htmlspecialchars($testimoni['produk']) ?>
+                                        <h5 class="fw-bold mb-1"><?= htmlspecialchars($testimoni['nama']) ?></h5>
+                                        <div class="d-flex align-items-center gap-2 text-muted">
+                                            <i class="bi bi-geo-alt-fill" style="color: #2B8D4C;"></i>
+                                            <small><?= htmlspecialchars($testimoni['alamat']) ?></small>
                                         </div>
-                                        <small class="text-muted">
-                                            <i class="bi bi-check-circle-fill" style="color: #2B8D4C;"></i> Produk Terverifikasi
-                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Rating Section -->
+                                <div class="text-center mb-4 py-3" style="background-color: #f8f9fa; border-radius: 12px;">
+                                    <div class="mb-2">
+                                        <?php 
+                                        for($i = 1; $i <= 5; $i++) {
+                                            if($i <= $testimoni['nilai']) {
+                                                echo '<i class="bi bi-star-fill text-warning fs-4"></i>';
+                                            } else {
+                                                echo '<i class="bi bi-star text-muted fs-4"></i>';
+                                            }
+                                        }
+                                        ?>
+                                    </div>
+                                    <small class="text-muted fw-semibold">Rating: <?= $testimoni['nilai'] ?>/5</small>
+                                </div>
+                                
+                                <!-- Produk Section -->
+                                <div class="mb-4">
+                                    <label class="text-muted small mb-2 fw-semibold">Produk yang Digunakan</label>
+                                    <div class="d-flex align-items-center p-3 rounded-3" style="background: linear-gradient(135deg, #FFED64 0%, #ffd700 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                                        <!-- Gambar Produk -->
+                                        <?php if(!empty($testimoni['gambar_produk'])) : ?>
+                                        <img src="asset/img/<?= htmlspecialchars($testimoni['gambar_produk']) ?>" 
+                                             alt="<?= htmlspecialchars($testimoni['produk']) ?>"
+                                             style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover; border: 2px solid #2B8D4C; box-shadow: 0 2px 6px rgba(0,0,0,0.15);"
+                                             onerror="this.src='asset/img/default-product.png'">
+                                        <?php else : ?>
+                                        <div style="width: 50px; height: 50px; border-radius: 8px; background-color: #2B8D4C; display: flex; align-items: center; justify-content: center; border: 2px solid #1a5c30;">
+                                            <i class="bi bi-box-seam text-white fs-5"></i>
+                                        </div>
+                                        <?php endif; ?>
+                                        
+                                        <div class="ms-3 flex-grow-1">
+                                            <div class="fw-bold" style="color: #2B8D4C; font-size: 1.1rem;">
+                                                <?= htmlspecialchars($testimoni['produk']) ?>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="bi bi-check-circle-fill" style="color: #2B8D4C;"></i> Produk Terverifikasi
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Review Section -->
+                                <div class="mb-3">
+                                    <label class="text-muted small mb-2 fw-semibold">
+                                        <i class="bi bi-chat-left-text"></i> Ulasan Lengkap
+                                    </label>
+                                    <div class="p-3 rounded-3" style="background-color: #f8f9fa; border-left: 4px solid #2B8D4C;">
+                                        <p class="mb-0" style="text-align: justify; line-height: 1.8; color: #495057;">
+                                            <?= nl2br(htmlspecialchars($testimoni['ulasan'])) ?>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- Review Section -->
-                            <div class="mb-3">
-                                <label class="text-muted small mb-2 fw-semibold">
-                                    <i class="bi bi-chat-left-text"></i> Ulasan Lengkap
-                                </label>
-                                <div class="p-3 rounded-3" style="background-color: #f8f9fa; border-left: 4px solid #2B8D4C;">
-                                    <p class="mb-0" style="text-align: justify; line-height: 1.8; color: #495057;">
-                                        <?= nl2br(htmlspecialchars($testimoni['ulasan'])) ?>
-                                    </p>
-                                </div>
+                            <!-- Footer Modal -->
+                            <div class="modal-footer border-0 pt-0 pb-4 px-4">
+                                <button type="button" class="btn btn-lg w-100 fw-semibold" data-bs-dismiss="modal" style="background-color: #2B8D4C; color: white; border-radius: 12px; transition: all 0.3s;">
+                                    <i class="bi bi-x-circle me-2"></i>Tutup
+                                </button>
                             </div>
                         </div>
-                        
-                        <!-- Footer Modal -->
-                        <div class="modal-footer border-0 pt-0 pb-4 px-4">
-                            <button type="button" class="btn btn-lg w-100 fw-semibold" data-bs-dismiss="modal" style="background-color: #2B8D4C; color: white; border-radius: 12px; transition: all 0.3s;">
-                                <i class="bi bi-x-circle me-2"></i>Tutup
-                            </button>
-                        </div>
                     </div>
                 </div>
+                
+                <?php 
+                $modalIndex++;
+                endwhile; 
+                ?>
             </div>
-            
-            <?php 
-            $modalIndex++;
-            endwhile; 
-            ?>
-            
-            <?php 
-            // Jika data testimoni kurang dari 4, tampilkan placeholder
-            $remaining = 4 - $jumlahTestimoni;
-            for($i = 0; $i < $remaining; $i++) : 
-            ?>
-            <div class="col-lg-3 col-md-6">
-                <div class="p-4 h-100" 
-                     style="background-color: #FFED64; border-radius: 10px; color: #333; opacity: 0.5; border: 2px dashed #ccc;">
-                    <div class="d-flex align-items-center mb-3">
-                        <div style="width: 40px; height: 40px; background-color: #ddd; border-radius: 50%;"></div>
-                        <h6 class="ms-2 fw-bold m-0 text-muted">Belum Ada Testimoni</h6>
-                    </div>
-                    <p class="text-muted" style="min-height: 120px;">Testimoni akan muncul di sini setelah ditambahkan.</p>
-                </div>
-            </div>
-            <?php endfor; ?>
         </div>
+        
+        <!-- Indicator Dots (Optional) -->
+        <?php if($jumlahTestimoni > 3) : ?>
+        <div class="text-center mt-4">
+            <small class="text-white">
+                <i class="bi bi-arrow-left-right"></i> Geser untuk melihat testimoni lainnya
+            </small>
+        </div>
+        <?php endif; ?>
         
         <?php else : ?>
         <!-- Jika tidak ada testimoni sama sekali -->
@@ -733,80 +740,63 @@ $jumlahTestimoni = mysqli_num_rows($resultTestimoni);
 </div>
 
 <!-- ============================================ -->
-<!-- CUSTOM STYLES -->
+<!-- JAVASCRIPT FOR SCROLL BUTTONS -->
 <!-- ============================================ -->
-<style>
-/* Hover effect untuk testimoni card */
-.testimoni-card {
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-}
-
-.testimoni-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.25);
-}
-
-/* Style untuk rating bintang */
-.bi-star-fill, .bi-star {
-    font-size: 16px;
-    margin-right: 3px;
-}
-
-/* Modal backdrop enhancement */
-.modal-backdrop {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-/* Modal animation */
-.modal.fade .modal-dialog {
-    transition: transform 0.3s ease-out;
-}
-
-/* Button hover effect */
-.modal-footer .btn:hover {
-    background-color: #1a5c30 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(43,141,76,0.3);
-}
-
-/* Close button enhancement */
-.btn-close:hover {
-    transform: scale(1.1);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .testimoni-card {
-        margin-bottom: 1rem;
-    }
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('testimoniContainer');
+    const scrollLeftBtn = document.getElementById('scrollLeft');
+    const scrollRightBtn = document.getElementById('scrollRight');
     
-    .modal-dialog {
-        margin: 1rem;
+    if (scrollLeftBtn && scrollRightBtn) {
+        // Scroll left
+        scrollLeftBtn.addEventListener('click', function() {
+            container.scrollBy({
+                left: -400,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Scroll right
+        scrollRightBtn.addEventListener('click', function() {
+            container.scrollBy({
+                left: 400,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Update button states based on scroll position
+        function updateScrollButtons() {
+            const scrollLeft = container.scrollLeft;
+            const maxScroll = container.scrollWidth - container.clientWidth;
+            
+            // Disable left button if at start
+            if (scrollLeft <= 0) {
+                scrollLeftBtn.style.opacity = '0.5';
+                scrollLeftBtn.style.cursor = 'not-allowed';
+            } else {
+                scrollLeftBtn.style.opacity = '1';
+                scrollLeftBtn.style.cursor = 'pointer';
+            }
+            
+            // Disable right button if at end
+            if (scrollLeft >= maxScroll - 10) {
+                scrollRightBtn.style.opacity = '0.5';
+                scrollRightBtn.style.cursor = 'not-allowed';
+            } else {
+                scrollRightBtn.style.opacity = '1';
+                scrollRightBtn.style.cursor = 'pointer';
+            }
+        }
+        
+        // Initial check
+        updateScrollButtons();
+        
+        // Update on scroll
+        container.addEventListener('scroll', updateScrollButtons);
     }
-    
-    .modal-body {
-        padding: 1.5rem !important;
-    }
-}
-
-/* Card text truncation */
-.testimoni-card p {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-}
-
-/* Label styling */
-label.small {
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.75rem;
-}
-</style>
+});
+</script>
 
     <!-- ============================================ -->
     <!-- JAVASCRIPT LIBRARIES -->
