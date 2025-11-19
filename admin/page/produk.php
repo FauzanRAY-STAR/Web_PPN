@@ -124,7 +124,6 @@ $kategori_result = mysqli_query($conn, $kategori_query);
       min-width: 300px;
       animation: slideIn 0.3s ease;
     }
-
     .gradient-btn {
   background: linear-gradient(90deg, #238B3E, #C5C140);
   color: #fff;
@@ -135,9 +134,8 @@ $kategori_result = mysqli_query($conn, $kategori_query);
 }
 
 .gradient-btn:hover {
-  opacity: 0.9;
+  opacity: 0.9;
 }
-
     
     @keyframes slideIn {
       from { transform: translateX(400px); opacity: 0; }
@@ -344,6 +342,31 @@ $kategori_result = mysqli_query($conn, $kategori_query);
           <option value="Non-aktif">Non-aktif</option>
           <option value="Dipajang">Dipajang</option>
         </select>
+
+        <label class="fw-semibold mb-1">Atribut Produk</label>
+        <div class="mb-3">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="baru" id="baru" value="1">
+            <label class="form-check-label" for="baru">Baru</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="laris" id="laris" value="1">
+            <label class="form-check-label" for="laris">Laris</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="promo" id="promo" value="1">
+            <label class="form-check-label" for="promo">Promo</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="bonus" id="bonus" value="1">
+            <label class="form-check-label" for="bonus">Bonus</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="habis" id="habis" value="1">
+            <label class="form-check-label" for="habis">Habis</label>
+          </div>
+        </div>
+
         <button type="submit" class="w-100 mt-4 gradient-btn py-2">Simpan</button>
       </form>
     </div>
