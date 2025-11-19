@@ -124,6 +124,20 @@ $kategori_result = mysqli_query($conn, $kategori_query);
       min-width: 300px;
       animation: slideIn 0.3s ease;
     }
+
+    .gradient-btn {
+  background: linear-gradient(90deg, #238B3E, #C5C140);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.gradient-btn:hover {
+  opacity: 0.9;
+}
+
     
     @keyframes slideIn {
       from { transform: translateX(400px); opacity: 0; }
@@ -330,9 +344,6 @@ $kategori_result = mysqli_query($conn, $kategori_query);
           <option value="Non-aktif">Non-aktif</option>
           <option value="Dipajang">Dipajang</option>
         </select>
-          </div>
-        </div>
-
         <button type="submit" class="w-100 mt-4 gradient-btn py-2">Simpan</button>
       </form>
     </div>
