@@ -737,7 +737,6 @@ $jumlahTestimoni = mysqli_num_rows($resultTestimoni);
         
     </div>
 </div>
-
 <!-- ============================================ -->
 <!-- CUSTOM STYLES -->
 <!-- ============================================ -->
@@ -859,6 +858,7 @@ label.small {
 }
 
 /* Responsive adjustments */
+
 @media (max-width: 768px) {
     .testimoni-scroll-item {
         flex: 0 0 280px;
@@ -872,11 +872,6 @@ label.small {
     
     .modal-body {
         padding: 1.5rem !important;
-    }
-    
-    /* Hide scroll buttons on mobile */
-    .scroll-btn {
-        display: none !important;
     }
 }
 
