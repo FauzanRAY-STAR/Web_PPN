@@ -317,7 +317,7 @@ $res = mysqli_query($conn, $sql);
                 <th>Nama Pembeli</th>
                 <th>Nama Produk</th>
                 <th>Alamat</th>
-                <th>Foto</th>
+                <th> Foto </th>
                 <th>Review</th>
                 <th>Nilai</th>
                 <th>Status</th>
@@ -332,11 +332,16 @@ $res = mysqli_query($conn, $sql);
                 <td><?= htmlspecialchars($row['produk']) ?></td>
                 <td><?= htmlspecialchars($row['alamat']) ?></td>
                 <td class="text-center">
-                  <img src="../../asset/img/testimoni/<?= htmlspecialchars($row['gambar']) ?>" 
-                      width="60" 
-                      height="60"
-                      alt="Testimoni">
-                </td>
+  <img src="../../asset/img/testimoni/<?= htmlspecialchars($row['gambar']) ?>" 
+       width="60" 
+       height="60"
+       class="img-thumbnail img-review-thumbnail"
+       style="cursor: pointer; object-fit: cover; transition: transform 0.2s;"
+       data-img-full="../../asset/img/testimoni/<?= htmlspecialchars($row['gambar']) ?>"
+       data-nama="<?= htmlspecialchars($row['nama']) ?>"
+       alt="Testimoni"
+       title="Klik untuk memperbesar">
+</td>
                 <?php
                 $ulasan = $row['ulasan'];
                 $ulimit = 100;
@@ -486,6 +491,37 @@ $res = mysqli_query($conn, $sql);
       </div>
     </div>
 
+    <!-- TAMBAHKAN MODAL LIGHTBOX INI SEBELUM PENUTUP </body> -->
+<div class="modal fade" id="imageModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-transparent border-0">
+      <div class="modal-body p-0 position-relative">
+        <!-- Close Button -->
+        <button type="button" 
+                class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3" 
+                data-bs-dismiss="modal"
+                style="filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));">
+        </button>
+        
+        <!-- Image Container -->
+        <div class="text-center p-3">
+          <img id="modalImage" 
+               src="" 
+               class="img-fluid rounded shadow-lg" 
+               style="max-height: 80vh; object-fit: contain;"
+               alt="Review Image">
+          
+          <!-- Caption -->
+          <div class="mt-3 text-white" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+            <h5 class="mb-1">📷 Foto Testimoni</h5>
+            <p class="mb-0" id="modalCaption">Testimoni dari pelanggan</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
     <!-- MODAL TESTIMONI (TAMBAH & EDIT) -->
     <div class="modal fade" id="testimoniModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -610,6 +646,48 @@ $res = mysqli_query($conn, $sql);
 
       let currentChoices = null;
       let isEditMode = false;
+
+      const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+  const modalImage = document.getElementById('modalImage');
+  const modalCaption = document.getElementById('modalCaption');
+
+  // Event listener untuk semua thumbnail gambar
+  document.querySelectorAll('.img-review-thumbnail').forEach(img => {
+    img.addEventListener('click', function() {
+      const imgSrc = this.getAttribute('data-img-full');
+      const namaPembeli = this.getAttribute('data-nama');
+      
+      // Reset loading state
+      modalImage.classList.remove('loaded');
+      modalImage.src = '';
+      
+      // Set gambar dan caption
+      modalImage.src = imgSrc;
+      modalCaption.textContent = `Testimoni dari ${namaPembeli}`;
+      
+      // Tambah class loaded setelah gambar dimuat
+      modalImage.onload = function() {
+        modalImage.classList.add('loaded');
+      };
+      
+      // Tampilkan modal
+      imageModal.show();
+    });
+  });
+  
+  // Optional: Close modal saat klik di luar gambar
+  document.getElementById('imageModal').addEventListener('click', function(e) {
+    if (e.target === this || e.target.classList.contains('modal-body')) {
+      imageModal.hide();
+    }
+  });
+  
+  // Keyboard navigation: ESC untuk close
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && imageModal._isShown) {
+      imageModal.hide();
+    }
+  });
 
       // Inisialisasi Choices.js
       document.addEventListener('DOMContentLoaded', function () {
