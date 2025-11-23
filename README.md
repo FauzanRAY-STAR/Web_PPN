@@ -53,10 +53,10 @@ PT Pramudita Pupuk Nusantara adalah perusahaan pupuk nasional yang inovatif dan 
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/your-username/ptppn-website.git
-cd ptppn-website
+git clone https://github.com/FauzanRAY-STAR/Web_PPN.git
 ```
-
+- Patikan melakukan clone pada root `xampp/htdocs`
+  
 ### 2. Setup Web Server
 - Pastikan XAMPP/WAMP atau server lokal lainnya terinstall
 - Copy folder project ke `htdocs` (untuk XAMPP)

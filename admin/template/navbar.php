@@ -81,7 +81,7 @@ if (!isset($base_url)) {
                                 <a href="<?= $base_url ?>page/visi_misi.php" class="d-block py-2 fw-semibold text-link">
                                     Visi & Misi
                                 </a>
-                                <a href="<?= $base_url ?>tim-kami" class="d-block py-2 fw-semibold text-link">
+                                <a href="<?= $base_url ?>page/jangkauan_kami.php" class="d-block py-2 fw-semibold text-link">
                                     Jangkauan Pengguna
                                 </a>
                             </div>

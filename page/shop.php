@@ -8,6 +8,9 @@
     <!-- Favicon -->
     <link href="../asset/img/LogoIco.ico" rel="icon">
     
+    <!-- Favicon -->
+    <link href="asset/img/LogoIco.ico" rel="icon">
+
     <!-- Google Fonts - Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,6 +52,7 @@
             font-weight: 300 !important;
         }
     </style>
+    
 </head>
 <body>
     <!-- Navbar -->
