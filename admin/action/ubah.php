@@ -268,6 +268,18 @@ switch ($mod) {
                 throw new Exception('ID tidak valid');
             }
 
+        $query = "UPDATE diskon SET id_produk='" .$id_produk. "', diskon='" .$diskon. "', tanggal_mulai='" .$tanggal_mulai. "', 
+                  tanggal_selesai='" .$tanggal_selesai. "', status='" .$status. "' WHERE id='" .$id. "'";
+        break;
+
+    case 'faq':
+        $judul = $_POST['judul'];
+        $deskripsi = $_POST['deskripsi'];
+        $status = isset($_POST['status']) && $_POST['status'] == 'on' ? 'Ditampilkan' : 'Disembunyikan';
+
+        $query = "UPDATE faq SET judul='" .$judul. "', deskripsi='" .$deskripsi. "', status='" .$status. "' WHERE id='" .$id. "'";
+        break;
+}
             $id_produk = intval($_POST['id_produk'] ?? 0);
             $diskon = intval($_POST['diskon'] ?? 0);
             $tanggal_mulai = $_POST['tanggal_mulai'] ?? '';
