@@ -57,19 +57,39 @@ include('config/koneksi.php');
             white-space: nowrap;
         }
 
-        /* Gallery Images */
+        /* Gallery Images - Fixed Size 636px × 423px */
+        .gallery-item-wrapper {
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            border-radius: 1rem;
+            width: 100%;
+            max-width: 636px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         .gallery-img {
             font-family: 'Poppins', sans-serif;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 300px;
+            width: 636px;
+            height: 423px;
+            max-width: 100%;
             cursor: pointer;
             object-fit: cover;
-            width: 100%;
+            display: block;
+            border-radius: 1rem;
         }
 
         .gallery-img:hover {
             transform: translateY(-8px);
             box-shadow: 0 12px 24px rgba(27, 89, 48, 0.2) !important;
+        }
+
+        /* Column Layout */
+        .gallery-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Modal Styling */
@@ -134,11 +154,26 @@ include('config/koneksi.php');
         }
 
         /* Responsive */
+        @media (max-width: 1200px) {
+            .gallery-img {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 636 / 423;
+            }
+            .gallery-item-wrapper {
+                max-width: 100%;
+            }
+        }
+
         @media (max-width: 768px) {
             .galeri-title-container { gap: 1rem; }
             .galeri-line { max-width: 80px; }
             .galeri-title-line { font-size: 2rem; }
-            .gallery-img { height: 250px; }
+            .gallery-img {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 636 / 423;
+            }
         }
 
         @media (max-width: 576px) {
@@ -157,7 +192,11 @@ include('config/koneksi.php');
             }
             .galeri-line:first-child { order: 1; }
             .galeri-line:last-child { order: 3; }
-            .gallery-img { height: 200px; }
+            .gallery-img {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 636 / 423;
+            }
         }
     </style>
 
@@ -231,9 +270,9 @@ include('config/koneksi.php');
                             return;
                         }
 
-                        // Arrange in 2 columns (masonry style)
-                        let leftCol = '<div class="col-md-6">';
-                        let rightCol = '<div class="col-md-6">';
+                        // Arrange in 2 columns with exact 636x423 size
+                        let leftCol = '<div class="col-md-6 gallery-column">';
+                        let rightCol = '<div class="col-md-6 gallery-column">';
                         
                         displayedItems.forEach((item, index) => {
                             const date = new Date(item.tanggal).toLocaleDateString('id-ID', {
@@ -243,9 +282,9 @@ include('config/koneksi.php');
                             });
 
                             const itemHtml = `
-                                <div class="mb-4">
+                                <div class="gallery-item-wrapper">
                                     <img src="asset/img/${item.gambar}" 
-                                         class="img-fluid rounded-4 shadow gallery-img"
+                                         class="gallery-img shadow"
                                          alt="${item.judul}"
                                          data-title="${item.judul}"
                                          data-date="${date}"
