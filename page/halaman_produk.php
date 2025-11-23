@@ -1049,51 +1049,6 @@ body {
             <h1 class="produk-title-line">PRODUK</h1>
         </div>
 
-        <!-- Filter Section -->
-        <div class="filter-section">
-            <form method="GET" class="row g-3 align-items-end">
-                <div class="col-md-6">
-                    <label class="form-label fw-semibold">Cari Produk</label>
-                    <div class="search-box">
-                        <i class="bi bi-search"></i>
-                        <input type="text" name="search" class="form-control" 
-                               placeholder="Cari berdasarkan nama atau deskripsi..." 
-                               value="<?= htmlspecialchars($search) ?>">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label fw-semibold">Kategori</label>
-                    <select name="kategori" class="form-select">
-                        <option value="">Semua Kategori</option>
-                        <?php 
-                        mysqli_data_seek($kategori_result, 0);
-                        while ($kat = mysqli_fetch_assoc($kategori_result)): 
-                        ?>
-                            <option value="<?= htmlspecialchars($kat['kategori']) ?>" 
-                                    <?= $kategori_filter === $kat['kategori'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($kat['kategori']) ?>
-                            </option>
-                        <?php endwhile; ?>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-success w-100">
-                        <i class="bi bi-funnel"></i> Filter
-                    </button>
-                </div>
-            </form>
-            
-            <?php if (!empty($search) || !empty($kategori_filter)): ?>
-                <div class="mt-3">
-                    <a href="<?= $base_url ?>produk" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-x-circle"></i> Clear Filter
-                    </a>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <br></br>
-
         <!-- Products Grid -->
         <div class="row g-4 pb-5">
             <?php if ($result && mysqli_num_rows($result) > 0): ?>

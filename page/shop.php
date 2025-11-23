@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toko Online - Belanja Sekarang</title>
     
+    <!-- Favicon -->
+    <link href="asset/img/LogoIco.ico" rel="icon">
+
     <!-- Google Fonts - Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,6 +49,7 @@
             font-weight: 300 !important;
         }
     </style>
+    
 </head>
 <body>
     <!-- Navbar -->
