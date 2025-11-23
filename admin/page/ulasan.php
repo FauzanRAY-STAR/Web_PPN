@@ -39,6 +39,35 @@ $res = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
 <html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Testimoni</title>
+
+  <!-- Favicon -->
+  <link href="../../asset/img/LogoIco.ico" rel="icon">
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../../asset/style/ulasan.css">
+</head>
+
+<body>
+  <div class="d-flex">
+  <?php include('../template/sidebar.php'); ?>
+
+    <div class="main">
+      <div class="header-section">Testimoni</div>
+
+      <!-- SEARCH BAR -->
+      <div class="search-bar-top">
+        <div class="left-col">
+          <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Search testimoni...">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

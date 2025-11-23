@@ -7,7 +7,7 @@ include('config/koneksi.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PTPPN Galeri</title>
+    <title>Galeri</title>
     
     <!-- Favicon -->
     <link href="asset/img/LogoIco.ico" rel="icon">

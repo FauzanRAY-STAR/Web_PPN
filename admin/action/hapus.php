@@ -65,6 +65,13 @@ try {
             $_SESSION['success_message'] = 'Ulasan berhasil dihapus';
             break;
 
+    case 'diskon':
+        $query = "DELETE FROM diskon WHERE id='" .$id. "'";
+        break;
+
+    case 'faq':
+        $query = "DELETE FROM faq WHERE id='" .$id. "'";
+        break;
         case 'galeri': 
             $result = mysqli_query($conn, "SELECT * FROM galeri WHERE id=$id");
             
