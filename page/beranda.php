@@ -722,9 +722,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
                         </div>
                     </div>
                 </div>
-                <p class="text-center text-muted small mb-0">
-                    <i class="bi bi-info-circle"></i> <?= $hasil_data['keterangan_tambahan'] ?>
-                </p>
             </div>
 
             <!-- Tombol Aksi -->
