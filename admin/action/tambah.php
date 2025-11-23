@@ -254,6 +254,15 @@ switch ($mod) {
             exit;
         }
         break;
+
+    case 'faq':
+        $judul = $_POST['judul'];
+        $deskripsi = $_POST['deskripsi'];
+        $status = isset($_POST['status']) && $_POST['status'] == 'on' ? 'Ditampilkan' : 'Disembunyikan';
+
+        $query = "INSERT INTO faq (judul, deskripsi, status, tanggal)
+                  VALUES ('$judul', '$deskripsi', '$status', NOW())";
+        break;
         
     default:
         $_SESSION['error_message'] = 'Module tidak valid';

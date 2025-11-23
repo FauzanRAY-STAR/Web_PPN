@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FAQ - PPN</title>
+  <title>Dashboard FAQ</title>
+
+  <!-- Favicon -->
+  <link href="../../asset/img/LogoIco.ico" rel="icon">
 
   <!-- Bootstrap & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,7 +18,16 @@
 
 <body>
   <div class="d-flex">
-    <?php include('../template/sidebar.php'); ?>
+<?php
+include '../../config/koneksi.php';
+
+// Fetch FAQ data
+$query = "SELECT * FROM faq ORDER BY tanggal DESC";
+$result = mysqli_query($conn, $query);
+$faqs = mysqli_fetch_all($result, MYSQLI_ASSOC);
+?>
+
+<?php include('../template/sidebar.php'); ?>
 
     <div class="main">
       <div class="header-section">Frequently Asked Questions</div>
@@ -25,7 +37,7 @@
         <div class="left-col">
           <div class="search-box">
             <i class="bi bi-search"></i>
-            <input type="text" placeholder="Search">
+            <input type="text" placeholder="Search" id="searchInput">
           </div>
         </div>
         <div class="right-col">
@@ -46,22 +58,28 @@
               <th>Aksi</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Apa keunggulan pupuk silika dibandingkan?</td>
-              <td>Pupuk silika meningkatkan kekuatan batang tanaman dan ketahanan terhadap hama.</td>
-              <td class="text-success fw-semibold text-center">Ditampilkan</td>
+          <tbody id="faqTableBody">
+            <?php foreach ($faqs as $faq): ?>
+            <tr data-id="<?php echo $faq['id']; ?>">
+              <td><?php echo htmlspecialchars($faq['judul']); ?></td>
+              <td><?php echo htmlspecialchars($faq['deskripsi']); ?></td>
+              <td class="text-center">
+                <span class="badge <?php echo $faq['status'] == 'Ditampilkan' ? 'bg-success' : 'bg-secondary'; ?> fw-semibold">
+                  <?php echo $faq['status']; ?>
+                </span>
+              </td>
               <td class="text-center">
                 <div class="d-flex justify-content-center align-items-center gap-2">
-                  <button class="btn btn-danger btn-sm rounded-circle d-flex align-items-center justify-content-center btnHapus">
+                  <button class="btn btn-danger btn-sm rounded-circle d-flex align-items-center justify-content-center btnHapus" data-id="<?php echo $faq['id']; ?>">
                     <i class="bi bi-trash"></i>
                   </button>
-                  <button class="btn btn-warning btn-sm rounded-circle d-flex align-items-center justify-content-center text-white btnEdit">
+                  <button class="btn btn-warning btn-sm rounded-circle d-flex align-items-center justify-content-center text-white btnEdit" data-id="<?php echo $faq['id']; ?>" data-judul="<?php echo htmlspecialchars($faq['judul']); ?>" data-deskripsi="<?php echo htmlspecialchars($faq['deskripsi']); ?>" data-status="<?php echo $faq['status']; ?>">
                     <i class="bi bi-pencil"></i>
                   </button>
                 </div>
               </td>
             </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>
@@ -151,9 +169,11 @@
     const notifModal = new bootstrap.Modal(document.getElementById('notifModal'));
     const notifText = document.getElementById('notifText');
     const notifIcon = document.getElementById('notifIcon');
+    let editId = null;
 
     // Tambah FAQ
     document.getElementById('btnTambah').addEventListener('click', () => {
+      editId = null;
       document.getElementById('judulInput').value = '';
       document.getElementById('deskripsiInput').value = '';
       document.getElementById('statusInput').checked = false;
@@ -163,43 +183,115 @@
     // Edit FAQ
     document.querySelectorAll('.btnEdit').forEach(btn => {
       btn.addEventListener('click', () => {
+        editId = btn.getAttribute('data-id');
+        document.getElementById('judulInput').value = btn.getAttribute('data-judul');
+        document.getElementById('deskripsiInput').value = btn.getAttribute('data-deskripsi');
+        document.getElementById('statusInput').checked = btn.getAttribute('data-status') === 'Ditampilkan';
         faqModal.show();
       });
     });
 
-    // Simpan FAQ (berhasil/gagal simulasi)
+    // Simpan FAQ
     document.getElementById('btnSimpan').addEventListener('click', () => {
-      faqModal.hide();
-      setTimeout(() => {
-        const isSuccess = Math.random() > 0.3; // contoh: 70% berhasil
-        if (isSuccess) {
-          notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
-          notifText.textContent = "Berhasil menyimpan!";
-        } else {
-          notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
-          notifText.textContent = "Gagal menyimpan!";
-        }
+      const judul = document.getElementById('judulInput').value;
+      const deskripsi = document.getElementById('deskripsiInput').value;
+      const status = document.getElementById('statusInput').checked ? 'on' : '';
+
+      if (!judul || !deskripsi) {
+        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+        notifText.textContent = "Judul dan deskripsi harus diisi!";
         notifModal.show();
         setTimeout(() => notifModal.hide(), 1600);
-      }, 400);
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('judul', judul);
+      formData.append('deskripsi', deskripsi);
+      formData.append('status', status);
+      if (editId) {
+        formData.append('id', editId);
+      }
+
+      const url = editId ? '../action/ubah.php?mod=faq' : '../action/tambah.php?mod=faq';
+
+      fetch(url, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          faqModal.hide();
+          notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+          notifText.textContent = editId ? "Berhasil mengubah!" : "Berhasil menambah!";
+          notifModal.show();
+          setTimeout(() => {
+            notifModal.hide();
+            location.reload();
+          }, 1600);
+        } else {
+          throw new Error('Network response was not ok.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+        notifText.textContent = "Gagal menyimpan!";
+        notifModal.show();
+        setTimeout(() => notifModal.hide(), 1600);
+      });
     });
 
     // Tombol Hapus
     document.querySelectorAll('.btnHapus').forEach(btn => {
       btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        document.getElementById('btnKonfirmasiHapus').setAttribute('data-id', id);
         hapusModal.show();
       });
     });
 
     // Konfirmasi Hapus
     document.getElementById('btnKonfirmasiHapus').addEventListener('click', () => {
-      hapusModal.hide();
-      setTimeout(() => {
-        notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
-        notifText.textContent = "Berhasil dihapus!";
+      const id = document.getElementById('btnKonfirmasiHapus').getAttribute('data-id');
+      fetch(`../action/hapus.php?mod=faq&id=${id}`)
+      .then(response => {
+        if (response.ok) {
+          hapusModal.hide();
+          notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+          notifText.textContent = "Berhasil dihapus!";
+          notifModal.show();
+          setTimeout(() => {
+            notifModal.hide();
+            location.reload();
+          }, 1500);
+        } else {
+          throw new Error('Network response was not ok.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+        notifText.textContent = "Gagal menghapus!";
         notifModal.show();
-        setTimeout(() => notifModal.hide(), 1500);
-      }, 400);
+        setTimeout(() => notifModal.hide(), 1600);
+      });
+    });
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+      const rows = document.querySelectorAll('#faqTableBody tr');
+
+      rows.forEach(row => {
+        const judul = row.cells[0].textContent.toLowerCase();
+        const deskripsi = row.cells[1].textContent.toLowerCase();
+        if (judul.includes(searchTerm) || deskripsi.includes(searchTerm)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
     });
   </script>
 </body>
