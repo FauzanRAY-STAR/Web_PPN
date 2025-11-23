@@ -155,6 +155,9 @@
     <div class="menu-item" data-link="/WEB_PPN/admin/page/ulasan.php" data-keywords="testimoni ulasan review">
       <i class="bi bi-chat-dots"></i><span>Testimoni</span>
     </div>
+    <div class="menu-item" data-link="/WEB_PPN/admin/page/carousel.php" data-keywords="carousel slider banner beranda hero">
+      <i class="bi bi-image"></i><span>Foto Beranda</span>
+    </div>
     <div class="menu-item" data-link="/WEB_PPN/admin/page/galeri.php" data-keywords="galeri gallery gambar foto">
       <i class="bi bi-image"></i><span>Galeri</span>
     </div>
@@ -203,8 +206,18 @@
       document.querySelector('.main')?.classList.toggle('sidebar-minimized');
     });
 
-    // Restore active menu
-    if (activeIndex !== null && menuItems[activeIndex]) {
+    // Restore active menu based on current URL
+    const currentPath = window.location.pathname;
+    menuItems.forEach((item, index) => {
+      const itemLink = item.getAttribute('data-link');
+      if (itemLink && currentPath.includes(itemLink)) {
+        item.classList.add('active');
+        localStorage.setItem('activeMenuIndex', index);
+      }
+    });
+
+    // Fallback to localStorage if no match found
+    if (!document.querySelector('.menu-item.active') && activeIndex !== null && menuItems[activeIndex]) {
       menuItems[activeIndex].classList.add('active');
     }
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galeri - PPN Admin</title>
+  <title>Carousel - PPN Admin</title>
   
   <link href="/WEB_PPN/asset/img/LogoIco.ico" rel="icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,24 +18,48 @@
     body { font-weight: 400; }
     h1, h2, h3, h4, h5, h6 { font-weight: 600; }
 
-    .gallery-card {
+    .carousel-card {
       position: relative;
       cursor: pointer;
       transition: transform 0.2s, outline 0.3s;
       border-radius: 12px;
       overflow: hidden;
       aspect-ratio: 16/9;
+      background: #f8f9fa;
     }
     
-    .gallery-card:hover { transform: scale(1.02); }
+    .carousel-card:hover { transform: scale(1.02); }
     
-    .gallery-card img {
+    .carousel-card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
       border-radius: 12px;
     }
+    
+    .carousel-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      padding: 15px;
+      color: white;
+    }
+    
+    .carousel-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .badge-aktif { background: #28a745; }
+    .badge-nonaktif { background: #dc3545; }
     
     .check-icon {
       position: absolute;
@@ -59,48 +83,10 @@
       color: #007bff;
     }
     
-    .gallery-card[data-selected="true"] .check-icon { opacity: 1; }
-    .gallery-card[data-selected="true"] {
+    .carousel-card[data-selected="true"] .check-icon { opacity: 1; }
+    .carousel-card[data-selected="true"] {
       outline: 3px solid #007bff;
       outline-offset: -3px;
-    }
-
-    /* Edit Icon */
-    .edit-icon {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-      cursor: pointer;
-      z-index: 10;
-    }
-
-    .edit-icon i {
-      font-size: 16px;
-      color: white;
-    }
-
-    .gallery-card:hover .edit-icon {
-      opacity: 1;
-      transform: scale(1.1);
-    }
-
-    .edit-icon:hover {
-      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-      transform: scale(1.2) !important;
-    }
-
-    .edit-icon:active {
-      transform: scale(0.95) !important;
     }
 
     .modal-content {
@@ -128,6 +114,18 @@
       from {opacity: 0; transform: scale(0.9);}
       to {opacity: 1; transform: scale(1);}
     }
+
+    .urutan-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.9);
+      color: #333;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 12px;
+    }
   </style>
 </head>
 <body>
@@ -135,7 +133,7 @@
 <?php include('../template/sidebar.php'); ?>
 
 <div class="main">
-  <div class="header-section">Galeri</div>
+  <div class="header-section">Foto Beranda</div>
 
   <div class="search-bar-top">
     <div class="left-col">
@@ -151,23 +149,23 @@
     </div>
   </div>
 
-  <div class="gallery-grid" id="galleryGrid"></div>
+  <div class="gallery-grid" id="carouselGrid"></div>
 </div>
 
 <!-- MODAL TAMBAH/EDIT -->
-<div class="modal fade" id="galeriModal" tabindex="-1">
+<div class="modal fade" id="carouselModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content p-4 rounded-4 border-0 shadow-sm">
       <div class="d-flex justify-content-between align-items-start mb-3">
         <div class="d-flex align-items-center gap-2">
           <img src="/WEB_PPN/asset/img/logo.png" alt="Logo" width="100">
           <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
-          <h5 class="fw-bold mb-0" id="modalTitle">Galeri</h5>
+          <h5 class="fw-bold mb-0" id="modalTitle">Carousel</h5>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
-      <input type="hidden" id="galeriId">
+      <input type="hidden" id="carouselId">
       
       <label class="fw-semibold mb-1">Judul</label>
       <input type="text" class="form-control border-success mb-3" placeholder="Masukkan Judul" id="judulInput">
@@ -175,16 +173,20 @@
       <label class="fw-semibold mb-1">Deskripsi</label>
       <textarea class="form-control border-success mb-3" placeholder="Masukkan Deskripsi" id="deskripsiInput" rows="3"></textarea>
 
-      <label class="fw-semibold mb-1">Unggah Gambar</label>
+      <label class="fw-semibold mb-1">Urutan</label>
+      <input type="number" class="form-control border-success mb-3" placeholder="Nomor urutan tampilan" id="urutanInput" min="0" value="0">
+      <small class="text-muted">Semakin kecil angka, semakin awal ditampilkan</small>
+
+      <label class="fw-semibold mb-1 mt-3">Unggah Gambar</label>
       <input type="file" class="form-control border-success mb-3" id="gambarInput" accept="image/*">
-      <small class="text-muted">Format: JPG, PNG, GIF (Max 5MB)</small>
+      <small class="text-muted">Format: JPG, PNG, GIF (Max 5MB) | Rekomendasi: 1920x1080px</small>
       <div id="previewContainer" class="mt-2 mb-3" style="display:none;">
         <img id="previewImg" src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px;">
       </div>
 
       <div class="form-check mt-2 mb-4">
-        <input class="form-check-input" type="checkbox" id="tampilkanInput" checked>
-        <label class="form-check-label" for="tampilkanInput">Tampilkan</label>
+        <input class="form-check-input" type="checkbox" id="aktifInput" checked>
+        <label class="form-check-label" for="aktifInput">Aktif</label>
       </div>
 
       <button class="btn w-100 text-white fw-semibold gradient-btn" id="btnSimpan">Simpan</button>
@@ -221,59 +223,53 @@
   let selectedIds = [];
   let editingId = null;
   
-  const galeriModal = new bootstrap.Modal(document.getElementById('galeriModal'));
+  const carouselModal = new bootstrap.Modal(document.getElementById('carouselModal'));
   const hapusModal = new bootstrap.Modal(document.getElementById('hapusModal'));
   const notifModal = new bootstrap.Modal(document.getElementById('notifModal'));
   const notifText = document.getElementById('notifText');
   const notifIcon = document.getElementById('notifIcon');
 
-  function loadGaleri() {
-    fetch('/WEB_PPN/admin/proses/proses_galeri.php?action=get_all')
+  function loadCarousel() {
+    fetch('/WEB_PPN/admin/proses/proses_carousel.php?action=get_all')
       .then(response => response.json())
       .then(data => {
-        const galleryGrid = document.getElementById('galleryGrid');
-        galleryGrid.innerHTML = '';
+        const carouselGrid = document.getElementById('carouselGrid');
+        carouselGrid.innerHTML = '';
         
         if (data.success && data.data.length > 0) {
           data.data.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'gallery-card';
+            card.className = 'carousel-card';
             card.setAttribute('data-selected', 'false');
             card.setAttribute('data-id', item.id);
+            
+            const statusClass = item.status === 'Aktif' ? 'badge-aktif' : 'badge-nonaktif';
+            
             card.innerHTML = `
               <img src="/WEB_PPN/asset/img/${item.gambar}" alt="${item.judul}">
-              <div class="edit-icon" data-edit-id="${item.id}">
-                <i class="bi bi-pencil-fill"></i>
+              <div class="carousel-badge ${statusClass}">${item.status}</div>
+              <div class="urutan-badge">#${item.urutan}</div>
+              <div class="carousel-overlay">
+                <h6 class="mb-1 fw-bold">${item.judul}</h6>
+                <small>${item.deskripsi ? item.deskripsi.substring(0, 60) + '...' : ''}</small>
               </div>
               <div class="check-icon"><i class="bi bi-check-circle-fill"></i></div>
             `;
             
-            // Click handler untuk card (selection mode)
             card.addEventListener('click', (e) => {
-              // Jangan toggle selection jika klik tombol edit
-              if (e.target.closest('.edit-icon')) {
-                return;
-              }
-
               if (isPilihMode) {
                 const isSelected = card.getAttribute('data-selected') === 'true';
                 card.setAttribute('data-selected', !isSelected);
                 updateSelectedIds();
+              } else if (e.target.closest('.check-icon') === null) {
+                editCarousel(item.id);
               }
             });
-
-            // Click handler khusus untuk tombol edit
-            const editBtn = card.querySelector('.edit-icon');
-            editBtn.addEventListener('click', (e) => {
-              e.stopPropagation(); // Prevent card click
-              const editId = editBtn.getAttribute('data-edit-id');
-              editGaleri(editId);
-            });
             
-            galleryGrid.appendChild(card);
+            carouselGrid.appendChild(card);
           });
         } else {
-          galleryGrid.innerHTML = '<p class="text-center text-muted">Tidak ada data galeri</p>';
+          carouselGrid.innerHTML = '<p class="text-center text-muted">Tidak ada data carousel</p>';
         }
       })
       .catch(error => console.error('Error:', error));
@@ -281,7 +277,7 @@
 
   function updateSelectedIds() {
     selectedIds = [];
-    document.querySelectorAll('.gallery-card[data-selected="true"]').forEach(card => {
+    document.querySelectorAll('.carousel-card[data-selected="true"]').forEach(card => {
       selectedIds.push(card.getAttribute('data-id'));
     });
   }
@@ -293,7 +289,7 @@
     document.getElementById('btnPilihSemua').classList.remove('btn-primary-tab');
     document.getElementById('btnPilihSemua').classList.add('btn-outline');
     
-    document.querySelectorAll('.gallery-card').forEach(card => {
+    document.querySelectorAll('.carousel-card').forEach(card => {
       card.setAttribute('data-selected', 'false');
     });
     selectedIds = [];
@@ -306,7 +302,7 @@
     document.getElementById('btnPilih').classList.remove('btn-primary-tab');
     document.getElementById('btnPilih').classList.add('btn-outline');
     
-    document.querySelectorAll('.gallery-card').forEach(card => {
+    document.querySelectorAll('.carousel-card').forEach(card => {
       card.setAttribute('data-selected', 'true');
     });
     updateSelectedIds();
@@ -314,35 +310,37 @@
 
   document.getElementById('btnTambah').addEventListener('click', () => {
     editingId = null;
-    document.getElementById('modalTitle').textContent = 'Tambah Galeri';
-    document.getElementById('galeriId').value = '';
+    document.getElementById('modalTitle').textContent = 'Tambah Foto';
+    document.getElementById('carouselId').value = '';
     document.getElementById('judulInput').value = '';
     document.getElementById('deskripsiInput').value = '';
+    document.getElementById('urutanInput').value = '0';
     document.getElementById('gambarInput').value = '';
-    document.getElementById('tampilkanInput').checked = true;
+    document.getElementById('aktifInput').checked = true;
     document.getElementById('previewContainer').style.display = 'none';
-    galeriModal.show();
+    carouselModal.show();
   });
 
-  function editGaleri(id) {
-    fetch(`/WEB_PPN/admin/proses/proses_galeri.php?action=get&id=${id}`)
+  function editCarousel(id) {
+    fetch(`/WEB_PPN/admin/proses/proses_carousel.php?action=get&id=${id}`)
       .then(response => response.json())
       .then(data => {
         if (data.success) {
           const item = data.data;
           editingId = id;
-          document.getElementById('modalTitle').textContent = 'Edit Galeri';
-          document.getElementById('galeriId').value = item.id;
+          document.getElementById('modalTitle').textContent = 'Edit Carousel';
+          document.getElementById('carouselId').value = item.id;
           document.getElementById('judulInput').value = item.judul;
-          document.getElementById('deskripsiInput').value = item.deskripsi;
-          document.getElementById('tampilkanInput').checked = item.status === 'Ditampilkan';
+          document.getElementById('deskripsiInput').value = item.deskripsi || '';
+          document.getElementById('urutanInput').value = item.urutan;
+          document.getElementById('aktifInput').checked = item.status === 'Aktif';
           
           if (item.gambar) {
             document.getElementById('previewImg').src = `/WEB_PPN/asset/img/${item.gambar}`;
             document.getElementById('previewContainer').style.display = 'block';
           }
           
-          galeriModal.show();
+          carouselModal.show();
         }
       })
       .catch(error => console.error('Error:', error));
@@ -363,29 +361,30 @@
   document.getElementById('btnSimpan').addEventListener('click', () => {
     const formData = new FormData();
     formData.append('action', editingId ? 'update' : 'create');
-    formData.append('id', document.getElementById('galeriId').value);
+    formData.append('id', document.getElementById('carouselId').value);
     formData.append('judul', document.getElementById('judulInput').value);
     formData.append('deskripsi', document.getElementById('deskripsiInput').value);
-    formData.append('status', document.getElementById('tampilkanInput').checked ? 'Ditampilkan' : 'Disembunyikan');
+    formData.append('urutan', document.getElementById('urutanInput').value);
+    formData.append('status', document.getElementById('aktifInput').checked ? 'Aktif' : 'Nonaktif');
     
     const gambarFile = document.getElementById('gambarInput').files[0];
     if (gambarFile) formData.append('gambar', gambarFile);
 
-    fetch('/WEB_PPN/admin/proses/proses_galeri.php', {
+    fetch('/WEB_PPN/admin/proses/proses_carousel.php', {
       method: 'POST',
       body: formData
     })
     .then(response => response.json())
     .then(data => {
-      galeriModal.hide();
+      carouselModal.hide();
       setTimeout(() => {
         if (data.success) {
           notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
-          notifText.textContent = editingId ? "Galeri berhasil diperbarui!" : "Galeri berhasil ditambahkan!";
-          loadGaleri();
+          notifText.textContent = editingId ? "Foto diperbarui!" : "Foto ditambahkan!";
+          loadCarousel();
         } else {
           notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
-          notifText.textContent = data.message || "Gagal menyimpan galeri!";
+          notifText.textContent = data.message || "Gagal menyimpan carousel!";
         }
         notifModal.show();
         setTimeout(() => notifModal.hide(), 1600);
@@ -404,7 +403,7 @@
     updateSelectedIds();
     if (selectedIds.length === 0) {
       notifIcon.className = 'bi bi-exclamation-circle-fill text-warning fs-1 mb-3';
-      notifText.textContent = "Pilih gambar terlebih dahulu!";
+      notifText.textContent = "Pilih carousel terlebih dahulu!";
       notifModal.show();
       setTimeout(() => notifModal.hide(), 1500);
       return;
@@ -418,7 +417,7 @@
     formData.append('action', 'delete');
     formData.append('ids', JSON.stringify(selectedIds));
 
-    fetch('/WEB_PPN/admin/proses/proses_galeri.php', {
+    fetch('/WEB_PPN/admin/proses/proses_carousel.php', {
       method: 'POST',
       body: formData
     })
@@ -428,8 +427,8 @@
       setTimeout(() => {
         if (data.success) {
           notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
-          notifText.textContent = "Data galeri berhasil dihapus!";
-          loadGaleri();
+          notifText.textContent = "Foto berhasil dihapus!";
+          loadCarousel();
           selectedIds = [];
         } else {
           notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
@@ -448,7 +447,7 @@
     });
   });
 
-  document.addEventListener('DOMContentLoaded', loadGaleri);
+  document.addEventListener('DOMContentLoaded', loadCarousel);
 </script>
 
 </body>
