@@ -129,7 +129,9 @@ endif;
             <div class="text-center mb-4">
                 <img src="<?= $base_url ?>asset/img/Logo.png" alt="Logo PPN" style="height:60px;">
             </div>
-            <form action="login.php" method="POST" class="px-2">
+            <form action="<?= $base_url ?>login.php" method="POST" class="px-2">
+                <input type="hidden" name="redirect_to" value="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+
                 <div class="mb-3">
                     <label for="username" class="form-label fw-medium">Username</label>
                     <input type="text" class="form-control custom-input" id="username" name="username" 
