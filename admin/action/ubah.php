@@ -268,18 +268,6 @@ switch ($mod) {
                 throw new Exception('ID tidak valid');
             }
 
-        $query = "UPDATE diskon SET id_produk='" .$id_produk. "', diskon='" .$diskon. "', tanggal_mulai='" .$tanggal_mulai. "', 
-                  tanggal_selesai='" .$tanggal_selesai. "', status='" .$status. "' WHERE id='" .$id. "'";
-        break;
-
-    case 'faq':
-        $judul = $_POST['judul'];
-        $deskripsi = $_POST['deskripsi'];
-        $status = isset($_POST['status']) && $_POST['status'] == 'on' ? 'Ditampilkan' : 'Disembunyikan';
-
-        $query = "UPDATE faq SET judul='" .$judul. "', deskripsi='" .$deskripsi. "', status='" .$status. "' WHERE id='" .$id. "'";
-        break;
-}
             $id_produk = intval($_POST['id_produk'] ?? 0);
             $diskon = intval($_POST['diskon'] ?? 0);
             $tanggal_mulai = $_POST['tanggal_mulai'] ?? '';
@@ -313,7 +301,27 @@ switch ($mod) {
             exit;
         }
         break;
-        
+
+    case 'faq':
+        try {
+            $judul = sanitize_input($_POST['judul'] ?? '');
+            $deskripsi = sanitize_input($_POST['deskripsi'] ?? '');
+            $status = isset($_POST['status']) && $_POST['status'] == 'on' ? 'Ditampilkan' : 'Disembunyikan';
+
+            $stmt = $conn->prepare("UPDATE faq SET judul=?, deskripsi=?, status=? WHERE id=?");
+            $stmt->bind_param("sssi", $judul, $deskripsi, $status, $id);
+
+            if ($stmt->execute()) {
+                echo json_encode(['success' => true, 'message' => 'FAQ berhasil diupdate!']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Gagal update FAQ']);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
+        exit;
+        break;
+
     default:
         $_SESSION['error_message'] = 'Module tidak valid';
         header('Location: ../produk.php');

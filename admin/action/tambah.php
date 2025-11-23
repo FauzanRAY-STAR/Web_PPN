@@ -256,13 +256,25 @@ switch ($mod) {
         break;
 
     case 'faq':
-        $judul = $_POST['judul'];
-        $deskripsi = $_POST['deskripsi'];
-        $status = isset($_POST['status']) && $_POST['status'] == 'on' ? 'Ditampilkan' : 'Disembunyikan';
+        try {
+            $judul = sanitize_input($_POST['judul'] ?? '');
+            $deskripsi = sanitize_input($_POST['deskripsi'] ?? '');
+            $status = isset($_POST['status']) && $_POST['status'] === 'on' ? 'Ditampilkan' : 'Disembunyikan';
 
-        $query = "INSERT INTO faq (judul, deskripsi, status, tanggal)
-                  VALUES ('$judul', '$deskripsi', '$status', NOW())";
+            $stmt = $conn->prepare("INSERT INTO faq (judul, deskripsi, status, tanggal) VALUES (?, ?, ?, NOW())");
+            $stmt->bind_param("sss", $judul, $deskripsi, $status);
+
+            if ($stmt->execute()) {
+                echo json_encode(['success' => true, 'message' => 'FAQ berhasil ditambahkan!']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Gagal menyimpan FAQ']);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
+        exit;
         break;
+        
         
     default:
         $_SESSION['error_message'] = 'Module tidak valid';

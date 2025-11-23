@@ -191,56 +191,57 @@ $faqs = mysqli_fetch_all($result, MYSQLI_ASSOC);
       });
     });
 
-    // Simpan FAQ
-    document.getElementById('btnSimpan').addEventListener('click', () => {
-      const judul = document.getElementById('judulInput').value;
-      const deskripsi = document.getElementById('deskripsiInput').value;
-      const status = document.getElementById('statusInput').checked ? 'on' : '';
+      // Simpan FAQ
+      document.getElementById('btnSimpan').addEventListener('click', () => {
+        const judul = document.getElementById('judulInput').value;
+        const deskripsi = document.getElementById('deskripsiInput').value;
+        const status = document.getElementById('statusInput').checked ? 'on' : '';
 
-      if (!judul || !deskripsi) {
-        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
-        notifText.textContent = "Judul dan deskripsi harus diisi!";
-        notifModal.show();
-        setTimeout(() => notifModal.hide(), 1600);
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append('judul', judul);
-      formData.append('deskripsi', deskripsi);
-      formData.append('status', status);
-      if (editId) {
-        formData.append('id', editId);
-      }
-
-      const url = editId ? '../action/ubah.php?mod=faq' : '../action/tambah.php?mod=faq';
-
-      fetch(url, {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => {
-        if (response.ok) {
-          faqModal.hide();
-          notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
-          notifText.textContent = editId ? "Berhasil mengubah!" : "Berhasil menambah!";
+        if (!judul || !deskripsi) {
+          notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+          notifText.textContent = "Judul dan deskripsi harus diisi!";
           notifModal.show();
-          setTimeout(() => {
-            notifModal.hide();
-            location.reload();
-          }, 1600);
-        } else {
-          throw new Error('Network response was not ok.');
+          setTimeout(() => notifModal.hide(), 1600);
+          return;
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
-        notifText.textContent = "Gagal menyimpan!";
-        notifModal.show();
-        setTimeout(() => notifModal.hide(), 1600);
+
+        const formData = new FormData();
+        formData.append('judul', judul);
+        formData.append('deskripsi', deskripsi);
+        formData.append('status', status);
+        if (editId) {
+          formData.append('id', editId);
+        }
+
+        const url = editId ? '../action/ubah.php?mod=faq' : '../action/tambah.php?mod=faq';
+
+        fetch(url, {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            faqModal.hide();
+            notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+            notifText.textContent = data.message || (editId ? "Berhasil mengubah!" : "Berhasil menambah!");
+            notifModal.show();
+            setTimeout(() => {
+              notifModal.hide();
+              location.reload();
+            }, 1600);
+          } else {
+            throw new Error(data.message || 'Gagal menyimpan FAQ');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+          notifText.textContent = error.message || "Gagal menyimpan!";
+          notifModal.show();
+          setTimeout(() => notifModal.hide(), 1600);
+        });
       });
-    });
 
     // Tombol Hapus
     document.querySelectorAll('.btnHapus').forEach(btn => {

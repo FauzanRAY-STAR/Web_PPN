@@ -7,8 +7,27 @@ $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if (empty($mod) || $id === 0) {
     $_SESSION['error_message'] = 'Parameter tidak valid';
-    header('Location: ../../admin/page/produk.php');
-    exit;
+switch ($mod) {
+    case 'faq':
+        header('Location: ../../admin/page/faq.php');
+        break;
+    case 'produk':
+        header('Location: ../../admin/page/produk.php');
+        break;
+    case 'ulasan':
+        header('Location: ../../admin/page/ulasan.php');
+        break;
+    case 'diskon':
+        header('Location: ../../admin/page/diskon.php');
+        break;
+    case 'galeri':
+        header('Location: ../../admin/page/galeri.php');
+        break;
+    default:
+        header('Location: ../../admin/page/produk.php');
+        break;
+}
+exit;
 }
 
 try {
@@ -66,11 +85,29 @@ try {
             break;
 
     case 'diskon':
-        $query = "DELETE FROM diskon WHERE id='" .$id. "'";
+        try {
+            $stmt = $conn->prepare("DELETE FROM diskon WHERE id = ?");
+            $stmt->bind_param("i", $id);
+            if (!$stmt->execute()) {
+                throw new Exception("Gagal menghapus diskon dari database");
+            }
+            $_SESSION['success_message'] = 'Diskon berhasil dihapus';
+        } catch (Exception $e) {
+            $_SESSION['error_message'] = $e->getMessage();
+        }
         break;
 
     case 'faq':
-        $query = "DELETE FROM faq WHERE id='" .$id. "'";
+        try {
+            $stmt = $conn->prepare("DELETE FROM faq WHERE id = ?");
+            $stmt->bind_param("i", $id);
+            if (!$stmt->execute()) {
+                throw new Exception("Gagal menghapus FAQ dari database");
+            }
+            $_SESSION['success_message'] = 'FAQ berhasil dihapus';
+        } catch (Exception $e) {
+            $_SESSION['error_message'] = $e->getMessage();
+        }
         break;
         case 'galeri': 
             $result = mysqli_query($conn, "SELECT * FROM galeri WHERE id=$id");
