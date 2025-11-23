@@ -75,13 +75,30 @@ $result_carousel = mysqli_query($conn, $query_carousel);
         /* Carousel Controls */
         .carousel-control-prev,
         .carousel-control-next {
-            width: 50%;
+            width: 10%;
             opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .carousel-control-prev:hover,
         .carousel-control-next:hover {
-            opacity: 0.1;
+            opacity: 1;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(43, 141, 76, 0.8);
+            border-radius: 50%;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-control-prev:hover .carousel-control-prev-icon,
+        .carousel-control-next:hover .carousel-control-next-icon {
+            background-color: rgba(43, 141, 76, 1);
+            transform: scale(1.1);
         }
 
         .carousel-indicators {
@@ -93,6 +110,13 @@ $result_carousel = mysqli_query($conn, $query_carousel);
             height: 12px;
             border-radius: 50%;
             margin: 0 5px;
+            background-color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicators button.active {
+            background-color: #FFED64;
+            transform: scale(1.2);
         }
 
         /* Empty State */
@@ -165,9 +189,11 @@ $result_carousel = mysqli_query($conn, $query_carousel);
 
     <!-- Carousel Controls (Click Areas) -->
     <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
 </div>
@@ -709,43 +735,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
 ?>
 
 <!-- POPUP HASIL KALKULATOR -->
-<div id="popupHasil" class="popup-overlay" style="display:<?= $showPopup ? 'flex' : 'none' ?>;">
-    <div class="popup-content">
+<?php if ($showPopup): ?>
+<div id="popupHasil" class="popup-overlay" style="display: flex;">
+    <div class="popup-content" style="background: white; border-radius: 20px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
         <!-- Header Popup -->
-        <div class="popup-header">
+        <div class="popup-header" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); padding: 20px; border-radius: 20px 20px 0 0; position: relative;">
             <div class="d-flex align-items-center gap-2">
                 <img src="asset/img/Logo.png" alt="Logo" style="height: 50px;">
                 <div class="vr" style="height: 40px; width: 2px; background-color: #fff;"></div>
                 <h4 class="fw-bold mb-0 text-white">Hasil Perhitungan</h4>
             </div>
-            <button type="button" class="btn-close-popup" onclick="closePopup()">
-                <i class="bi bi-x-lg"></i>
+            <button type="button" class="btn-close-popup" onclick="closePopup()" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.3); border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s;">
+                <i class="bi bi-x-lg text-white"></i>
             </button>
         </div>
 
         <!-- Body Popup -->
-        <div class="popup-body">
-            <?php if ($showPopup) : ?>
+        <div class="popup-body" style="padding: 30px;">
             <!-- Info Input -->
-            <div class="info-section">
-                <div class="info-item">
-                    <i class="bi bi-flower1"></i>
+            <div class="info-section" style="display: grid; gap: 15px; margin-bottom: 25px;">
+                <div class="info-item" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                    <i class="bi bi-flower1" style="font-size: 24px; color: #2B8D4C;"></i>
                     <div>
-                        <small class="text-muted">Jenis Tanaman</small>
+                        <small class="text-muted d-block">Jenis Tanaman</small>
                         <div class="fw-semibold"><?= $hasil_data['jenis_tanaman'] ?></div>
                     </div>
                 </div>
-                <div class="info-item">
-                    <i class="bi bi-box-seam"></i>
+                <div class="info-item" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                    <i class="bi bi-box-seam" style="font-size: 24px; color: #2B8D4C;"></i>
                     <div>
-                        <small class="text-muted">Jenis Produk</small>
+                        <small class="text-muted d-block">Jenis Produk</small>
                         <div class="fw-semibold"><?= $hasil_data['jenis_produk'] ?></div>
                     </div>
                 </div>
-                <div class="info-item">
-                    <i class="bi bi-rulers"></i>
+                <div class="info-item" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                    <i class="bi bi-rulers" style="font-size: 24px; color: #2B8D4C;"></i>
                     <div>
-                        <small class="text-muted">Luas Tanah</small>
+                        <small class="text-muted d-block">Luas Tanah</small>
                         <div class="fw-semibold"><?= number_format($hasil_data['luas_tanah_m2'], 0, ',', '.') ?> M²</div>
                         <small class="text-muted">(≈ <?= $hasil_data['luas_tanah_bau'] ?> Bau)</small>
                     </div>
@@ -753,30 +779,91 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
             </div>
 
             <!-- Hasil Kebutuhan -->
-            <div class="hasil-section">
+            <div class="hasil-section" style="background: linear-gradient(135deg, #f0f9f4 0%, #e8f5e9 100%); padding: 30px; border-radius: 15px; text-align: center; margin-bottom: 20px;">
+                <h5 class="fw-bold mb-4" style="color: #2B8D4C;">Kebutuhan Produk</h5>
                 <div class="d-flex align-items-center justify-content-center gap-4 mb-3">
-                    <img src="asset/img/<?= $hasil_data['gambar_produk'] ?>" alt="Produk" style="height:100px; object-fit:contain;">
+                    <img src="asset/img/<?= $hasil_data['gambar_produk'] ?>" alt="Produk" style="height:120px; object-fit:contain;">
                     <div class="text-center">
-                        <div class="display-5 fw-bold" style="color: #2B8D4C;">
-                            <?= rtrim(rtrim(number_format($hasil_data['kebutuhan_produk'], 2, ',', '.'), '0'), ',') ?>
+                        <div class="display-4 fw-bold" style="color: #2B8D4C;">
+                            <?= $hasil_data['kebutuhan_produk'] ?>
                         </div>
-                        <div class="fs-6 fw-semibold" style="color: #1a5c30;">
+                        <div class="fs-5 fw-semibold mt-2" style="color: #1a5c30;">
                             <?= $hasil_data['satuan_produk'] ?>
                         </div>
                     </div>
                 </div>
+                
+                <?php if (!empty($hasil_data['keterangan_tambahan'])): ?>
+                <div class="alert alert-info mb-0 mt-3" style="background: rgba(43, 141, 76, 0.1); border: 1px solid rgba(43, 141, 76, 0.3); border-radius: 10px;">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <small><?= $hasil_data['keterangan_tambahan'] ?></small>
+                </div>
+                <?php endif; ?>
             </div>
 
-    <div class="d-flex align-items-center justify-content-center mb-3">
-        <img src="asset/img/produk1.png" alt="Produk" class="me-3" style="height:80px; object-fit:contain; display:block;">
-        <span style="font-weight:500; font-size:1.25rem; line-height:1;">5kg</span>
+            <button type="button" class="btn w-100 py-3 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none; font-size: 16px;" onclick="window.location.href='page/shop.php'">
+                <i class="bi bi-cart-plus me-2"></i>Pesan Sekarang
+            </button>
+        </div>
     </div>
 </div>
 
-    <button id="btnPesanSekarang" type="button" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;" onclick="window.location.href='page/shop.php'">
-        Pesan Sekarang
-    </button>
-</div>
+<style>
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.btn-close-popup:hover {
+    background: rgba(255,255,255,0.5) !important;
+    transform: rotate(90deg);
+}
+
+@media (max-width: 768px) {
+    .popup-content {
+        max-width: 95% !important;
+    }
+    
+    .popup-body {
+        padding: 20px !important;
+    }
+    
+    .hasil-section .display-4 {
+        font-size: 2.5rem !important;
+    }
+}
+</style>
+
+<script>
+function closePopup() {
+    document.getElementById('popupHasil').style.display = 'none';
+}
+
+// Close popup saat klik di luar konten
+document.addEventListener('click', function(e) {
+    const popup = document.getElementById('popupHasil');
+    if (popup && e.target === popup) {
+        closePopup();
+    }
+});
+
+// Close popup dengan tombol ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closePopup();
+    }
+});
+</script>
+<?php endif; ?>
 
 <!-- ============================================ -->
 <!-- HASIL PEMAKAIAN PUPUK SILIKA SECTION -->
@@ -894,7 +981,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
     </div>
 </div>
 
-    <?php
+<?php
 // ============================================
 // QUERY TESTIMONI - Ambil SEMUA yang ditampilkan
 // ============================================
@@ -981,44 +1068,12 @@ $jumlahTestimoni = mysqli_num_rows($resultTestimoni);
                     </div>
                 </div>
             </div>
-            <?php endif; ?>
-        </div>
-
-<!-- MODAL TESTIMONI 1 -->
-<div class="modal fade" id="testimoniModal1" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content" style="border-radius: 20px; border: none;">
-            <div class="modal-body p-0">
-                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
-                <div class="bg-white p-5" style="border-radius: 20px;">
-                    <div class="d-flex align-items-center mb-4">
-                        <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
-                        <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
-                            <h4 class="mb-0 fw-bold">Testimoni</h4>
-                        </div>
-                    </div>
-
-                    <div class="text-center mb-4">
-                        <img src="asset/img/Testimoni1.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
-                    </div>
-
-                    <div class="text-center mb-3">
-                        <h3 class="fw-bold mb-1">Asep Alexander</h3>
-                        <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Tera Nusa Maxi-D</h5>
-                        <p class="text-muted mb-0">Purwokerto Timur</p>
-                    </div>
-
-                    <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
-                        Sejak rutin pakai pupuk silika, tanaman padi saya lebih kokoh dan tidak gampang rebah. Hasil panen naik sekitar 20% dibanding musim sebelumnya. Hemat biaya pestisida juga!
-                    </p>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 
-<!-- MODAL TESTIMONI 2 -->
-<div class="modal fade" id="testimoniModal2" tabindex="-1" aria-hidden="true">
+<!-- MODAL TESTIMONI 1 -->
+<div class="modal fade" id="testimoniModal1" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" style="border-radius: 20px; border: none;">
             <div class="modal-body p-0">
@@ -1045,6 +1100,10 @@ $jumlahTestimoni = mysqli_num_rows($resultTestimoni);
                         Dulu sering gagal panen karena cuaca ekstrem. Sekarang dengan silika, tanaman lebih kuat meskipun hujan deras atau panas. Lahan saya jadi lebih subur juga.
                     </p>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- MODAL TESTIMONI 3 -->
 <div class="modal fade" id="testimoniModal3" tabindex="-1" aria-hidden="true">
@@ -1074,11 +1133,6 @@ $jumlahTestimoni = mysqli_num_rows($resultTestimoni);
                         Pupuk silika bukan sekadar pelengkap, tapi solusi untuk meningkatkan daya tahan tanaman tanpa ketergantungan pada pestisida berlebihan. Saya selalu rekomendasikan ke mitra tani saya.
                     </p>
                 </div>
-                
-                <?php 
-                $modalIndex++;
-                endwhile; 
-                ?>
             </div>
         </div>
     </div>
@@ -1114,17 +1168,6 @@ $jumlahTestimoni = mysqli_num_rows($resultTestimoni);
                 </div>
             </div>
         </div>
-        <?php endif; ?>
-        
-        <?php else : ?>
-        <!-- Jika tidak ada testimoni sama sekali -->
-        <div class="alert alert-warning text-center" role="alert">
-            <i class="bi bi-exclamation-triangle fs-1"></i>
-            <h4 class="mt-3">Belum Ada Testimoni</h4>
-            <p class="mb-0">Testimoni akan ditampilkan setelah ada yang ditambahkan dan diaktifkan.</p>
-        </div>
-        <?php endif; ?>
-        
     </div>
 </div>
 
@@ -1142,22 +1185,49 @@ $jumlahTestimoni = mysqli_num_rows($resultTestimoni);
 <!-- ============================================ -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize hero carousel
+        // Initialize hero carousel dengan interval lebih cepat (3 detik)
         var heroCarousel = document.querySelector('#heroCarousel');
         if (heroCarousel) {
             var carousel = new bootstrap.Carousel(heroCarousel, {
-                interval: 5000,
+                interval: 3000, // 3 detik (lebih cepat dari 5 detik sebelumnya)
                 ride: 'carousel',
-                pause: 'hover'
+                pause: 'hover',
+                wrap: true // Loop terus menerus
             });
+
+            // Swipe gesture support untuk mobile
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            heroCarousel.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            heroCarousel.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+
+            function handleSwipe() {
+                if (touchEndX < touchStartX - 50) {
+                    // Swipe left - next
+                    carousel.next();
+                }
+                if (touchEndX > touchStartX + 50) {
+                    // Swipe right - prev
+                    carousel.prev();
+                }
+            }
         }
 
-        // Initialize produk carousel
+        // Initialize produk carousel dengan interval lebih cepat (3 detik)
         var produkCarousel = document.querySelector('#produkCarousel');
         if (produkCarousel) {
             var carouselProduk = new bootstrap.Carousel(produkCarousel, {
-                interval: 4000,
-                ride: 'carousel'
+                interval: 3000, // 3 detik (lebih cepat dari 4 detik sebelumnya)
+                ride: 'carousel',
+                pause: 'hover',
+                wrap: true
             });
 
             // Thumbnail active state sync
@@ -1177,48 +1247,37 @@ $jumlahTestimoni = mysqli_num_rows($resultTestimoni);
                     this.classList.add('active');
                 });
             });
-        }
 
-        // Kalkulator Tani
-        const kalkulatorForm = document.getElementById('formKalkulator');
-        const popupHasil = document.getElementById('popupHasil');
-        const btnPesanSekarang = document.getElementById('btnPesanSekarang');
+            // Swipe gesture support untuk produk carousel
+            let touchStartXProduk = 0;
+            let touchEndXProduk = 0;
 
-        if (kalkulatorForm) {
-            kalkulatorForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const jenisTanaman = kalkulatorForm.querySelectorAll('select')[0].value;
-                const jenisProduk = kalkulatorForm.querySelectorAll('select')[1].value;
-                const luasTanah = kalkulatorForm.querySelector('input[type="number"]').value;
-
-                if (!luasTanah || jenisTanaman === 'Jenis Tanaman' || jenisProduk === 'Jenis Produk') {
-                    alert('Mohon lengkapi semua data!');
-                    return;
-                }
-
-                document.getElementById('hasilJenisTanaman').textContent = jenisTanaman;
-                document.getElementById('hasilJenisProduk').textContent = jenisProduk;
-                document.getElementById('hasilLuasTanah').textContent = luasTanah;
-
-                // Show popup centered
-                popupHasil.style.display = 'block';
-                popupHasil.style.top = '50%';
-                popupHasil.style.left = '50%';
-                popupHasil.style.transform = 'translate(-50%, -50%)';
+            produkCarousel.addEventListener('touchstart', function(e) {
+                touchStartXProduk = e.changedTouches[0].screenX;
             });
+
+            produkCarousel.addEventListener('touchend', function(e) {
+                touchEndXProduk = e.changedTouches[0].screenX;
+                handleSwipeProduk();
+            });
+
+            function handleSwipeProduk() {
+                if (touchEndXProduk < touchStartXProduk - 50) {
+                    carouselProduk.next();
+                }
+                if (touchEndXProduk > touchStartXProduk + 50) {
+                    carouselProduk.prev();
+                }
+            }
         }
 
-        // Close popup
-        if (popupHasil) {
-            window.addEventListener('click', function(e) {
-                if (popupHasil.style.display === 'block' && 
-                    !popupHasil.contains(e.target) && 
-                    !kalkulatorForm.contains(e.target)) {
-                    popupHasil.style.display = 'none';
-                }
-            });
-        }
+        // Kalkulator Tani - Close popup function
+        window.closePopup = function() {
+            const popupHasil = document.getElementById('popupHasil');
+            if (popupHasil) {
+                popupHasil.style.display = 'none';
+            }
+        };
     });
 </script>
 
