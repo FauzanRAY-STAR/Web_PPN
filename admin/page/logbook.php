@@ -133,7 +133,10 @@ $product_values = json_encode(array_values($product_stats));
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Logbook - PPN</title>
+  <title>Dashboard Logbook</title>
+
+  <!-- Favicon -->
+  <link href="../../asset/img/LogoIco.ico" rel="icon">
 
   <!-- Bootstrap & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">

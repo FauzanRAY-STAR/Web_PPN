@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galeri - PPN</title>
+  <title>Galeri - PPN Admin</title>
   
-  <!-- Favicon -->
   <link href="/WEB_PPN/asset/img/LogoIco.ico" rel="icon">
-
-  <!-- Bootstrap CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="/WEB_PPN/asset/style/galeri_admin.css">
   
   <style>
+    * { font-family: 'Poppins', sans-serif; }
+    body { font-weight: 400; }
+    h1, h2, h3, h4, h5, h6 { font-weight: 600; }
+
     .gallery-card {
       position: relative;
       cursor: pointer;
@@ -27,9 +27,7 @@
       aspect-ratio: 16/9;
     }
     
-    .gallery-card:hover {
-      transform: scale(1.02);
-    }
+    .gallery-card:hover { transform: scale(1.02); }
     
     .gallery-card img {
       width: 100%;
@@ -52,7 +50,7 @@
       justify-content: center;
       opacity: 0;
       transition: opacity 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       pointer-events: none;
     }
     
@@ -61,26 +59,84 @@
       color: #007bff;
     }
     
-    .gallery-card[data-selected="true"] .check-icon {
-      opacity: 1;
-    }
-    
+    .gallery-card[data-selected="true"] .check-icon { opacity: 1; }
     .gallery-card[data-selected="true"] {
       outline: 3px solid #007bff;
       outline-offset: -3px;
     }
+
+    /* Edit Icon */
+    .edit-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .edit-icon i {
+      font-size: 16px;
+      color: white;
+    }
+
+    .gallery-card:hover .edit-icon {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .edit-icon:hover {
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      transform: scale(1.2) !important;
+    }
+
+    .edit-icon:active {
+      transform: scale(0.95) !important;
+    }
+
+    .modal-content {
+      border-radius: 20px;
+      border: none;
+    }
+
+    .gradient-btn {
+      background: linear-gradient(90deg, #4E8E55 0%, #B3D134 100%);
+      border: none;
+      color: #fff;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .gradient-btn:hover { opacity: 0.9; }
+
+    .notif-card {
+      background: #fff;
+      animation: fadeScale 0.3s ease;
+    }
+
+    @keyframes fadeScale {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
   </style>
-  
 </head>
 <body>
 
 <?php include('../template/sidebar.php'); ?>
 
-<!-- MAIN CONTENT -->
 <div class="main">
   <div class="header-section">Galeri</div>
 
-  <!-- FILTER TABS & BUTTONS -->
   <div class="search-bar-top">
     <div class="left-col">
       <div class="filter-tabs">
@@ -90,72 +146,48 @@
     </div>
     
     <div class="right-col d-flex gap-2">
-      <button class="btn-action btn-tambah" id="btnTambah">
-        TAMBAH
-      </button>
-      <button class="btn-action btn-hapus" id="btnHapus">
-        HAPUS
-      </button>
+      <button class="btn-action btn-tambah" id="btnTambah">TAMBAH</button>
+      <button class="btn-action btn-hapus" id="btnHapus">HAPUS</button>
     </div>
   </div>
 
-  <!-- GALLERY GRID -->
-  <div class="gallery-grid">
-    <?php 
-    $galeri_images = ['Galeri1.png', 'Galeri2.png', 'Galeri3.png', 'Galeri4.png'];
-    foreach($galeri_images as $img){
-      if(file_exists($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/asset/img/' . $img)){
-    ?>
-    <div class="gallery-card" data-selected="false">
-      <img src="/WEB_PPN/asset/img/<?php echo $img; ?>" alt="<?php echo $img; ?>">
-      <div class="check-icon">
-        <i class="bi bi-check-circle-fill"></i>
-      </div>
-    </div>
-    <?php 
-      }
-    } 
-    ?>
-  </div>
+  <div class="gallery-grid" id="galleryGrid"></div>
 </div>
 
-<!-- ====================== -->
-<!-- MODAL TAMBAH / EDIT -->
+<!-- MODAL TAMBAH/EDIT -->
 <div class="modal fade" id="galeriModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content p-4 rounded-4 border-0 shadow-sm">
-      <!-- HEADER -->
       <div class="d-flex justify-content-between align-items-start mb-3">
         <div class="d-flex align-items-center gap-2">
           <img src="/WEB_PPN/asset/img/logo.png" alt="Logo" width="100">
           <div class="vr" style="height: 35px; width: 2px; background-color: #000;"></div>
-          <h5 class="fw-bold mb-0">Galeri</h5>
+          <h5 class="fw-bold mb-0" id="modalTitle">Galeri</h5>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
-      <!-- FORM -->
+      <input type="hidden" id="galeriId">
+      
       <label class="fw-semibold mb-1">Judul</label>
       <input type="text" class="form-control border-success mb-3" placeholder="Masukkan Judul" id="judulInput">
 
       <label class="fw-semibold mb-1">Deskripsi</label>
       <textarea class="form-control border-success mb-3" placeholder="Masukkan Deskripsi" id="deskripsiInput" rows="3"></textarea>
 
-      <label class="fw-semibold mb-1">Tanggal</label>
-      <input type="date" class="form-control border-success mb-3" id="tanggalInput">
-
       <label class="fw-semibold mb-1">Unggah Gambar</label>
-      <input type="file" class="form-control border-success mb-3" id="gambarInput">
-
-      <div class="form-check mt-2 mb-4">
-        <input class="form-check-input" type="checkbox" id="tampilkanInput">
-        <label class="form-check-label">Tampilkan</label>
+      <input type="file" class="form-control border-success mb-3" id="gambarInput" accept="image/*">
+      <small class="text-muted">Format: JPG, PNG, GIF (Max 5MB)</small>
+      <div id="previewContainer" class="mt-2 mb-3" style="display:none;">
+        <img id="previewImg" src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px;">
       </div>
 
-      <button class="btn w-100 text-white fw-semibold" id="btnSimpan"
-        style="background: linear-gradient(90deg, #4E8E55, #D6C72A); border-radius: 12px;">
-        Simpan
-      </button>
+      <div class="form-check mt-2 mb-4">
+        <input class="form-check-input" type="checkbox" id="tampilkanInput" checked>
+        <label class="form-check-label" for="tampilkanInput">Tampilkan</label>
+      </div>
+
+      <button class="btn w-100 text-white fw-semibold gradient-btn" id="btnSimpan">Simpan</button>
     </div>
   </div>
 </div>
@@ -166,9 +198,8 @@
     <div class="modal-content p-4 rounded-4 text-center">
       <img src="/WEB_PPN/asset/img/logo.png" alt="Logo" width="120" class="mb-3">
       <i class="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
-      <h5 class="fw-semibold mt-3 mb-4">Apakah Anda yakin ingin menghapus data ini?</h5>
-      <button class="btn text-white w-100 fw-semibold" id="btnKonfirmasiHapus"
-        style="background-color: #C0392B; border-radius: 12px;">Hapus</button>
+      <h5 class="fw-semibold mt-3 mb-4">Apakah Anda yakin ingin menghapus <span id="deleteCount">data</span> ini?</h5>
+      <button class="btn text-white w-100 fw-semibold" id="btnKonfirmasiHapus" style="background-color: #C0392B; border-radius: 12px;">Hapus</button>
     </div>
   </div>
 </div>
@@ -184,12 +215,77 @@
   </div>
 </div>
 
-<!-- SCRIPT -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   let isPilihMode = true;
+  let selectedIds = [];
+  let editingId = null;
   
-  // Tabs - Mode PILIH
+  const galeriModal = new bootstrap.Modal(document.getElementById('galeriModal'));
+  const hapusModal = new bootstrap.Modal(document.getElementById('hapusModal'));
+  const notifModal = new bootstrap.Modal(document.getElementById('notifModal'));
+  const notifText = document.getElementById('notifText');
+  const notifIcon = document.getElementById('notifIcon');
+
+  function loadGaleri() {
+    fetch('/WEB_PPN/admin/proses/proses_galeri.php?action=get_all')
+      .then(response => response.json())
+      .then(data => {
+        const galleryGrid = document.getElementById('galleryGrid');
+        galleryGrid.innerHTML = '';
+        
+        if (data.success && data.data.length > 0) {
+          data.data.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'gallery-card';
+            card.setAttribute('data-selected', 'false');
+            card.setAttribute('data-id', item.id);
+            card.innerHTML = `
+              <img src="/WEB_PPN/asset/img/${item.gambar}" alt="${item.judul}">
+              <div class="edit-icon" data-edit-id="${item.id}">
+                <i class="bi bi-pencil-fill"></i>
+              </div>
+              <div class="check-icon"><i class="bi bi-check-circle-fill"></i></div>
+            `;
+            
+            // Click handler untuk card (selection mode)
+            card.addEventListener('click', (e) => {
+              // Jangan toggle selection jika klik tombol edit
+              if (e.target.closest('.edit-icon')) {
+                return;
+              }
+
+              if (isPilihMode) {
+                const isSelected = card.getAttribute('data-selected') === 'true';
+                card.setAttribute('data-selected', !isSelected);
+                updateSelectedIds();
+              }
+            });
+
+            // Click handler khusus untuk tombol edit
+            const editBtn = card.querySelector('.edit-icon');
+            editBtn.addEventListener('click', (e) => {
+              e.stopPropagation(); // Prevent card click
+              const editId = editBtn.getAttribute('data-edit-id');
+              editGaleri(editId);
+            });
+            
+            galleryGrid.appendChild(card);
+          });
+        } else {
+          galleryGrid.innerHTML = '<p class="text-center text-muted">Tidak ada data galeri</p>';
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  function updateSelectedIds() {
+    selectedIds = [];
+    document.querySelectorAll('.gallery-card[data-selected="true"]').forEach(card => {
+      selectedIds.push(card.getAttribute('data-id'));
+    });
+  }
+
   document.getElementById('btnPilih').addEventListener('click', function() {
     isPilihMode = true;
     this.classList.remove('btn-outline'); 
@@ -197,13 +293,12 @@
     document.getElementById('btnPilihSemua').classList.remove('btn-primary-tab');
     document.getElementById('btnPilihSemua').classList.add('btn-outline');
     
-    // Hapus semua seleksi saat kembali ke mode PILIH
     document.querySelectorAll('.gallery-card').forEach(card => {
       card.setAttribute('data-selected', 'false');
     });
+    selectedIds = [];
   });
   
-  // Tabs - Mode PILIH SEMUA
   document.getElementById('btnPilihSemua').addEventListener('click', function() {
     isPilihMode = false;
     this.classList.remove('btn-outline'); 
@@ -211,84 +306,149 @@
     document.getElementById('btnPilih').classList.remove('btn-primary-tab');
     document.getElementById('btnPilih').classList.add('btn-outline');
     
-    // Pilih semua gambar sekaligus
     document.querySelectorAll('.gallery-card').forEach(card => {
       card.setAttribute('data-selected', 'true');
     });
+    updateSelectedIds();
   });
 
-  // Klik pada gallery card untuk toggle selection (hanya di mode PILIH)
-  document.querySelectorAll('.gallery-card').forEach(card => {
-    card.addEventListener('click', function(e) {
-      if (isPilihMode) {
-        const isSelected = this.getAttribute('data-selected') === 'true';
-        this.setAttribute('data-selected', !isSelected);
-      }
-    });
-  });
-
-  // Modals
-  const galeriModal = new bootstrap.Modal(document.getElementById('galeriModal'));
-  const hapusModal = new bootstrap.Modal(document.getElementById('hapusModal'));
-  const notifModal = new bootstrap.Modal(document.getElementById('notifModal'));
-  const notifText = document.getElementById('notifText');
-  const notifIcon = document.getElementById('notifIcon');
-
-  // Tombol Tambah
   document.getElementById('btnTambah').addEventListener('click', () => {
+    editingId = null;
+    document.getElementById('modalTitle').textContent = 'Tambah Galeri';
+    document.getElementById('galeriId').value = '';
     document.getElementById('judulInput').value = '';
     document.getElementById('deskripsiInput').value = '';
-    document.getElementById('tanggalInput').value = '';
     document.getElementById('gambarInput').value = '';
-    document.getElementById('tampilkanInput').checked = false;
+    document.getElementById('tampilkanInput').checked = true;
+    document.getElementById('previewContainer').style.display = 'none';
     galeriModal.show();
   });
 
-  // Simpan Galeri
-  document.getElementById('btnSimpan').addEventListener('click', () => {
-    galeriModal.hide();
-    setTimeout(() => {
-      const isSuccess = Math.random() > 0.3; // simulasi 70% berhasil
-      if (isSuccess) {
-        notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
-        notifText.textContent = "Galeri berhasil disimpan!";
-      } else {
-        notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
-        notifText.textContent = "Gagal menyimpan galeri!";
-      }
-      notifModal.show();
-      setTimeout(() => notifModal.hide(), 1600);
-    }, 400);
+  function editGaleri(id) {
+    fetch(`/WEB_PPN/admin/proses/proses_galeri.php?action=get&id=${id}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const item = data.data;
+          editingId = id;
+          document.getElementById('modalTitle').textContent = 'Edit Galeri';
+          document.getElementById('galeriId').value = item.id;
+          document.getElementById('judulInput').value = item.judul;
+          document.getElementById('deskripsiInput').value = item.deskripsi;
+          document.getElementById('tampilkanInput').checked = item.status === 'Ditampilkan';
+          
+          if (item.gambar) {
+            document.getElementById('previewImg').src = `/WEB_PPN/asset/img/${item.gambar}`;
+            document.getElementById('previewContainer').style.display = 'block';
+          }
+          
+          galeriModal.show();
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  document.getElementById('gambarInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        document.getElementById('previewImg').src = event.target.result;
+        document.getElementById('previewContainer').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
   });
 
-  // Tombol Hapus - Validasi seleksi gambar
+  document.getElementById('btnSimpan').addEventListener('click', () => {
+    const formData = new FormData();
+    formData.append('action', editingId ? 'update' : 'create');
+    formData.append('id', document.getElementById('galeriId').value);
+    formData.append('judul', document.getElementById('judulInput').value);
+    formData.append('deskripsi', document.getElementById('deskripsiInput').value);
+    formData.append('status', document.getElementById('tampilkanInput').checked ? 'Ditampilkan' : 'Disembunyikan');
+    
+    const gambarFile = document.getElementById('gambarInput').files[0];
+    if (gambarFile) formData.append('gambar', gambarFile);
+
+    fetch('/WEB_PPN/admin/proses/proses_galeri.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      galeriModal.hide();
+      setTimeout(() => {
+        if (data.success) {
+          notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+          notifText.textContent = editingId ? "Galeri berhasil diperbarui!" : "Galeri berhasil ditambahkan!";
+          loadGaleri();
+        } else {
+          notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+          notifText.textContent = data.message || "Gagal menyimpan galeri!";
+        }
+        notifModal.show();
+        setTimeout(() => notifModal.hide(), 1600);
+      }, 400);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+      notifText.textContent = "Terjadi kesalahan!";
+      notifModal.show();
+      setTimeout(() => notifModal.hide(), 1600);
+    });
+  });
+
   document.getElementById('btnHapus').addEventListener('click', () => {
-    const selectedCards = document.querySelectorAll('.gallery-card[data-selected="true"]');
-    if (selectedCards.length === 0) {
+    updateSelectedIds();
+    if (selectedIds.length === 0) {
       notifIcon.className = 'bi bi-exclamation-circle-fill text-warning fs-1 mb-3';
       notifText.textContent = "Pilih gambar terlebih dahulu!";
       notifModal.show();
       setTimeout(() => notifModal.hide(), 1500);
       return;
     }
+    document.getElementById('deleteCount').textContent = selectedIds.length > 1 ? `${selectedIds.length} data` : 'data ini';
     hapusModal.show();
   });
 
-  // Konfirmasi Hapus
   document.getElementById('btnKonfirmasiHapus').addEventListener('click', () => {
-    hapusModal.hide();
-    setTimeout(() => {
-      // Hapus gambar yang terseleksi
-      document.querySelectorAll('.gallery-card[data-selected="true"]').forEach(card => {
-        card.remove();
-      });
-      
-      notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
-      notifText.textContent = "Data galeri berhasil dihapus!";
+    const formData = new FormData();
+    formData.append('action', 'delete');
+    formData.append('ids', JSON.stringify(selectedIds));
+
+    fetch('/WEB_PPN/admin/proses/proses_galeri.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      hapusModal.hide();
+      setTimeout(() => {
+        if (data.success) {
+          notifIcon.className = 'bi bi-check-circle-fill text-success fs-1 mb-3';
+          notifText.textContent = "Data galeri berhasil dihapus!";
+          loadGaleri();
+          selectedIds = [];
+        } else {
+          notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+          notifText.textContent = data.message || "Gagal menghapus data!";
+        }
+        notifModal.show();
+        setTimeout(() => notifModal.hide(), 1500);
+      }, 400);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      notifIcon.className = 'bi bi-x-circle-fill text-danger fs-1 mb-3';
+      notifText.textContent = "Terjadi kesalahan!";
       notifModal.show();
       setTimeout(() => notifModal.hide(), 1500);
-    }, 400);
+    });
   });
+
+  document.addEventListener('DOMContentLoaded', loadGaleri);
 </script>
 
 </body>

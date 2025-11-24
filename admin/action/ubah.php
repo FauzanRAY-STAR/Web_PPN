@@ -301,7 +301,27 @@ switch ($mod) {
             exit;
         }
         break;
-        
+
+    case 'faq':
+        try {
+            $judul = sanitize_input($_POST['judul'] ?? '');
+            $deskripsi = sanitize_input($_POST['deskripsi'] ?? '');
+            $status = isset($_POST['status']) && $_POST['status'] == 'on' ? 'Ditampilkan' : 'Disembunyikan';
+
+            $stmt = $conn->prepare("UPDATE faq SET judul=?, deskripsi=?, status=? WHERE id=?");
+            $stmt->bind_param("sssi", $judul, $deskripsi, $status, $id);
+
+            if ($stmt->execute()) {
+                echo json_encode(['success' => true, 'message' => 'FAQ berhasil diupdate!']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Gagal update FAQ']);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
+        exit;
+        break;
+
     default:
         $_SESSION['error_message'] = 'Module tidak valid';
         header('Location: ../produk.php');

@@ -1,0 +1,279 @@
+/* Styles for Testimoni Dashboard */
+
+/* Body & Container */
+body, .main {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* Header Section */
+.header-section {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #4E8E55;
+    padding: 1rem 0;
+    border-bottom: 2px solid #d6c72a;
+    margin-bottom: 1rem;
+}
+
+/* Search Bar */
+.search-bar-top {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.search-bar-top .left-col {
+    flex-grow: 1;
+}
+
+.search-bar-top .search-box {
+    position: relative;
+    width: 100%;
+}
+
+.search-box input[type="text"] {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #4E8E55;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-box input[type="text"]:focus {
+    border-color: #d6c72a;
+}
+
+.search-box i {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #4E8E55;
+    font-size: 1.2rem;
+}
+
+.search-btn {
+    background-color: #4E8E55;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+    background-color: #3b713f;
+}
+
+/* Table responsive container */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+    padding: 1rem;
+}
+
+/* Table Styles */
+.table {
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+}
+
+.table thead th {
+    background-color: #d6c72a;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+.table tbody tr {
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f0f7f1;
+}
+
+.table tbody tr td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+}
+
+.table tbody tr td.text-center {
+    text-align: center;
+}
+
+/* Badge */
+.badge.bg-success {
+    background-color: #4E8E55 !important;
+    font-weight: 600;
+    padding: 0.4em 0.75em;
+    border-radius: 50px;
+}
+
+.badge.bg-danger {
+    background-color: #C0392B !important;
+    font-weight: 600;
+    padding: 0.4em 0.75em;
+    border-radius: 50px;
+}
+
+/* Image Thumbnail */
+.img-review-thumbnail {
+    border-radius: 8px;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.img-review-thumbnail:hover {
+    transform: scale(1.05);
+}
+
+/* Review Text */
+.review-text {
+    white-space: normal !important;
+    word-wrap: break-word;
+    max-width: 300px;
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+/* Rating Stars */
+.rating-container i {
+    font-size: 1.2rem;
+}
+
+/* Pagination Styles */
+.pagination-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border: 2px solid #4E8E55;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #4E8E55;
+    background: white;
+}
+
+.page-btn.active {
+    background-color: #4E8E55;
+    color: white !important;
+    border-color: #4E8E55;
+}
+
+.page-btn.inactive:hover {
+    background-color: #f0f7f1;
+    transform: translateY(-2px);
+}
+
+.page-btn.nav-btn {
+    background-color: #D6C72A;
+    border-color: #D6C72A;
+    color: white !important;
+}
+
+.page-btn.nav-btn:hover:not(:disabled) {
+    background-color: #c4b525;
+    transform: translateY(-2px);
+}
+
+.page-btn.nav-btn:disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-ellipsis {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    color: #6c757d;
+}
+
+/* Modal Styles */
+.modal-content {
+    border-radius: 12px !important;
+}
+
+/* Form Styles */
+.form-control.border-success {
+    border-color: #4E8E55 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .table-responsive {
+        padding: 0 0.5rem;
+    }
+
+    .review-text {
+        max-width: 150px;
+    }
+
+    .table thead {
+        display: none; /* Hide table headers on small screens */
+    }
+
+    .table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        box-shadow: none;
+        border-radius: 0;
+        background: transparent;
+    }
+
+    .table tbody tr td {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+        border-top: 1px solid #ddd;
+        font-size: 0.9rem;
+        white-space: normal;
+    }
+
+    .table tbody tr td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #4E8E55;
+        flex-basis: 50%;
+    }
+
+    .table tbody tr td.text-center {
+        justify-content: flex-start;
+    }
+}
