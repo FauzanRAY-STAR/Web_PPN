@@ -105,28 +105,18 @@ if (!isset($base_url)) {
                     <img src="<?= $base_url ?>asset/img/userlog.png" alt="User" height="22" width="22" />
                 </a>
             </div>
-        </div>
-    </nav>
+            <form action="<?= $base_url ?>login.php" method="POST" class="px-2">
+                <input type="hidden" name="redirect_to" value="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
 
-    <!-- Alert untuk error login -->
-    <?php if (!empty($_SESSION['login_error'])): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 80px;">
-            <?= htmlspecialchars($_SESSION['login_error']) ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php
-        unset($_SESSION['login_error']);
-    endif;
-    ?>
-
-    <!-- ============================================ -->
-    <!-- MODAL LOGIN PPN -->
-    <!-- ============================================ -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg rounded-4 p-4">
-                <div class="text-center mb-4">
-                    <img src="<?= $base_url ?>asset/img/Logo.png" alt="Logo PPN" style="height:60px;">
+                <div class="mb-3">
+                    <label for="username" class="form-label fw-medium">Username</label>
+                    <input type="text" class="form-control custom-input" id="username" name="username" 
+                           placeholder="Masukkan username" required>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-medium">Password</label>
+                    <input type="password" class="form-control custom-input" id="password" name="password" 
+                           placeholder="Masukkan password" required>
                 </div>
                 <form action="<?= $base_url ?>login.php" method="POST" class="px-2">
                     <div class="mb-3">
