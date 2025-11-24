@@ -28,22 +28,22 @@
 
     <!-- Baris atas -->
     <div class="footer-top">
-  <div class="footer-logos">
-    <img src="<?= $base_url ?>asset/img/Logox.png" alt="Logo PPN" height="50">
-    
-    <a href="https://purwokerto.telkomuniversity.ac.id/" target="_blank">
-      <img src="<?= $base_url ?>asset/img/Logox2.png" alt="Logo Telkom University" height="50">
-    </a>
-    
-    <a href="https://bse-pwt.telkomuniversity.ac.id/" target="_blank">
-      <img src="<?= $base_url ?>asset/img/Logo3.png" alt="Logo Software Engineering" height="50">
-    </a>
-  </div>
+      <div class="footer-logos">
+        <img src="<?= $base_url ?>asset/img/Logox.png" alt="Logo PPN" height="50">
 
-  <p class="footer-copy">
-    &copy; Pramudita Pupuk Nusantara 2025 - All Rights Reserved
-  </p>
-</div>
+        <a href="https://purwokerto.telkomuniversity.ac.id/" target="_blank">
+          <img src="<?= $base_url ?>asset/img/Logox2.png" alt="Logo Telkom University" height="50">
+        </a>
+
+        <a href="https://bse-pwt.telkomuniversity.ac.id/" target="_blank">
+          <img src="<?= $base_url ?>asset/img/Logo3.png" alt="Logo Software Engineering" height="50">
+        </a>
+      </div>
+
+      <p class="footer-copy">
+        &copy; Pramudita Pupuk Nusantara 2025 - All Rights Reserved
+      </p>
+    </div>
 
 
     <hr>
@@ -57,7 +57,7 @@
       </div>
 
       <div class="footer-social">
-        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="http://wa.me/6287722622235"><i class="fab fa-whatsapp"></i></a>
         <a href="#"><i class="fab fa-facebook"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fab fa-tiktok"></i></a>

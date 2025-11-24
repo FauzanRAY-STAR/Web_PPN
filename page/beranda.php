@@ -779,43 +779,43 @@ $result_carousel = mysqli_query($conn, $query_carousel);
     ?>
 
     <!-- POPUP HASIL KALKULATOR -->
-    <div id="popupHasil" class="popup-overlay" style="display:<?= $showPopup ? 'flex' : 'none' ?>;">
-        <div class="popup-content">
-            <!-- Header Popup -->
-            <div class="popup-header">
-                <div class="d-flex align-items-center gap-2">
-                    <img src="asset/img/Logo.png" alt="Logo" style="height: 50px;">
-                    <div class="vr" style="height: 40px; width: 2px; background-color: #fff;"></div>
-                    <h4 class="fw-bold mb-0 text-white">Hasil Perhitungan</h4>
+    <?php if ($showPopup): ?>
+        <div id="popupHasil" class="popup-overlay" style="display: flex;">
+            <div class="popup-content" style="background: white; border-radius: 20px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+                <!-- Header Popup -->
+                <div class="popup-header" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); padding: 20px; border-radius: 20px 20px 0 0; position: relative;">
+                    <div class="d-flex align-items-center gap-2">
+                        <img src="asset/img/Logo.png" alt="Logo" style="height: 50px;">
+                        <div class="vr" style="height: 40px; width: 2px; background-color: #fff;"></div>
+                        <h4 class="fw-bold mb-0 text-white">Hasil Perhitungan</h4>
+                    </div>
+                    <button type="button" class="btn-close-popup" onclick="closePopup()" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.3); border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s;">
+                        <i class="bi bi-x-lg text-white"></i>
+                    </button>
                 </div>
-                <button type="button" class="btn-close-popup" onclick="closePopup()">
-                    <i class="bi bi-x-lg"></i>
-                </button>
-            </div>
 
-            <!-- Body Popup -->
-            <div class="popup-body">
-                <?php if ($showPopup) : ?>
+                <!-- Body Popup -->
+                <div class="popup-body" style="padding: 30px;">
                     <!-- Info Input -->
-                    <div class="info-section">
-                        <div class="info-item">
-                            <i class="bi bi-flower1"></i>
+                    <div class="info-section" style="display: grid; gap: 15px; margin-bottom: 25px;">
+                        <div class="info-item" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                            <i class="bi bi-flower1" style="font-size: 24px; color: #2B8D4C;"></i>
                             <div>
-                                <small class="text-muted">Jenis Tanaman</small>
+                                <small class="text-muted d-block">Jenis Tanaman</small>
                                 <div class="fw-semibold"><?= $hasil_data['jenis_tanaman'] ?></div>
                             </div>
                         </div>
-                        <div class="info-item">
-                            <i class="bi bi-box-seam"></i>
+                        <div class="info-item" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                            <i class="bi bi-box-seam" style="font-size: 24px; color: #2B8D4C;"></i>
                             <div>
-                                <small class="text-muted">Jenis Produk</small>
+                                <small class="text-muted d-block">Jenis Produk</small>
                                 <div class="fw-semibold"><?= $hasil_data['jenis_produk'] ?></div>
                             </div>
                         </div>
-                        <div class="info-item">
-                            <i class="bi bi-rulers"></i>
+                        <div class="info-item" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                            <i class="bi bi-rulers" style="font-size: 24px; color: #2B8D4C;"></i>
                             <div>
-                                <small class="text-muted">Luas Tanah</small>
+                                <small class="text-muted d-block">Luas Tanah</small>
                                 <div class="fw-semibold"><?= number_format($hasil_data['luas_tanah_m2'], 0, ',', '.') ?> M²</div>
                                 <small class="text-muted">(≈ <?= $hasil_data['luas_tanah_bau'] ?> Bau)</small>
                             </div>
@@ -823,33 +823,91 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                     </div>
 
                     <!-- Hasil Kebutuhan -->
-                    <div class="hasil-section">
+                    <div class="hasil-section" style="background: linear-gradient(135deg, #f0f9f4 0%, #e8f5e9 100%); padding: 30px; border-radius: 15px; text-align: center; margin-bottom: 20px;">
+                        <h5 class="fw-bold mb-4" style="color: #2B8D4C;">Kebutuhan Produk</h5>
                         <div class="d-flex align-items-center justify-content-center gap-4 mb-3">
-                            <img src="asset/img/<?= $hasil_data['gambar_produk'] ?>" alt="Produk" style="height:100px; object-fit:contain;">
+                            <img src="asset/img/<?= $hasil_data['gambar_produk'] ?>" alt="Produk" style="height:120px; object-fit:contain;">
                             <div class="text-center">
-                                <div class="display-5 fw-bold" style="color: #2B8D4C;">
+                                <div class="display-4 fw-bold" style="color: #2B8D4C;">
                                     <?= $hasil_data['kebutuhan_produk'] ?>
                                 </div>
-                                <div class="fs-6 fw-semibold" style="color: #1a5c30;">
+                                <div class="fs-5 fw-semibold mt-2" style="color: #1a5c30;">
                                     <?= $hasil_data['satuan_produk'] ?>
                                 </div>
                             </div>
                         </div>
 
                         <?php if (!empty($hasil_data['keterangan_tambahan'])): ?>
-                            <div class="alert alert-info">
+                            <div class="alert alert-info mb-0 mt-3" style="background: rgba(43, 141, 76, 0.1); border: 1px solid rgba(43, 141, 76, 0.3); border-radius: 10px;">
+                                <i class="bi bi-info-circle me-2"></i>
                                 <small><?= $hasil_data['keterangan_tambahan'] ?></small>
                             </div>
                         <?php endif; ?>
                     </div>
 
-                    <button type="button" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;" onclick="window.location.href='page/shop.php'">
-                        Pesan Sekarang
+                    <button type="button" class="btn w-100 py-3 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none; font-size: 16px;" onclick="window.location.href='page/shop.php'">
+                        <i class="bi bi-cart-plus me-2"></i>Pesan Sekarang
                     </button>
-                <?php endif; ?>
+                </div>
             </div>
         </div>
-    </div>
+
+        <style>
+            .popup-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                padding: 20px;
+            }
+
+            .btn-close-popup:hover {
+                background: rgba(255, 255, 255, 0.5) !important;
+                transform: rotate(90deg);
+            }
+
+            @media (max-width: 768px) {
+                .popup-content {
+                    max-width: 95% !important;
+                }
+
+                .popup-body {
+                    padding: 20px !important;
+                }
+
+                .hasil-section .display-4 {
+                    font-size: 2.5rem !important;
+                }
+            }
+        </style>
+
+        <script>
+            function closePopup() {
+                document.getElementById('popupHasil').style.display = 'none';
+            }
+
+            // Close popup saat klik di luar konten
+            document.addEventListener('click', function(e) {
+                const popup = document.getElementById('popupHasil');
+                if (popup && e.target === popup) {
+                    closePopup();
+                }
+            });
+
+            // Close popup dengan tombol ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closePopup();
+                }
+            });
+        </script>
+    <?php endif; ?>
 
     <!-- ============================================ -->
     <!-- HASIL PEMAKAIAN PUPUK SILIKA SECTION -->
@@ -989,171 +1047,211 @@ $result_carousel = mysqli_query($conn, $query_carousel);
     <!-- ============================================ -->
     <div class="container-fluid py-5" style="background-color: #2B8D4C;">
         <div class="container py-5">
-            <div class="text-start mb-5">
-                <h5 class="fw-normal text-white">Testimoni</h5>
-                <h1 class="fw-semibold text-white">Pupuk Silika Pramudita Pupuk Nusantara</h1>
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <div>
+                    <h5 class="fw-normal text-white mb-2">Testimoni</h5>
+                    <h1 class="fw-semibold text-white mb-0">Pupuk Silika Pramudita Pupuk Nusantara</h1>
+                </div>
+
+                <!-- Navigation Arrows -->
+                <?php if ($jumlahTestimoni > 3) : ?>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-light rounded-circle scroll-btn" id="scrollLeft" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-chevron-left fw-bold"></i>
+                        </button>
+                        <button class="btn btn-light rounded-circle scroll-btn" id="scrollRight" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-chevron-right fw-bold"></i>
+                        </button>
+                    </div>
+                <?php endif; ?>
             </div>
 
-            <div class="row g-4">
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal1">
-                        <div class="d-flex align-items-center mb-3">
-                            <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
-                            <h6 class="ms-2 fw-bold m-0">Asep Alexander</h6>
-                        </div>
-                        <p>Sejak rutin pakai pupuk silika, tanaman padi saya lebih kokoh dan tidak gampang rebah.
-                            Hasil panen naik sekitar 20% dibanding musim sebelumnya. Hemat biaya pestisida juga!</p>
-                        <div class="mt-4">
-                            <div style="font-size: 22px;">✒</div>
-                            <small class="text-muted">Tera Nusa Maxi-D - Purwokerto Timur</small>
-                        </div>
-                    </div>
-                </div>
+            <?php if ($jumlahTestimoni > 0) : ?>
 
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal2">
-                        <div class="d-flex align-items-center mb-3">
-                            <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
-                            <h6 class="ms-2 fw-bold m-0">Budi Santoso</h6>
-                        </div>
-                        <p>Dulu sering gagal panen karena cuaca ekstrem. Sekarang dengan silika, tanaman lebih kuat
-                            meskipun hujan deras atau panas. Lahan saya jadi lebih subur juga.</p>
-                        <div class="mt-4">
-                            <div style="font-size: 22px;">✒</div>
-                            <small class="text-muted">Silika V-0D01 - Desa Karangrau</small>
-                        </div>
-                    </div>
-                </div>
+                <!-- Scrollable Container -->
+                <div class="testimoni-scroll-container" id="testimoniContainer">
+                    <div class="testimoni-scroll-wrapper">
+                        <?php
+                        $modalIndex = 1;
+                        while ($testimoni = mysqli_fetch_assoc($resultTestimoni)) :
+                        ?>
+                            <!-- Testimoni Card -->
+                            <div class="testimoni-scroll-item">
+                                <div class="p-4 h-100 testimoni-card"
+                                    style="background-color: #FFED64; border-radius: 15px; color: #333; cursor: pointer;"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#testimoniModal<?= $modalIndex ?>">
 
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal3">
-                        <div class="d-flex align-items-center mb-3">
-                            <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
-                            <h6 class="ms-2 fw-bold m-0">Dr. Agung Wijaya</h6>
-                        </div>
-                        <p>Pupuk silika bukan sekadar pelengkap, tapi solusi untuk meningkatkan daya tahan tanaman
-                            tanpa ketergantungan pada pestisida berlebihan. Saya selalu rekomendasikan ke mitra tani saya.</p>
-                        <div class="mt-4">
-                            <div style="font-size: 22px;">✒</div>
-                            <small class="text-muted">Tera Nusa Silika - IPB University</small>
-                        </div>
-                    </div>
-                </div>
+                                    <!-- Header dengan Foto -->
+                                    <div class="d-flex align-items-center mb-3">
+                                        <img src="asset/img/testimoni/<?= htmlspecialchars($testimoni['gambar']) ?>"
+                                            alt="<?= htmlspecialchars($testimoni['nama']) ?>"
+                                            style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #333;"
+                                            onerror="this.src='asset/img/default-avatar.png'">
+                                        <h6 class="ms-2 fw-bold m-0"><?= htmlspecialchars($testimoni['nama']) ?></h6>
+                                    </div>
 
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 10px; color: #333; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#testimoniModal4">
-                        <div class="d-flex align-items-center mb-3">
-                            <div style="width: 40px; height: 40px; background-color: #333; border-radius: 50%;"></div>
-                            <h6 class="ms-2 fw-bold m-0">Ibu Siti Aminah</h6>
-                        </div>
-                        <p>Tanaman cabai saya lebih tahan penyakit sejak pakai pupuk silika. Buahnya besar-besar dan tidak mudah busuk.
-                            Panen jadi lebih banyak dan tahan lama di pasar.</p>
-                        <div class="mt-4">
-                            <div style="font-size: 22px;">✒</div>
-                            <small class="text-muted">Tera Nusa Hama - Bandung</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                                    <!-- Review (Potong jika terlalu panjang) -->
+                                    <p class="review-preview">
+                                        <?php
+                                        $ulasan = htmlspecialchars($testimoni['ulasan']);
+                                        // Potong di 120 karakter
+                                        if (strlen($ulasan) > 150) {
+                                            $ulasan = substr($ulasan, 0, 150);
+                                            $lastSpace = strrpos($ulasan, ' ');
+                                            $ulasan = substr($ulasan, 0, $lastSpace) . '...';
+                                        }
+                                        echo $ulasan;
+                                        ?>
+                                    </p>
 
-    <!-- MODAL TESTIMONI 1 -->
-    <div class="modal fade" id="testimoniModal1" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content" style="border-radius: 20px; border: none;">
-                <div class="modal-body p-0">
-                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
-                    <div class="bg-white p-5" style="border-radius: 20px;">
-                        <div class="d-flex align-items-center mb-4">
-                            <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
-                            <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
-                                <h4 class="mb-0 fw-bold">Testimoni</h4>
+                                    <!-- Footer dengan Rating & Info -->
+                                    <div class="mt-auto">
+                                        <!-- Rating Bintang -->
+                                        <div class="mb-2">
+                                            <?php
+                                            for ($i = 1; $i <= 5; $i++) {
+                                                if ($i <= $testimoni['nilai']) {
+                                                    echo '<i class="bi bi-star-fill text-warning"></i>';
+                                                } else {
+                                                    echo '<i class="bi bi-star text-warning"></i>';
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                        <small class="text-muted d-block" style="font-size: 0.85rem;">
+                                            <i class="bi bi-box-seam"></i> <?= htmlspecialchars($testimoni['produk']) ?>
+                                        </small>
+                                        <small class="text-muted d-block" style="font-size: 0.85rem;">
+                                            <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($testimoni['alamat']) ?>
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="text-center mb-4">
-                            <img src="asset/img/Testimoni2.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
-                        </div>
+                            <!-- Modal Detail Testimoni -->
+                            <div class="modal fade" id="testimoniModal<?= $modalIndex ?>" tabindex="-1" aria-labelledby="modalLabel<?= $modalIndex ?>" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content border-0" style="border-radius: 20px; overflow: hidden;">
 
-                        <div class="text-center mb-3">
-                            <h3 class="fw-bold mb-1">Budi Santoso</h3>
-                            <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Silika V-0D01</h5>
-                            <p class="text-muted mb-0">Desa Karangrau</p>
-                        </div>
+                                        <!-- HEADER MODAL -->
+                                        <div class="modal-header border-0 position-relative" style="background: linear-gradient(135deg, #2B8D4C 0%, #1a5c30 100%); padding: 1.5rem 2rem;">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div style="width: 40px; height: 40px; background-color: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="bi bi-chat-quote-fill text-white fs-5"></i>
+                                                </div>
+                                                <h5 class="modal-title text-white fw-bold mb-0">Detail Testimoni</h5>
+                                            </div>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="filter: brightness(0) invert(1);"></button>
+                                        </div>
 
-                        <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
-                            Dulu sering gagal panen karena cuaca ekstrem. Sekarang dengan silika, tanaman lebih kuat meskipun hujan deras atau panas. Lahan saya jadi lebih subur juga.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                                        <div class="modal-body p-4">
+                                            <!-- Profile Section -->
+                                            <div class="d-flex align-items-center mb-4">
+                                                <img src="asset/img/testimoni/<?= htmlspecialchars($testimoni['gambar']) ?>"
+                                                    alt="<?= htmlspecialchars($testimoni['nama']) ?>"
+                                                    style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid #2B8D4C; box-shadow: 0 4px 12px rgba(43,141,76,0.2);"
+                                                    onerror="this.src='asset/img/default-avatar.png'">
+                                                <div class="ms-3 flex-grow-1">
+                                                    <h5 class="fw-bold mb-1"><?= htmlspecialchars($testimoni['nama']) ?></h5>
+                                                    <div class="d-flex align-items-center gap-2 text-muted">
+                                                        <i class="bi bi-geo-alt-fill" style="color: #2B8D4C;"></i>
+                                                        <small><?= htmlspecialchars($testimoni['alamat']) ?></small>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-    <!-- MODAL TESTIMONI 3 -->
-    <div class="modal fade" id="testimoniModal3" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content" style="border-radius: 20px; border: none;">
-                <div class="modal-body p-0">
-                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
-                    <div class="bg-white p-5" style="border-radius: 20px;">
-                        <div class="d-flex align-items-center mb-4">
-                            <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
-                            <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
-                                <h4 class="mb-0 fw-bold">Testimoni</h4>
+                                            <!-- Rating Section -->
+                                            <div class="text-center mb-4 py-3" style="background-color: #f8f9fa; border-radius: 12px;">
+                                                <div class="mb-2">
+                                                    <?php
+                                                    for ($i = 1; $i <= 5; $i++) {
+                                                        if ($i <= $testimoni['nilai']) {
+                                                            echo '<i class="bi bi-star-fill text-warning fs-4"></i>';
+                                                        } else {
+                                                            echo '<i class="bi bi-star text-muted fs-4"></i>';
+                                                        }
+                                                    }
+                                                    ?>
+                                                </div>
+                                                <small class="text-muted fw-semibold">Rating: <?= $testimoni['nilai'] ?>/5</small>
+                                            </div>
+
+                                            <!-- Produk Section -->
+                                            <div class="mb-4">
+                                                <label class="text-muted small mb-2 fw-semibold">Produk yang Digunakan</label>
+                                                <div class="d-flex align-items-center p-3 rounded-3" style="background: linear-gradient(135deg, #FFED64 0%, #ffd700 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                                                    <!-- Gambar Produk -->
+                                                    <?php if (!empty($testimoni['gambar_produk'])) : ?>
+                                                        <img src="asset/img/<?= htmlspecialchars($testimoni['gambar_produk']) ?>"
+                                                            alt="<?= htmlspecialchars($testimoni['produk']) ?>"
+                                                            style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover; border: 2px solid #2B8D4C; box-shadow: 0 2px 6px rgba(0,0,0,0.15);"
+                                                            onerror="this.src='asset/img/default-product.png'">
+                                                    <?php else : ?>
+                                                        <div style="width: 50px; height: 50px; border-radius: 8px; background-color: #2B8D4C; display: flex; align-items: center; justify-content: center; border: 2px solid #1a5c30;">
+                                                            <i class="bi bi-box-seam text-white fs-5"></i>
+                                                        </div>
+                                                    <?php endif; ?>
+
+                                                    <div class="ms-3 flex-grow-1">
+                                                        <div class="fw-bold" style="color: #2B8D4C; font-size: 1.1rem;">
+                                                            <?= htmlspecialchars($testimoni['produk']) ?>
+                                                        </div>
+                                                        <small class="text-muted">
+                                                            <i class="bi bi-check-circle-fill" style="color: #2B8D4C;"></i> Produk Terverifikasi
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Review Section -->
+                                            <div class="mb-3">
+                                                <label class="text-muted small mb-2 fw-semibold">
+                                                    <i class="bi bi-chat-left-text"></i> Ulasan Lengkap
+                                                </label>
+                                                <div class="p-3 rounded-3" style="background-color: #f8f9fa; border-left: 4px solid #2B8D4C;">
+                                                    <p class="mb-0" style="text-align: justify; line-height: 1.8; color: #495057;">
+                                                        <?= nl2br(htmlspecialchars($testimoni['ulasan'])) ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Footer Modal -->
+                                        <div class="modal-footer border-0 pt-0 pb-4 px-4">
+                                            <button type="button" class="btn btn-lg w-100 fw-semibold" data-bs-dismiss="modal" style="background-color: #2B8D4C; color: white; border-radius: 12px; transition: all 0.3s;">
+                                                <i class="bi bi-x-circle me-2"></i>Tutup
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="text-center mb-4">
-                            <img src="asset/img/Testimoni3.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
-                        </div>
-
-                        <div class="text-center mb-3">
-                            <h3 class="fw-bold mb-1">Dr. Agung Wijaya</h3>
-                            <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Tera Nusa Silika</h5>
-                            <p class="text-muted mb-0">IPB University</p>
-                        </div>
-
-                        <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
-                            Pupuk silika bukan sekadar pelengkap, tapi solusi untuk meningkatkan daya tahan tanaman tanpa ketergantungan pada pestisida berlebihan. Saya selalu rekomendasikan ke mitra tani saya.
-                        </p>
+                        <?php
+                            $modalIndex++;
+                        endwhile;
+                        ?>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- MODAL TESTIMONI 4 -->
-    <div class="modal fade" id="testimoniModal4" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content" style="border-radius: 20px; border: none;">
-                <div class="modal-body p-0">
-                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
-                    <div class="bg-white p-5" style="border-radius: 20px;">
-                        <div class="d-flex align-items-center mb-4">
-                            <img src="asset/img/logo.png" alt="Logo" style="height: 50px;">
-                            <div class="ms-3" style="border-left: 3px solid #333; padding-left: 15px;">
-                                <h4 class="mb-0 fw-bold">Testimoni</h4>
-                            </div>
-                        </div>
-
-                        <div class="text-center mb-4">
-                            <img src="asset/img/Testimoni4.png" alt="Testimoni" class="img-fluid" style="max-height: 400px; border-radius: 15px; object-fit: cover;">
-                        </div>
-
-                        <div class="text-center mb-3">
-                            <h3 class="fw-bold mb-1">Ibu Siti Aminah</h3>
-                            <h5 class="fw-semibold mb-2" style="color: #2B8D4C;">Tera Nusa Hama</h5>
-                            <p class="text-muted mb-0">Bandung</p>
-                        </div>
-
-                        <p class="text-justify" style="line-height: 1.8; font-size: 1rem;">
-                            Tanaman cabai saya lebih tahan penyakit sejak pakai pupuk silika. Buahnya besar-besar dan tidak mudah busuk. Panen jadi lebih banyak dan tahan lama di pasar.
-                        </p>
+                <!-- Indicator Dots (Optional) -->
+                <?php if ($jumlahTestimoni > 3) : ?>
+                    <div class="text-center mt-4">
+                        <small class="text-white">
+                            <i class="bi bi-arrow-left-right"></i> Geser untuk melihat testimoni lainnya
+                        </small>
                     </div>
+                <?php endif; ?>
+
+            <?php else : ?>
+                <!-- Jika tidak ada testimoni sama sekali -->
+                <div class="alert alert-warning text-center" role="alert">
+                    <i class="bi bi-exclamation-triangle fs-1"></i>
+                    <h4 class="mt-3">Belum Ada Testimoni</h4>
+                    <p class="mb-0">Testimoni akan ditampilkan setelah ada yang ditambahkan dan diaktifkan.</p>
                 </div>
-            </div>
+            <?php endif; ?>
+
         </div>
     </div>
 
@@ -1264,15 +1362,59 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                     popupHasil.style.display = 'none';
                 }
             };
+        });
 
-            // Close popup when clicking outside
-            const popupHasil = document.getElementById('popupHasil');
-            if (popupHasil) {
-                window.addEventListener('click', function(e) {
-                    if (e.target === popupHasil) {
-                        popupHasil.style.display = 'none';
-                    }
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('testimoniContainer');
+            const scrollLeftBtn = document.getElementById('scrollLeft');
+            const scrollRightBtn = document.getElementById('scrollRight');
+
+            if (scrollLeftBtn && scrollRightBtn) {
+                // Scroll left
+                scrollLeftBtn.addEventListener('click', function() {
+                    container.scrollBy({
+                        left: -400,
+                        behavior: 'smooth'
+                    });
                 });
+
+                // Scroll right
+                scrollRightBtn.addEventListener('click', function() {
+                    container.scrollBy({
+                        left: 400,
+                        behavior: 'smooth'
+                    });
+                });
+
+                // Update button states based on scroll position
+                function updateScrollButtons() {
+                    const scrollLeft = container.scrollLeft;
+                    const maxScroll = container.scrollWidth - container.clientWidth;
+
+                    // Disable left button if at start
+                    if (scrollLeft <= 0) {
+                        scrollLeftBtn.style.opacity = '0.5';
+                        scrollLeftBtn.style.cursor = 'not-allowed';
+                    } else {
+                        scrollLeftBtn.style.opacity = '1';
+                        scrollLeftBtn.style.cursor = 'pointer';
+                    }
+
+                    // Disable right button if at end
+                    if (scrollLeft >= maxScroll - 10) {
+                        scrollRightBtn.style.opacity = '0.5';
+                        scrollRightBtn.style.cursor = 'not-allowed';
+                    } else {
+                        scrollRightBtn.style.opacity = '1';
+                        scrollRightBtn.style.cursor = 'pointer';
+                    }
+                }
+
+                // Initial check
+                updateScrollButtons();
+
+                // Update on scroll
+                container.addEventListener('scroll', updateScrollButtons);
             }
         });
     </script>
