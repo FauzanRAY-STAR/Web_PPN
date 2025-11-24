@@ -427,7 +427,7 @@ $result_carousel = mysqli_query($conn, $query_carousel);
 
                 <div class="col-lg-6 col-md-10 text-center">
                     <div class="position-relative">
-                        <img src="asset/img/KalkulatorBanner.png" alt="Kalkulator Tani" class="img-fluid rounded kalkulator-img">
+                        <img src="asset/img/Kalkulator.jpg" alt="Kalkulator Tani" class="img-fluid rounded kalkulator-img">
                     </div>
                 </div>
             </div>
