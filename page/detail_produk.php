@@ -1,8 +1,4 @@
 <?php
-// page/detail_produk.php - INTEGRATED VERSION
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 
 // Include config files
 include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/config.php');

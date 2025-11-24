@@ -1,4 +1,5 @@
 <?php
+include('config/config.php');
 include('config/koneksi.php');
 
 // Query untuk mengambil carousel aktif

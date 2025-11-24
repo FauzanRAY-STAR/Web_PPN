@@ -1,10 +1,4 @@
 <?php
-// Jalankan session dan output buffering sebelum HTML apapun
-if (session_status() === PHP_SESSION_NONE) {
-    ob_start();
-    session_start();
-}
-
 if (!isset($base_url)) {
     include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/config.php');
 }
@@ -83,9 +77,6 @@ if (!isset($base_url)) {
                                     <a href="<?= $base_url ?>page/visi_misi.php" class="d-block py-2 fw-semibold text-link">
                                         Visi & Misi
                                     </a>
-                                    <a href="<?= $base_url ?>page/jangkauan_kami.php" class="d-block py-2 fw-semibold text-link">
-                                        Jangkauan Pengguna
-                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +102,7 @@ if (!isset($base_url)) {
         </div>
     </nav>
 
-    <!-- Alert untuk error login -->
+     <!-- Alert untuk error login -->
     <?php if (!empty($_SESSION['login_error'])): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 80px;">
             <?= htmlspecialchars($_SESSION['login_error']) ?>
@@ -120,7 +111,7 @@ if (!isset($base_url)) {
     <?php
         unset($_SESSION['login_error']);
     endif;
-    ?>
+?>
 
     <!-- ============================================ -->
     <!-- MODAL LOGIN PPN -->
