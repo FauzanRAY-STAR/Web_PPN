@@ -101,18 +101,16 @@ $result_carousel = mysqli_query($conn, $query_carousel);
             line-height: 1.6;
         }
 
-        /* Carousel Controls */
-        .carousel-control-prev,
-        .carousel-control-next {
-            width: 10%;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+            /* Carousel Controls */
+            .carousel-control-prev,
+            .carousel-control-next {
+                display: none !important;
+            }
 
-        .carousel-control-prev:hover,
-        .carousel-control-next:hover {
-            opacity: 1;
-        }
+            .carousel-control-prev:hover,
+            .carousel-control-next:hover {
+                opacity: 1;
+            }
 
         .carousel-control-prev-icon,
         .carousel-control-next-icon {
@@ -264,11 +262,10 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                         <div class="carousel-item <?= $active_class ?>">
                             <div class="row align-items-center justify-content-center">
                                 <div class="col-md-5">
-                                    <img src="asset/img/<?= htmlspecialchars($produk['gambar']) ?>"
-                                        class="img-fluid"
-                                        alt="<?= htmlspecialchars($produk['nama']) ?>"
-                                        style="max-width: 300px;"
-                                        onerror="this.src='asset/img/placeholder.png'">
+<img src="asset/img/<?= htmlspecialchars($produk['gambar']) ?>"
+    class="carousel-product-img"
+    alt="<?= htmlspecialchars($produk['nama']) ?>"
+    onerror="this.src='asset/img/placeholder.png'">
                                 </div>
                                 <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
                                     <h4 class="fw-bold" style="color: #2B8D4C;">
@@ -340,11 +337,11 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                                 data-bs-target="#produkCarousel"
                                 data-bs-slide-to="<?= $thumb_index ?>"
                                 style="width: 120px; height: 120px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;">
-                                <img src="asset/img/<?= htmlspecialchars($produk['gambar_kecil'] ?? $produk['gambar']) ?>"
-                                    class="w-100 h-100 p-3"
-                                    style="object-fit: contain;"
-                                    alt="<?= htmlspecialchars($produk['nama']) ?>"
-                                    onerror="this.src='asset/img/placeholder.png'">
+<img src="asset/img/<?= htmlspecialchars($produk['gambar_kecil'] ?? $produk['gambar']) ?>"
+    class="w-100 h-100"
+    style="object-fit: contain;"
+    alt="<?= htmlspecialchars($produk['nama']) ?>"
+    onerror="this.src='asset/img/placeholder.png'">
                             </div>
                         <?php
                             $thumb_index++;
@@ -1280,29 +1277,44 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                     wrap: true // Loop terus menerus
                 });
 
-                // Swipe gesture support untuk mobile
-                let touchStartX = 0;
-                let touchEndX = 0;
+            // Swipe gesture support untuk mobile
+            let touchStartX = 0;
+            let touchEndX = 0;
 
-                heroCarousel.addEventListener('touchstart', function(e) {
-                    touchStartX = e.changedTouches[0].screenX;
-                });
+            heroCarousel.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
 
-                heroCarousel.addEventListener('touchend', function(e) {
-                    touchEndX = e.changedTouches[0].screenX;
-                    handleSwipe();
-                });
+            heroCarousel.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
 
-                function handleSwipe() {
-                    if (touchEndX < touchStartX - 50) {
-                        // Swipe left - next
-                        carousel.next();
-                    }
-                    if (touchEndX > touchStartX + 50) {
-                        // Swipe right - prev
-                        carousel.prev();
-                    }
+            function handleSwipe() {
+                if (touchEndX < touchStartX - 50) {
+                    // Swipe left - next
+                    carousel.next();
                 }
+                if (touchEndX > touchStartX + 50) {
+                    // Swipe right - prev
+                    carousel.prev();
+                }
+            }
+            
+            // Add click event listener on left/right half of carousel for navigation
+            heroCarousel.addEventListener('click', function(event) {
+                const rect = heroCarousel.getBoundingClientRect();
+                const clickX = event.clientX - rect.left; // x position within element
+                const elementWidth = rect.width;
+
+                if (clickX < elementWidth / 2) {
+                    // Clicked on left half - prev slide
+                    carousel.prev();
+                } else {
+                    // Clicked on right half - next slide
+                    carousel.next();
+                }
+            });
             }
 
             // Initialize produk carousel dengan interval lebih cepat (3 detik)
