@@ -1267,11 +1267,11 @@ $result_carousel = mysqli_query($conn, $query_carousel);
     <!-- ============================================ -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize hero carousel dengan interval lebih cepat (3 detik)
+            
             var heroCarousel = document.querySelector('#heroCarousel');
             if (heroCarousel) {
 var carousel = new bootstrap.Carousel(heroCarousel, {
-    interval: 5000, // 5 detik (slower speed as per user request)
+    interval: 5000, 
     ride: 'carousel',
     pause: 'hover',
     wrap: true // Loop terus menerus
@@ -1317,11 +1317,11 @@ var carousel = new bootstrap.Carousel(heroCarousel, {
             });
             }
 
-            // Initialize produk carousel dengan interval lebih cepat (3 detik)
+            
             var produkCarousel = document.querySelector('#produkCarousel');
             if (produkCarousel) {
                 var carouselProduk = new bootstrap.Carousel(produkCarousel, {
-                    interval: 3000, // 3 detik (lebih cepat dari 4 detik sebelumnya)
+                    interval: 5000, 
                     ride: 'carousel',
                     pause: 'hover',
                     wrap: true
