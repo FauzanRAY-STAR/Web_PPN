@@ -179,7 +179,7 @@
 
       <label class="fw-semibold mb-1 mt-3">Unggah Gambar</label>
       <input type="file" class="form-control border-success mb-3" id="gambarInput" accept="image/*">
-      <small class="text-muted">Format: JPG, PNG, GIF (Max 5MB) | Rekomendasi: 1920x1080px</small>
+      <small class="text-muted">Format: JPG, PNG, GIF (Max 10MB) | Rekomendasi: 1920x1080px</small>
       <div id="previewContainer" class="mt-2 mb-3" style="display:none;">
         <img id="previewImg" src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px;">
       </div>
