@@ -1270,12 +1270,12 @@ $result_carousel = mysqli_query($conn, $query_carousel);
             
             var heroCarousel = document.querySelector('#heroCarousel');
             if (heroCarousel) {
-var carousel = new bootstrap.Carousel(heroCarousel, {
-    interval: 5000, 
-    ride: 'carousel',
-    pause: 'hover',
-    wrap: true // Loop terus menerus
-});
+            var carousel = new bootstrap.Carousel(heroCarousel, {
+                interval: 5000, 
+                ride: 'carousel',
+                pause: 'hover',
+                wrap: true // Loop terus menerus
+            });
 
             // Swipe gesture support untuk mobile
             let touchStartX = 0;
