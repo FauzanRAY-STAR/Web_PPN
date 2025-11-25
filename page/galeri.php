@@ -1,5 +1,6 @@
 <?php
-include('config/koneksi.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/config.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
 ?>
 
 <!DOCTYPE html>

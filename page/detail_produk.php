@@ -1,8 +1,4 @@
 <?php
-// page/detail_produk.php - INTEGRATED VERSION
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 
 // Include config files
 include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/config.php');
@@ -39,6 +35,7 @@ $related_result = $related_stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,19 +49,38 @@ $related_result = $related_stmt->get_result();
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= $base_url ?>asset/style/detail_produk.css">
 
     <style>
-        * { font-family: 'Poppins', sans-serif; }
-        body { font-weight: 400; }
-        h1, h2, h3, h4, h5, h6 { font-weight: 600; }
-        .fw-bold { font-weight: 700 !important; }
-        .fw-semibold { font-weight: 600 !important; }
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-weight: 400;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: 600;
+        }
+
+        .fw-bold {
+            font-weight: 700 !important;
+        }
+
+        .fw-semibold {
+            font-weight: 600 !important;
+        }
 
         .hero-section {
             background: linear-gradient(135deg, #1B5930 0%, #2B8D4C 100%);
@@ -99,7 +115,7 @@ $related_result = $related_stmt->get_result();
             background: #f8f9fa;
             border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
 
         .product-image {
@@ -175,7 +191,9 @@ $related_result = $related_stmt->get_result();
             text-align: center;
         }
 
-        .detail-section, .benefits-section, .usage-section {
+        .detail-section,
+        .benefits-section,
+        .usage-section {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem 1rem;
@@ -185,7 +203,7 @@ $related_result = $related_stmt->get_result();
             background: #f8f9fa;
             padding: 2rem;
             border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .detail-description {
@@ -205,13 +223,13 @@ $related_result = $related_stmt->get_result();
             background: white;
             padding: 1.5rem;
             border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
         }
 
         .benefit-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
 
         .benefit-icon {
@@ -224,7 +242,7 @@ $related_result = $related_stmt->get_result();
             background: white;
             padding: 2rem;
             border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             margin-bottom: 2rem;
         }
 
@@ -266,14 +284,14 @@ $related_result = $related_stmt->get_result();
             background: white;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             height: 100%;
         }
 
         .related-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
 
         .related-card img {
@@ -292,15 +310,18 @@ $related_result = $related_stmt->get_result();
             .main-product {
                 flex-direction: column;
             }
+
             .hero-title {
                 font-size: 2rem;
             }
+
             .product-title {
                 font-size: 1.5rem;
             }
         }
     </style>
 </head>
+
 <body>
 
     <?php include(__DIR__ . '/../admin/template/navbar.php'); ?>
@@ -318,31 +339,41 @@ $related_result = $related_stmt->get_result();
             <div class="main-product">
                 <div class="product-image-container">
                     <div class="product-image-wrapper">
-                        <img src="<?= $base_url ?>asset/img/<?= htmlspecialchars($product['gambar']) ?>" 
-                             alt="<?= htmlspecialchars($product['nama']) ?>" 
-                             class="product-image"
-                             onerror="this.src='<?= $base_url ?>asset/img/placeholder.png'">
+                        <img src="<?= $base_url ?>asset/img/<?= htmlspecialchars($product['gambar']) ?>"
+                            alt="<?= htmlspecialchars($product['nama']) ?>"
+                            class="product-image"
+                            onerror="this.src='<?= $base_url ?>asset/img/placeholder.png'">
                     </div>
                 </div>
                 <div class="product-description">
                     <h2 class="product-title"><?= htmlspecialchars($product['nama']) ?></h2>
-                    
+
                     <div class="product-category">
                         <i class="bi bi-tag"></i> <?= htmlspecialchars($product['kategori']) ?>
                     </div>
 
                     <?php if (!empty($product['atribut'])): ?>
                         <div class="product-badges">
-                            <?php 
+                            <?php
                             $atribut_array = explode(' ', $product['atribut']);
                             foreach ($atribut_array as $atribut):
                                 $badge_class = '';
-                                switch($atribut) {
-                                    case 'Baru': $badge_class = 'bg-primary'; break;
-                                    case 'Laris': $badge_class = 'bg-warning text-dark'; break;
-                                    case 'Promo': $badge_class = 'bg-success'; break;
-                                    case 'Bonus': $badge_class = 'bg-info text-dark'; break;
-                                    case 'Habis': $badge_class = 'bg-danger'; break;
+                                switch ($atribut) {
+                                    case 'Baru':
+                                        $badge_class = 'bg-primary';
+                                        break;
+                                    case 'Laris':
+                                        $badge_class = 'bg-warning text-dark';
+                                        break;
+                                    case 'Promo':
+                                        $badge_class = 'bg-success';
+                                        break;
+                                    case 'Bonus':
+                                        $badge_class = 'bg-info text-dark';
+                                        break;
+                                    case 'Habis':
+                                        $badge_class = 'bg-danger';
+                                        break;
                                 }
                             ?>
                                 <span class="badge <?= $badge_class ?>">
@@ -380,115 +411,83 @@ $related_result = $related_stmt->get_result();
         </section>
 
         <?php if (!empty($product['penjelasan'])): ?>
-        <!-- Detail Produk -->
-        <section class="detail-section">
-            <h3 class="section-title">Penjelasan Produk</h3>
-            <div class="detail-content">
-                <p class="detail-description">
-                    <?= nl2br(htmlspecialchars($product['penjelasan'])) ?>
-                </p>
-            </div>
-        </section>
+            <!-- Detail Produk -->
+            <section class="detail-section">
+                <h3 class="section-title">Penjelasan Produk</h3>
+                <div class="detail-content">
+                    <p class="detail-description">
+                        <?= nl2br(htmlspecialchars($product['penjelasan'])) ?>
+                    </p>
+                </div>
+            </section>
         <?php endif; ?>
 
         <?php if (!empty($product['manfaat'])): ?>
-        <!-- Manfaat & Keunggulan -->
-        <section class="benefits-section">
-            <h3 class="section-title">Manfaat & Keunggulan</h3>
-            <div class="benefits-grid">
-                <?php 
-                $manfaat_items = explode("\n", $product['manfaat']);
-                foreach ($manfaat_items as $manfaat): 
-                    if (trim($manfaat)):
-                ?>
-                    <div class="benefit-card">
-                        <div class="benefit-icon">✓</div>
-                        <p><?= htmlspecialchars(trim($manfaat)) ?></p>
-                    </div>
-                <?php 
-                    endif;
-                endforeach; 
-                ?>
-            </div>
-        </section>
+            <!-- Manfaat & Keunggulan -->
+            <section class="benefits-section">
+                <h3 class="section-title">Manfaat & Keunggulan</h3>
+                <div class="benefits-grid">
+                    <?php
+                    $manfaat_items = explode("\n", $product['manfaat']);
+                    foreach ($manfaat_items as $manfaat):
+                        if (trim($manfaat)):
+                    ?>
+                            <div class="benefit-card">
+                                <div class="benefit-icon">✓</div>
+                                <p><?= htmlspecialchars(trim($manfaat)) ?></p>
+                            </div>
+                    <?php
+                        endif;
+                    endforeach;
+                    ?>
+                </div>
+            </section>
         <?php endif; ?>
 
         <?php if (!empty($product['aturan_pakai'])): ?>
-        <!-- Aturan Pakai -->
-        <section class="usage-section">
-            <h3 class="section-title">Aturan Pakai</h3>
-            
-            <div class="usage-category">
-                <?php if (!empty($product['jenis_tanaman'])): ?>
-                    <h4 class="usage-subtitle">
-                        <i class="bi bi-flower1"></i> 
-                        Untuk: <?= htmlspecialchars(str_replace(';', ', ', $product['jenis_tanaman'])) ?>
-                    </h4>
-                <?php endif; ?>
-                
-                <div class="mt-3">
-                    <?= nl2br(htmlspecialchars($product['aturan_pakai'])) ?>
+            <!-- Aturan Pakai -->
+            <section class="usage-section">
+                <h3 class="section-title">Aturan Pakai</h3>
+
+                <div class="usage-category">
+                    <?php if (!empty($product['jenis_tanaman'])): ?>
+                        <h4 class="usage-subtitle">
+                            <i class="bi bi-flower1"></i>
+                            Untuk: <?= htmlspecialchars(str_replace(';', ', ', $product['jenis_tanaman'])) ?>
+                        </h4>
+                    <?php endif; ?>
+
+                    <div class="mt-3">
+                        <?= nl2br(htmlspecialchars($product['aturan_pakai'])) ?>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         <?php endif; ?>
 
         <?php if (!empty($product['keistimewaan'])): ?>
-        <!-- Keistimewaan -->
-        <section class="detail-section">
-            <h3 class="section-title">Keistimewaan</h3>
-            <div class="detail-content">
-                <p class="detail-description">
-                    <?= nl2br(htmlspecialchars($product['keistimewaan'])) ?>
-                </p>
-            </div>
-        </section>
+            <!-- Keistimewaan -->
+            <section class="detail-section">
+                <h3 class="section-title">Keistimewaan</h3>
+                <div class="detail-content">
+                    <p class="detail-description">
+                        <?= nl2br(htmlspecialchars($product['keistimewaan'])) ?>
+                    </p>
+                </div>
+            </section>
         <?php endif; ?>
 
         <?php if (!empty($product['penyimpanan'])): ?>
-        <!-- Petunjuk Penyimpanan -->
-        <section class="detail-section">
-            <h3 class="section-title">Petunjuk Penyimpanan</h3>
-            <div class="detail-content">
-                <p class="detail-description">
-                    <?= nl2br(htmlspecialchars($product['penyimpanan'])) ?>
-                </p>
-            </div>
-        </section>
+            <!-- Petunjuk Penyimpanan -->
+            <section class="detail-section">
+                <h3 class="section-title">Petunjuk Penyimpanan</h3>
+                <div class="detail-content">
+                    <p class="detail-description">
+                        <?= nl2br(htmlspecialchars($product['penyimpanan'])) ?>
+                    </p>
+                </div>
+            </section>
         <?php endif; ?>
 
-        <!-- Related Products -->
-        <?php if ($related_result->num_rows > 0): ?>
-        <section class="related-products">
-            <div class="container">
-                <h3 class="section-title">Produk Terkait</h3>
-                <div class="row g-4 mt-2">
-                    <?php while ($related = $related_result->fetch_assoc()): ?>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="related-card">
-                                <img src="<?= $base_url ?>asset/img/<?= htmlspecialchars($related['gambar_kecil']) ?>" 
-                                     alt="<?= htmlspecialchars($related['nama']) ?>"
-                                     onerror="this.src='<?= $base_url ?>asset/img/placeholder.png'">
-                                <div class="related-card-body">
-                                    <h5 class="fw-semibold"><?= htmlspecialchars($related['nama']) ?></h5>
-                                    <p class="text-muted small mb-2"><?= htmlspecialchars($related['kategori']) ?></p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="fw-bold" style="color: #1B5930;">
-                                            Rp <?= number_format($related['harga'], 0, ',', '.') ?>
-                                        </span>
-                                        <a href="<?= $base_url ?>page/detail_produk.php?id=<?= $related['id'] ?>" 
-                                           class="btn btn-sm btn-success">
-                                            Lihat
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endwhile; ?>
-                </div>
-            </div>
-        </section>
-        <?php endif; ?>
 
         <!-- Back to Products Button -->
         <div class="container text-center my-5">
@@ -509,4 +508,5 @@ $related_result = $related_stmt->get_result();
     <script src="<?= $base_url ?>asset/js/detail_produk.js"></script>
 
 </body>
+
 </html>
