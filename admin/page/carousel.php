@@ -200,7 +200,7 @@
     <div class="modal-content p-4 rounded-4 text-center">
       <img src="/WEB_PPN/asset/img/logo.png" alt="Logo" width="120" class="mb-3">
       <i class="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
-      <h5 class="fw-semibold mt-3 mb-4">Apakah Anda yakin ingin menghapus <span id="deleteCount">data</span> ini?</h5>
+      <h5 class="fw-semibold mt-3 mb-4">Apakah Anda yakin ingin menghapus <span id="deleteCount">data</span></h5>
       <button class="btn text-white w-100 fw-semibold" id="btnKonfirmasiHapus" style="background-color: #C0392B; border-radius: 12px;">Hapus</button>
     </div>
   </div>
