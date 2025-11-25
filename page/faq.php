@@ -78,6 +78,87 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
       font-weight: 300 !important;
     }
 
+    /* ============================================ */
+    /* FADE IN ANIMATION - DARI BAWAH KE ATAS */
+    /* ============================================ */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(60px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-60px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(60px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            max-height: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            max-height: 500px;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in-section {
+        opacity: 0;
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .fade-in-left {
+        opacity: 0;
+        animation: fadeInLeft 0.8s ease-out forwards;
+    }
+
+    .fade-in-right {
+        opacity: 0;
+        animation: fadeInRight 0.8s ease-out forwards;
+    }
+
+    .fade-in-item {
+        opacity: 0;
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    /* Delay untuk setiap elemen */
+    .fade-in-section { animation-delay: 0.1s; }
+    .fade-in-left { animation-delay: 0.2s; }
+    .fade-in-right { animation-delay: 0.3s; }
+
+    .faq-item:nth-child(1) { animation-delay: 0.4s; }
+    .faq-item:nth-child(2) { animation-delay: 0.5s; }
+    .faq-item:nth-child(3) { animation-delay: 0.6s; }
+    .faq-item:nth-child(4) { animation-delay: 0.7s; }
+    .faq-item:nth-child(5) { animation-delay: 0.8s; }
+    .faq-item:nth-child(n+6) { animation-delay: 0.9s; }
+
     /* === Main Content Flex === */
     main, .main-content {
       flex: 1;
@@ -116,22 +197,49 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
       letter-spacing: 0.3px;
       transition: all 0.3s ease;
       color: #1B5930;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      padding: 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px;
     }
 
     .faq-question:hover {
       font-family: 'Poppins', sans-serif;
       transform: translateX(5px);
+      background-color: rgba(27, 89, 48, 0.05);
+    }
+
+    .faq-question.active {
+      background-color: rgba(27, 89, 48, 0.1);
+      color: #2B8D4C;
     }
 
     .faq-question span {
       font-family: 'Poppins', sans-serif;
       font-weight: 600;
       font-size: 1.15rem;
+      flex: 1;
     }
 
     /* === FAQ Answer === */
     .faq-answer {
       font-family: 'Poppins', sans-serif;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+
+    .faq-answer.show {
+      max-height: 500px;
+      opacity: 1;
+      animation: slideDown 0.3s ease-out;
     }
 
     .faq-answer p {
@@ -140,12 +248,24 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
       line-height: 1.9;
       font-size: 1.05rem;
       color: #555;
+      padding: 0 1rem 1rem 1rem;
     }
 
     /* === FAQ Item === */
     .faq-item {
       font-family: 'Poppins', sans-serif;
       margin-bottom: 1.5rem;
+      border: 1px solid rgba(27, 89, 48, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 4px 12px rgba(27, 89, 48, 0.15);
     }
 
     /* === FAQ Wrapper === */
@@ -156,20 +276,38 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
     /* === FAQ Content === */
     .faq-content {
       font-family: 'Poppins', sans-serif;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
     }
 
     .faq-left {
       font-family: 'Poppins', sans-serif;
+      animation: fadeInLeft 0.8s ease-out forwards;
+    }
+
+    .faq-left img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 20px rgba(27, 89, 48, 0.15);
     }
 
     .faq-right {
       font-family: 'Poppins', sans-serif;
+      animation: fadeInRight 0.8s ease-out forwards;
     }
 
     /* === FAQ Icon === */
     .icon {
       font-family: 'Poppins', sans-serif;
       font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-question.active .icon {
+      transform: rotate(180deg);
     }
 
     /* === Footer Fix === */
@@ -178,6 +316,22 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
     }
 
     /* === Responsive Typography === */
+    @media (max-width: 1024px) {
+      .faq-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .faq-left {
+        animation: fadeInUp 0.8s ease-out forwards;
+      }
+
+      .faq-right {
+        animation: fadeInUp 0.8s ease-out forwards;
+        animation-delay: 0.2s;
+      }
+    }
+
     @media (max-width: 768px) {
       .faq-title {
         font-size: 2.5rem;
@@ -190,6 +344,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
 
       .faq-question {
         font-size: 1rem;
+        padding: 0.8rem;
       }
 
       .faq-question span {
@@ -198,6 +353,11 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
 
       .faq-answer p {
         font-size: 0.95rem;
+        padding: 0 0.8rem 0.8rem 0.8rem;
+      }
+
+      .icon {
+        font-size: 1.2rem;
       }
     }
 
@@ -213,6 +373,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
 
       .faq-question {
         font-size: 0.95rem;
+        padding: 0.7rem;
       }
 
       .faq-question span {
@@ -221,6 +382,15 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
 
       .faq-answer p {
         font-size: 0.9rem;
+        padding: 0 0.7rem 0.7rem 0.7rem;
+      }
+
+      .icon {
+        font-size: 1rem;
+      }
+
+      .faq-item {
+        margin-bottom: 1rem;
       }
     }
   </style>
@@ -237,7 +407,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
   <!-- background kuning -->
   <div class="faq-bg"></div>
 
-  <div class="faq-wrapper">
+  <div class="faq-wrapper fade-in-section">
     <h1 class="faq-title">FAQ</h1>
 
     <div class="faq-content">
@@ -260,7 +430,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
           while ($faq = mysqli_fetch_assoc($result)) {
         ?>
         <div class="faq-item">
-          <button class="faq-question">
+          <button class="faq-question" onclick="toggleFAQ(this)">
             <span><?php echo htmlspecialchars($faq['judul']); ?></span>
             <i class="bi bi-chevron-down icon"></i>
           </button>
@@ -273,7 +443,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
         } else {
         ?>
         <div class="faq-item">
-          <button class="faq-question">
+          <button class="faq-question" onclick="toggleFAQ(this)">
             <span>Tidak ada FAQ yang ditampilkan saat ini.</span>
             <i class="bi bi-chevron-down icon"></i>
           </button>
@@ -289,7 +459,34 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
   </div>
 </section>
 
-<script src="asset/js/faq.js"></script>
+<script>
+  // Toggle FAQ Accordion dengan Animasi
+  function toggleFAQ(button) {
+    const answer = button.nextElementSibling;
+    const isActive = button.classList.contains('active');
+
+    // Close all other FAQs
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      if (btn !== button) {
+        btn.classList.remove('active');
+        btn.nextElementSibling.classList.remove('show');
+      }
+    });
+
+    // Toggle current FAQ
+    button.classList.toggle('active');
+    answer.classList.toggle('show');
+  }
+
+  // Smooth scroll animation on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    // Apply animation delays to FAQ items
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach((item, index) => {
+      item.style.animationDelay = `${0.4 + (index * 0.1)}s`;
+    });
+  });
+</script>
 
 <!-- WA -->
 <?php include ('admin/template/whatsapp_float.php'); ?>

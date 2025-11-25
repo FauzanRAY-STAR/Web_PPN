@@ -34,6 +34,33 @@ $result_carousel = mysqli_query($conn, $query_carousel);
         .fw-normal { font-weight: 400 !important; }
         .fw-light { font-weight: 300 !important; }
 
+        /* ============================================ */
+        /* FADE IN ANIMATION - DARI BAWAH KE ATAS */
+        /* ============================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        /* Delay untuk setiap section */
+        .fade-in-section:nth-of-type(1) { animation-delay: 0.1s; }
+        .fade-in-section:nth-of-type(2) { animation-delay: 0.3s; }
+        .fade-in-section:nth-of-type(3) { animation-delay: 0.5s; }
+        .fade-in-section:nth-of-type(4) { animation-delay: 0.7s; }
+        .fade-in-section:nth-of-type(5) { animation-delay: 0.9s; }
+        .fade-in-section:nth-of-type(6) { animation-delay: 1.1s; }
+
         /* Hero Carousel Styling */
         .hero-carousel-item {
             height: 100vh;
@@ -127,7 +154,6 @@ $result_carousel = mysqli_query($conn, $query_carousel);
             box-shadow: 0 4px 15px rgba(43, 141, 76, 0.5) !important;
         }
 
-        /* Pastikan tombol bisa diklik */
         .carousel-control-prev,
         .carousel-control-next {
             background: none !important;
@@ -164,6 +190,53 @@ $result_carousel = mysqli_query($conn, $query_carousel);
             text-align: center;
             color: white;
         }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .btn-close-popup:hover {
+            background: rgba(255,255,255,0.5) !important;
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 768px) {
+            .popup-content {
+                max-width: 95% !important;
+            }
+            
+            .popup-body {
+                padding: 20px !important;
+            }
+            
+            .hasil-section .display-4 {
+                font-size: 2.5rem !important;
+            }
+        }
+
+        .thumb.active {
+            border-color: #2B8D4C !important;
+            background-color: rgba(43, 141, 76, 0.05) !important;
+        }
+
+        .thumb:hover {
+            border-color: #FFED64 !important;
+            transform: scale(1.05);
+        }
+
+        .carousel-item {
+            transition: transform 0.6s ease-in-out;
+        }
     </style>
 </head>
 
@@ -172,88 +245,86 @@ $result_carousel = mysqli_query($conn, $query_carousel);
 <?php include('admin/template/navbar.php'); ?>
 
 <!-- ============================================ -->
-<!-- HERO CAROUSEL SECTION (DYNAMIC FROM DATABASE) -->
+<!-- HERO CAROUSEL SECTION -->
 <!-- ============================================ -->
-<?php if ($result_carousel && mysqli_num_rows($result_carousel) > 0): ?>
-<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <?php 
-        $index = 0;
-        while ($carousel = mysqli_fetch_assoc($result_carousel)): 
-            $active_class = ($index === 0) ? 'active' : '';
-        ?>
-        <div class="carousel-item <?= $active_class ?>">
-            <div class="hero-carousel-item" style="background-image: url('asset/img/<?= htmlspecialchars($carousel['gambar']) ?>');">
-                <div class="hero-overlay"></div>
-                <div class="hero-content">
-                    <div class="container text-center text-lg-start">
-                        <h1 class="display-3 text-white fw-bold hero-title">
-                            <?= htmlspecialchars($carousel['judul']) ?>
-                        </h1>
-                        <?php if (!empty($carousel['deskripsi'])): ?>
-                        <p class="text-white mb-4 hero-description">
-                            <?= htmlspecialchars($carousel['deskripsi']) ?>
-                        </p>
-                        <?php endif; ?>
+<div class="fade-in-section">
+    <?php if ($result_carousel && mysqli_num_rows($result_carousel) > 0): ?>
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <?php 
+            $index = 0;
+            while ($carousel = mysqli_fetch_assoc($result_carousel)): 
+                $active_class = ($index === 0) ? 'active' : '';
+            ?>
+            <div class="carousel-item <?= $active_class ?>">
+                <div class="hero-carousel-item" style="background-image: url('asset/img/<?= htmlspecialchars($carousel['gambar']) ?>');">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <div class="container text-center text-lg-start">
+                            <h1 class="display-3 text-white fw-bold hero-title">
+                                <?= htmlspecialchars($carousel['judul']) ?>
+                            </h1>
+                            <?php if (!empty($carousel['deskripsi'])): ?>
+                            <p class="text-white mb-4 hero-description">
+                                <?= htmlspecialchars($carousel['deskripsi']) ?>
+                            </p>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>
+            <?php 
+                $index++;
+            endwhile; 
+            ?>
         </div>
-        <?php 
-            $index++;
-        endwhile; 
-        ?>
+
+        <?php if (mysqli_num_rows($result_carousel) > 1): ?>
+        <div class="carousel-indicators">
+            <?php 
+            mysqli_data_seek($result_carousel, 0);
+            $btn_index = 0;
+            while ($carousel = mysqli_fetch_assoc($result_carousel)): 
+                $active_btn = ($btn_index === 0) ? 'active' : '';
+            ?>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?= $btn_index ?>" class="<?= $active_btn ?>" aria-label="Slide <?= $btn_index + 1 ?>"></button>
+            <?php 
+                $btn_index++;
+            endwhile; 
+            ?>
+        </div>
+        <?php endif; ?>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="pointer-events: auto !important;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="pointer-events: auto !important;">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 
-    <!-- Carousel Indicators -->
-    <?php if (mysqli_num_rows($result_carousel) > 1): ?>
-    <div class="carousel-indicators">
-        <?php 
-        mysqli_data_seek($result_carousel, 0);
-        $btn_index = 0;
-        while ($carousel = mysqli_fetch_assoc($result_carousel)): 
-            $active_btn = ($btn_index === 0) ? 'active' : '';
-        ?>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?= $btn_index ?>" class="<?= $active_btn ?>" aria-label="Slide <?= $btn_index + 1 ?>"></button>
-        <?php 
-            $btn_index++;
-        endwhile; 
-        ?>
+    <?php else: ?>
+    <div class="hero-empty">
+        <div class="container">
+            <i class="bi bi-images" style="font-size: 5rem; opacity: 0.5;"></i>
+            <h2 class="mt-3">Tidak ada carousel tersedia</h2>
+            <p class="mb-0">Silakan hubungi administrator untuk menambahkan carousel</p>
+        </div>
     </div>
     <?php endif; ?>
-
-    <!-- Carousel Controls (Tombol Samping Kiri & Kanan) -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="pointer-events: auto !important;">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="pointer-events: auto !important;">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
 </div>
-
-<?php else: ?>
-<!-- Empty State jika tidak ada carousel aktif -->
-<div class="hero-empty">
-    <div class="container">
-        <i class="bi bi-images" style="font-size: 5rem; opacity: 0.5;"></i>
-        <h2 class="mt-3">Tidak ada carousel tersedia</h2>
-        <p class="mb-0">Silakan hubungi administrator untuk menambahkan carousel</p>
-    </div>
-</div>
-<?php endif; ?>
 
 <?php
-// Query untuk mengambil produk yang dipajang (maksimal 5 produk)
 $query_produk = "SELECT * FROM produk WHERE status = 'Dipajang' ORDER BY tanggal DESC LIMIT 5";
 $result_produk = mysqli_query($conn, $query_produk);
 ?>
 
 <!-- ============================================ -->
-<!-- PRODUK KAMI SECTION (DYNAMIC) -->
+<!-- PRODUK KAMI SECTION -->
 <!-- ============================================ -->
-<div class="container my-5 py-5">
+<div class="fade-in-section container my-5 py-5">
     <h3 class="text-center fw-bold" style="color: #2B8D4C;">PRODUK KAMI</h3>
     <div class="d-flex justify-content-center align-items-center mb-4">
         <div style="width: 100px; height: 2px; background-color: #2B8D4C; margin: 0 10px;"></div>
@@ -261,7 +332,6 @@ $result_produk = mysqli_query($conn, $query_produk);
 
     <?php if ($result_produk && mysqli_num_rows($result_produk) > 0): ?>
     <div id="produkCarousel" class="carousel slide" data-bs-ride="carousel">
-        <!-- Fixed Height Container untuk mencegah page jump -->
         <div class="carousel-inner text-center" style="min-height: 450px;">
             <?php 
             $index = 0;
@@ -270,7 +340,6 @@ $result_produk = mysqli_query($conn, $query_produk);
             ?>
                 <div class="carousel-item <?= $active_class ?>">
                     <div class="row align-items-center justify-content-center" style="min-height: 400px;">
-                        <!-- Kolom Gambar dengan Fixed Size -->
                         <div class="col-md-5 d-flex align-items-center justify-content-center">
                             <div style="width: 300px; height: 300px; display: flex; align-items: center; justify-content: center;">
                                 <img src="asset/img/<?= htmlspecialchars($produk['gambar']) ?>" 
@@ -281,7 +350,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                             </div>
                         </div>
                         
-                        <!-- Kolom Deskripsi -->
                         <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
                             <h4 class="fw-bold" style="color: #2B8D4C;">
                                 <?= htmlspecialchars($produk['nama']) ?>
@@ -325,7 +393,6 @@ $result_produk = mysqli_query($conn, $query_produk);
             ?>
         </div>
 
-        <!-- NAVIGATION PREVIEW dengan Fixed Height -->
         <div class="d-flex justify-content-center align-items-center mt-4 position-relative" style="height: 150px;">
             <button class="btn btn-prev" type="button" data-bs-target="#produkCarousel" data-bs-slide="prev" 
                     style="background: none; border: none; cursor: pointer; transition: transform 0.3s;"
@@ -365,24 +432,6 @@ $result_produk = mysqli_query($conn, $query_produk);
             </button>
         </div>
     </div>
-
-    <style>
-        /* Active thumbnail border */
-        .thumb.active {
-            border-color: #2B8D4C !important;
-            background-color: rgba(43, 141, 76, 0.05) !important;
-        }
-
-        .thumb:hover {
-            border-color: #FFED64 !important;
-            transform: scale(1.05);
-        }
-
-        /* Smooth transition for carousel items */
-        .carousel-item {
-            transition: transform 0.6s ease-in-out;
-        }
-    </style>
     
     <?php else: ?>
     <div class="text-center py-5" style="min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
@@ -395,7 +444,7 @@ $result_produk = mysqli_query($conn, $query_produk);
 <!-- ============================================ -->
 <!-- KALKULATOR TANI SECTION -->
 <!-- ============================================ -->
-<div class="container-fluid py-5" id="kalkulator-tani">
+<div class="fade-in-section container-fluid py-5" id="kalkulator-tani">
     <div class="container py-5">
         <div class="row align-items-center justify-content-center">
             <div class="col-lg-6 col-md-10 mb-5 mb-lg-0">
@@ -405,9 +454,7 @@ $result_produk = mysqli_query($conn, $query_produk);
                     <h4 class="fw-bold mb-0" style="color:#000;">Kalkulator Tani</h4>
                 </div>
 
-                <!-- FORM KALKULATOR -->
                 <form id="formKalkulator" class="p-2" method="POST" action="">
-                    <!-- Jenis Tanaman -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold" style="color:#000;">Jenis Tanaman</label>
                         <select name="jenis_tanaman" class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;" required>
@@ -423,7 +470,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                         <select name="jenis_produk" class="form-select border-success border-opacity-50 rounded-3 py-2" style="border: 2px solid #A4C37F;" required>
                             <option value="" selected>Pilih Jenis Produk</option>
                             <?php
-                            // Query untuk mengambil data produk dari database
                             $queryProduk = "SELECT id, nama, gambar FROM produk ORDER BY nama ASC";
                             $resultProduk = mysqli_query($conn, $queryProduk);
                             
@@ -444,7 +490,6 @@ $result_produk = mysqli_query($conn, $query_produk);
                         </div>
                     </div>
 
-                    <!-- Tombol Hitung -->
                     <button type="submit" name="hitung" class="btn w-100 py-2 fw-semibold text-white rounded-pill" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); border:none;">
                         Hitung
                     </button>
@@ -457,40 +502,24 @@ $result_produk = mysqli_query($conn, $query_produk);
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
 <?php
-// ============================================
-// BACKEND KALKULATOR PUPUK - PHP NATIVE
-// ============================================
-
-/**
- * Function untuk menghitung kebutuhan pupuk
- * @param array $input - Data input dari form atau JSON
- * @return array - Hasil perhitungan dalam format terstruktur
- */
 function hitungKebutuhanPupuk($input) {
-    // Konstanta konversi
-    define('BAU_TO_M2', 7140); // 1 Bau = 7,140 M²
+    define('BAU_TO_M2', 7140);
     
-    // Ekstrak input
     $jenis_tanaman = isset($input['jenis_tanaman']) ? $input['jenis_tanaman'] : '';
     $jenis_produk = isset($input['jenis_produk']) ? $input['jenis_produk'] : '';
     $luas_lahan_m2 = isset($input['luas_lahan']) ? floatval($input['luas_lahan']) : 0;
     $luas_lahan_bau = $luas_lahan_m2 / BAU_TO_M2;
     
-    // Data tambahan untuk perhitungan advanced (opsional)
     $umur_tanaman_hst = isset($input['umur_tanaman']) ? intval($input['umur_tanaman']) : null;
     $musim = isset($input['musim']) ? $input['musim'] : null;
     $status_hama = isset($input['status_hama']) ? $input['status_hama'] : 'Preventif';
     $kebiasaan_urea = isset($input['kebiasaan_urea']) ? floatval($input['kebiasaan_urea']) : null;
     $kebiasaan_phonska = isset($input['kebiasaan_phonska']) ? floatval($input['kebiasaan_phonska']) : null;
     
-    // ============================================
-    // 1. HITUNG TOTAL KEBUTUHAN PRODUK (PER 1 MUSIM)
-    // ============================================
     $total_kebutuhan = array(
         'silika_5kg_bungkus' => 0,
         'maxi_d_1L_botol' => 0,
@@ -499,29 +528,17 @@ function hitungKebutuhanPupuk($input) {
         'silika_cair_0_5L_botol' => 0
     );
     
-    // Hitung berdasarkan jenis tanaman (Padi dan Jagung menggunakan rasio yang sama)
     if (in_array(strtolower($jenis_tanaman), ['padi', 'jagung'])) {
-        // SILIKA 5KG: 8 bungkus per 1 Bau (hanya untuk Padi)
         if (strtolower($jenis_tanaman) === 'padi') {
             $total_kebutuhan['silika_5kg_bungkus'] = $luas_lahan_bau * 8;
         }
         
-        // MAXI D (1 LITER): 1 botol per 0.5 Bau
         $total_kebutuhan['maxi_d_1L_botol'] = $luas_lahan_bau / 0.5;
-        
-        // MAXI B (1 LITER): 1 botol per 0.5 Bau
         $total_kebutuhan['maxi_b_1L_botol'] = $luas_lahan_bau / 0.5;
-        
-        // HAMA (1.5 LITER): 1 botol per 0.25 Bau
         $total_kebutuhan['hama_1_5L_botol'] = $luas_lahan_bau / 0.25;
-        
-        // SILIKA CAIR (0.5 LITER): 1 botol per 0.5 Bau
         $total_kebutuhan['silika_cair_0_5L_botol'] = $luas_lahan_bau / 0.5;
     }
     
-    // ============================================
-    // 2. HITUNG PENGURANGAN PUPUK TABUR (HANYA UNTUK PADI)
-    // ============================================
     $pengurangan_pupuk = null;
     
     if (strtolower($jenis_tanaman) === 'padi' && $musim && ($kebiasaan_urea || $kebiasaan_phonska)) {
@@ -533,64 +550,42 @@ function hitungKebutuhanPupuk($input) {
         );
         
         if (strtolower($musim) === 'penghujan') {
-            // Berkurang 50% untuk musim penghujan
             $pengurangan_pupuk['urea_baru_kg'] = $kebiasaan_urea ? $kebiasaan_urea * 0.5 : null;
             $pengurangan_pupuk['phonska_baru_kg'] = $kebiasaan_phonska ? $kebiasaan_phonska * 0.5 : null;
         } elseif (strtolower($musim) === 'kemarau') {
-            // Berkurang 30% untuk musim kemarau
             $pengurangan_pupuk['urea_baru_kg'] = $kebiasaan_urea ? $kebiasaan_urea * 0.7 : null;
             $pengurangan_pupuk['phonska_baru_kg'] = $kebiasaan_phonska ? $kebiasaan_phonska * 0.7 : null;
         }
     }
     
-    // ============================================
-    // 3. REKOMENDASI SEMPROT SAAT INI (BERDASARKAN HST)
-    // ============================================
     $rekomendasi_semprot = null;
     
     if ($umur_tanaman_hst !== null) {
         if (strtolower($jenis_tanaman) === 'padi') {
-            // Logika untuk PADI berdasarkan HST
             $dosis_hama = ($status_hama === 'Ada Serangan') ? '7-10 tutup (serangan hama)' : '5 tutup';
             
             if ($umur_tanaman_hst <= 15) {
                 $rekomendasi_semprot = array(
                     'jadwal_terdekat' => '15 HST',
-                    'dosis_per_tangki_16L' => array(
-                        'MAXI D: 6 tutup',
-                        'HAMA: ' . $dosis_hama,
-                        'SILIKA CAIR: 3-5 tutup'
-                    ),
+                    'dosis_per_tangki_16L' => array('MAXI D: 6 tutup', 'HAMA: ' . $dosis_hama, 'SILIKA CAIR: 3-5 tutup'),
                     'catatan' => 'Digunakan berbarengan dalam tangki 16 Liter'
                 );
             } elseif ($umur_tanaman_hst <= 30) {
                 $rekomendasi_semprot = array(
                     'jadwal_terdekat' => '30 HST',
-                    'dosis_per_tangki_16L' => array(
-                        'MAXI D: 8 tutup',
-                        'HAMA: ' . $dosis_hama,
-                        'SILIKA CAIR: 3-5 tutup'
-                    ),
+                    'dosis_per_tangki_16L' => array('MAXI D: 8 tutup', 'HAMA: ' . $dosis_hama, 'SILIKA CAIR: 3-5 tutup'),
                     'catatan' => 'Digunakan berbarengan dalam tangki 16 Liter'
                 );
             } elseif ($umur_tanaman_hst <= 45) {
                 $rekomendasi_semprot = array(
                     'jadwal_terdekat' => '45 HST',
-                    'dosis_per_tangki_16L' => array(
-                        'MAXI B: 8 tutup',
-                        'HAMA: ' . $dosis_hama,
-                        'SILIKA CAIR: 3-5 tutup'
-                    ),
+                    'dosis_per_tangki_16L' => array('MAXI B: 8 tutup', 'HAMA: ' . $dosis_hama, 'SILIKA CAIR: 3-5 tutup'),
                     'catatan' => 'Digunakan berbarengan dalam tangki 16 Liter'
                 );
             } elseif ($umur_tanaman_hst <= 70) {
                 $rekomendasi_semprot = array(
                     'jadwal_terdekat' => '70 HST',
-                    'dosis_per_tangki_16L' => array(
-                        'MAXI B: 10 tutup',
-                        'HAMA: ' . $dosis_hama,
-                        'SILIKA CAIR: 3-5 tutup'
-                    ),
+                    'dosis_per_tangki_16L' => array('MAXI B: 10 tutup', 'HAMA: ' . $dosis_hama, 'SILIKA CAIR: 3-5 tutup'),
                     'catatan' => 'Digunakan berbarengan dalam tangki 16 Liter'
                 );
             } else {
@@ -601,43 +596,30 @@ function hitungKebutuhanPupuk($input) {
                 );
             }
         } elseif (strtolower($jenis_tanaman) === 'jagung') {
-            // Logika PLACEHOLDER untuk JAGUNG berdasarkan HST
             $dosis_hama = ($status_hama === 'Ada Serangan') ? '7-10 tutup (serangan hama)' : '5 tutup';
             
             if ($umur_tanaman_hst <= 20) {
                 $rekomendasi_semprot = array(
                     'jadwal_terdekat' => 'Fase Awal (0-20 HST)',
-                    'dosis_per_tangki_16L' => array(
-                        'MAXI D: 7 tutup',
-                        'HAMA: ' . $dosis_hama
-                    ),
-                    'catatan' => 'Fase Awal Jagung (placeholder logika)'
+                    'dosis_per_tangki_16L' => array('MAXI D: 7 tutup', 'HAMA: ' . $dosis_hama),
+                    'catatan' => 'Fase Awal Jagung'
                 );
             } elseif ($umur_tanaman_hst <= 40) {
                 $rekomendasi_semprot = array(
                     'jadwal_terdekat' => 'Fase Pertumbuhan (21-40 HST)',
-                    'dosis_per_tangki_16L' => array(
-                        'MAXI B: 8 tutup',
-                        'HAMA: ' . $dosis_hama
-                    ),
-                    'catatan' => 'Fase Pertumbuhan Jagung (placeholder logika)'
+                    'dosis_per_tangki_16L' => array('MAXI B: 8 tutup', 'HAMA: ' . $dosis_hama),
+                    'catatan' => 'Fase Pertumbuhan Jagung'
                 );
             } else {
                 $rekomendasi_semprot = array(
                     'jadwal_terdekat' => 'Fase Pembungaan/Pembuahan (> 40 HST)',
-                    'dosis_per_tangki_16L' => array(
-                        'MAXI B: 10 tutup',
-                        'HAMA: ' . $dosis_hama
-                    ),
-                    'catatan' => 'Fase Pembuahan Jagung (placeholder logika)'
+                    'dosis_per_tangki_16L' => array('MAXI B: 10 tutup', 'HAMA: ' . $dosis_hama),
+                    'catatan' => 'Fase Pembuahan Jagung'
                 );
             }
         }
     }
     
-    // ============================================
-    // RETURN HASIL DALAM FORMAT JSON
-    // ============================================
     return array(
         'input' => array(
             'jenis_tanaman' => $jenis_tanaman,
@@ -662,73 +644,48 @@ function hitungKebutuhanPupuk($input) {
     );
 }
 
-/**
- * Function untuk mencocokkan produk berdasarkan nama dan menghitung kebutuhannya
- * Ini adalah wrapper yang kompatibel dengan UI lama
- */
 function hitungProdukSpesifik($jenis_tanaman, $jenis_produk, $luas_tanah_bau) {
     $kebutuhan_produk = 0;
     $satuan_produk = "";
     $keterangan_tambahan = "";
     
-    // Normalisasi nama produk untuk pencocokan
     $produk_lower = strtolower($jenis_produk);
     
-    // Deteksi produk berdasarkan keyword - sesuai panduan resmi PT Pramudita Pupuk Nusantara
     if ((stripos($produk_lower, 'silika') !== false && 
-         (stripos($produk_lower, '5kg') !== false || 
-          stripos($produk_lower, '5 kg') !== false ||
-          stripos($produk_lower, '5-kg') !== false ||
-          stripos($produk_lower, 'padat') !== false)) ||
+         (stripos($produk_lower, '5kg') !== false || stripos($produk_lower, '5 kg') !== false ||
+          stripos($produk_lower, '5-kg') !== false || stripos($produk_lower, 'padat') !== false)) ||
         stripos($produk_lower, 'silika v') !== false) {
-        // SILIKA 5KG: Untuk 1 Bau menggunakan 8 bungkus (kemasan 5 kg, totalnya 40 kg/bau)
         $kebutuhan_produk = $luas_tanah_bau * 8;
         $satuan_produk = "bungkus (@ 5kg)";
         $keterangan_tambahan = "Sebelum tanam atau pada saat pemupukan pertama (10-15 HST). Total 40 kg/Bau";
     } 
-    elseif (stripos($produk_lower, 'maxi d') !== false || 
-            stripos($produk_lower, 'maxi-d') !== false ||
-            stripos($produk_lower, 'maxid') !== false ||
-            stripos($produk_lower, 'tera nusa maxi d') !== false ||
+    elseif (stripos($produk_lower, 'maxi d') !== false || stripos($produk_lower, 'maxi-d') !== false ||
+            stripos($produk_lower, 'maxid') !== false || stripos($produk_lower, 'tera nusa maxi d') !== false ||
             (stripos($produk_lower, 'maxi') !== false && stripos($produk_lower, 'd') !== false)) {
-        // MAXI D (1 LITER): Luasan ½ Bau (Setengah Bau) = 1 botol
-        // Rumus: jumlah botol = luas_tanah_bau / 0.5
         $kebutuhan_produk = $luas_tanah_bau / 0.5;
         $satuan_produk = "botol (@ 1 Liter)";
         $keterangan_tambahan = "Aplikasi: 15 HST (6 tutup) & 30 HST (8 tutup). Dosis per tangki semprot 16 liter";
     } 
-    elseif (stripos($produk_lower, 'maxi b') !== false || 
-            stripos($produk_lower, 'maxi-b') !== false ||
-            stripos($produk_lower, 'maxib') !== false ||
-            stripos($produk_lower, 'tera nusa maxi b') !== false ||
+    elseif (stripos($produk_lower, 'maxi b') !== false || stripos($produk_lower, 'maxi-b') !== false ||
+            stripos($produk_lower, 'maxib') !== false || stripos($produk_lower, 'tera nusa maxi b') !== false ||
             (stripos($produk_lower, 'maxi') !== false && stripos($produk_lower, 'b') !== false)) {
-        // MAXI B (1 LITER): Luasan ½ Bau (Setengah Bau) = 1 botol
-        // Rumus: jumlah botol = luas_tanah_bau / 0.5
         $kebutuhan_produk = $luas_tanah_bau / 0.5;
         $satuan_produk = "botol (@ 1 Liter)";
         $keterangan_tambahan = "Aplikasi: 45 HST (8 tutup) & 70 HST/Nyckor (10 tutup). Dosis per tangki semprot 16 liter";
     } 
-    elseif (stripos($produk_lower, 'hama') !== false ||
-            stripos($produk_lower, 'pestisida') !== false ||
+    elseif (stripos($produk_lower, 'hama') !== false || stripos($produk_lower, 'pestisida') !== false ||
             stripos($produk_lower, 'pengendali') !== false) {
-        // HAMA (½ LITER): Luasan ¼ Bau (Seperempat Bau) = 1 botol
-        // Rumus: jumlah botol = luas_tanah_bau / 0.25
         $kebutuhan_produk = $luas_tanah_bau / 0.25;
         $satuan_produk = "botol (@ ½ Liter)";
         $keterangan_tambahan = "Preventif atau pencegahan: 5 tutup/tangki. Untuk serangan hama, dosis bisa ditingkatkan";
     } 
-    elseif (stripos($produk_lower, 'silika cair') !== false || 
-            stripos($produk_lower, 'cair') !== false ||
+    elseif (stripos($produk_lower, 'silika cair') !== false || stripos($produk_lower, 'cair') !== false ||
             (stripos($produk_lower, 'silika') !== false && stripos($produk_lower, 'liquid') !== false)) {
-        // SILIKA CAIR (½ LITER): Luasan ½ Bau (Setengah Bau) = 1 botol
-        // Rumus: jumlah botol = luas_tanah_bau / 0.5
         $kebutuhan_produk = $luas_tanah_bau / 0.5;
         $satuan_produk = "botol (@ ½ Liter)";
         $keterangan_tambahan = "Aplikasi: 15, 30, 45, 70 HST. Dosis 3-5 tutup per tangki semprot 16 liter";
     } 
     else {
-        // Jika tidak ada yang cocok, gunakan perhitungan default berdasarkan asumsi umum
-        // Asumsi: 1 unit produk untuk setiap 0.5 Bau (bisa disesuaikan)
         $kebutuhan_produk = $luas_tanah_bau * 2;
         $satuan_produk = "unit";
         $keterangan_tambahan = "Perhitungan estimasi. Hubungi admin untuk dosis spesifik produk ini.";
@@ -741,9 +698,6 @@ function hitungProdukSpesifik($jenis_tanaman, $jenis_produk, $luas_tanah_bau) {
     );
 }
 
-// ============================================
-// PROSES PERHITUNGAN UNTUK UI (BACKWARD COMPATIBLE)
-// ============================================
 $showPopup = false;
 $hasil_data = array();
 
@@ -754,38 +708,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
     $jenis_produk = htmlspecialchars($_POST['jenis_produk']);
     $luas_tanah_m2 = floatval($_POST['luas_tanah']);
     
-    // Validasi input
     if ($luas_tanah_m2 <= 0) {
         $luas_tanah_m2 = 0;
     }
     
-    // Konversi M² ke Bau (1 Bau = 7.140 M²)
     $luas_tanah_bau = $luas_tanah_m2 / 7140;
     
-    // Ambil gambar produk dari database
     $queryGambarProduk = "SELECT gambar FROM produk WHERE nama = ?";
     $stmtGambar = mysqli_prepare($conn, $queryGambarProduk);
     mysqli_stmt_bind_param($stmtGambar, "s", $jenis_produk);
     mysqli_stmt_execute($stmtGambar);
     $resultGambar = mysqli_stmt_get_result($stmtGambar);
-    $gambar_produk = "produk1.png"; // default
+    $gambar_produk = "produk1.png";
     if ($rowGambar = mysqli_fetch_assoc($resultGambar)) {
         $gambar_produk = $rowGambar['gambar'];
     }
     mysqli_stmt_close($stmtGambar);
     
-    // Hitung kebutuhan produk menggunakan function baru
     $hasil_hitung = hitungProdukSpesifik($jenis_tanaman, $jenis_produk, $luas_tanah_bau);
     
     $kebutuhan_produk = $hasil_hitung['kebutuhan_produk'];
     $satuan_produk = $hasil_hitung['satuan_produk'];
     $keterangan_tambahan = $hasil_hitung['keterangan_tambahan'];
     
-    // Format angka untuk display - hapus trailing zeros
     $kebutuhan_display = rtrim(rtrim(number_format($kebutuhan_produk, 2, '.', ','), '0'), '.');
     $luas_tanah_bau_display = round($luas_tanah_bau, 4);
     
-    // Simpan data ke array untuk popup
     $hasil_data = array(
         'jenis_tanaman' => $jenis_tanaman,
         'jenis_produk' => $jenis_produk,
@@ -803,7 +751,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
 <?php if ($showPopup): ?>
 <div id="popupHasil" class="popup-overlay" style="display: flex;">
     <div class="popup-content" style="background: white; border-radius: 20px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
-        <!-- Header Popup -->
         <div class="popup-header" style="background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%); padding: 20px; border-radius: 20px 20px 0 0; position: relative;">
             <div class="d-flex align-items-center gap-2">
                 <img src="asset/img/Logo.png" alt="Logo" style="height: 50px;">
@@ -815,9 +762,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
             </button>
         </div>
 
-        <!-- Body Popup -->
         <div class="popup-body" style="padding: 30px;">
-            <!-- Info Input -->
             <div class="info-section" style="display: grid; gap: 15px; margin-bottom: 25px;">
                 <div class="info-item" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
                     <i class="bi bi-flower1" style="font-size: 24px; color: #2B8D4C;"></i>
@@ -843,7 +788,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
                 </div>
             </div>
 
-            <!-- Hasil Kebutuhan -->
             <div class="hasil-section" style="background: linear-gradient(135deg, #f0f9f4 0%, #e8f5e9 100%); padding: 30px; border-radius: 15px; text-align: center; margin-bottom: 20px;">
                 <h5 class="fw-bold mb-4" style="color: #2B8D4C;">Kebutuhan Produk</h5>
                 <div class="d-flex align-items-center justify-content-center gap-4 mb-3">
@@ -872,68 +816,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
         </div>
     </div>
 </div>
-
-<style>
-.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    padding: 20px;
-}
-
-.btn-close-popup:hover {
-    background: rgba(255,255,255,0.5) !important;
-    transform: rotate(90deg);
-}
-
-@media (max-width: 768px) {
-    .popup-content {
-        max-width: 95% !important;
-    }
-    
-    .popup-body {
-        padding: 20px !important;
-    }
-    
-    .hasil-section .display-4 {
-        font-size: 2.5rem !important;
-    }
-}
-</style>
-
-<script>
-function closePopup() {
-    document.getElementById('popupHasil').style.display = 'none';
-}
-
-// Close popup saat klik di luar konten
-document.addEventListener('click', function(e) {
-    const popup = document.getElementById('popupHasil');
-    if (popup && e.target === popup) {
-        closePopup();
-    }
-});
-
-// Close popup dengan tombol ESC
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closePopup();
-    }
-});
-</script>
 <?php endif; ?>
 
 <!-- ============================================ -->
 <!-- HASIL PEMAKAIAN PUPUK SILIKA SECTION -->
 <!-- ============================================ -->
-<section class="hasil-pupuk-section">
+<section class="fade-in-section hasil-pupuk-section">
     <div class="hasil-banner position-relative">
         <img src="asset/img/HeadBanner.png" alt="Banner Daun" class="w-100 banner-img">
         <div class="banner-text position-absolute top-50 start-50 translate-middle text-center">
@@ -1011,7 +899,7 @@ document.addEventListener('keydown', function(e) {
 <!-- ============================================ -->
 <!-- GALERI SECTION -->
 <!-- ============================================ -->
-<div class="container-fluid py-5" id="anima-3">
+<div class="fade-in-section container-fluid py-5" id="anima-3">
     <div class="container">
         <div class="row g-5 align-items-center">
             <div class="col-lg-6">
@@ -1047,102 +935,78 @@ document.addEventListener('keydown', function(e) {
 </div>
 
 <?php
-    // ============================================
-    // QUERY TESTIMONI - Ambil SEMUA yang ditampilkan
-    // ============================================
-    $queryTestimoni = "
-    SELECT u.*, p.gambar as gambar_produk 
-    FROM ulasan u 
-    LEFT JOIN produk p ON u.produk = p.nama 
-    WHERE u.status = 'Ditampilkan' 
-    ORDER BY u.id DESC
-";
+    $queryTestimoni = "SELECT u.*, p.gambar as gambar_produk FROM ulasan u LEFT JOIN produk p ON u.produk = p.nama WHERE u.status = 'Ditampilkan' ORDER BY u.id DESC";
     $resultTestimoni = mysqli_query($conn, $queryTestimoni);
-
-    // Hitung jumlah testimoni yang tersedia
     $jumlahTestimoni = mysqli_num_rows($resultTestimoni);
-    ?>
+?>
 
-    <!-- ============================================ -->
-    <!-- TESTIMONI SECTION -->
-    <!-- ============================================ -->
-    <div class="container-fluid py-5" style="background-color: #2B8D4C;">
-        <div class="container py-5">
-            <div class="d-flex justify-content-between align-items-center mb-5">
-                <div>
-                    <h5 class="fw-normal text-white mb-2">Testimoni</h5>
-                    <h1 class="fw-semibold text-white mb-0">Pupuk Silika Pramudita Pupuk Nusantara</h1>
+<!-- ============================================ -->
+<!-- TESTIMONI SECTION -->
+<!-- ============================================ -->
+<div class="fade-in-section container-fluid py-5" style="background-color: #2B8D4C;">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h5 class="fw-normal text-white mb-2">Testimoni</h5>
+                <h1 class="fw-semibold text-white mb-0">Pupuk Silika Pramudita Pupuk Nusantara</h1>
+            </div>
+
+            <?php if ($jumlahTestimoni > 3) : ?>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-light rounded-circle scroll-btn" id="scrollLeft" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-chevron-left fw-bold"></i>
+                    </button>
+                    <button class="btn btn-light rounded-circle scroll-btn" id="scrollRight" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-chevron-right fw-bold"></i>
+                    </button>
                 </div>
-
-                <!-- Navigation Arrows -->
-                <?php if ($jumlahTestimoni > 3) : ?>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-light rounded-circle scroll-btn" id="scrollLeft" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
-                            <i class="bi bi-chevron-left fw-bold"></i>
-                        </button>
-                        <button class="btn btn-light rounded-circle scroll-btn" id="scrollRight" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
-                            <i class="bi bi-chevron-right fw-bold"></i>
-                        </button>
-                    </div>
-                <?php endif; ?>
-            </div>
-
-            <?php if ($jumlahTestimoni > 0) : ?>
-
-                <!-- Scrollable Container -->
-                <div class="testimoni-scroll-container" id="testimoniContainer">
-                    <div class="testimoni-scroll-wrapper">
-                        <?php
-                        $modalIndex = 1;
-                        while ($testimoni = mysqli_fetch_assoc($resultTestimoni)) :
-                        ?>
-                            <!-- Testimoni Card -->
-                            <div class="testimoni-scroll-item">
-    <div class="p-4 h-100 testimoni-card"
-        style="background-color: #FFED64; border-radius: 15px; color: #333; cursor: pointer; display: flex; flex-direction: column;"
-        data-bs-toggle="modal"
-        data-bs-target="#testimoniModal<?= $modalIndex ?>">
-
-        <!-- Header dengan Foto -->
-        <div class="d-flex align-items-center mb-3">
-            <img src="asset/img/testimoni/<?= htmlspecialchars($testimoni['gambar']) ?>"
-                alt="<?= htmlspecialchars($testimoni['nama']) ?>"
-                style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #333;"
-                onerror="this.src='asset/img/default-avatar.png'">
-            <h6 class="ms-2 fw-bold m-0"><?= htmlspecialchars($testimoni['nama']) ?></h6>
+            <?php endif; ?>
         </div>
 
-        <!-- Review (TAMPILKAN PENUH TANPA TERPOTONG) -->
-        <p class="review-preview" style="font-size: 0.95rem; line-height: 1.5; margin-bottom: 1rem; flex-grow: 1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
-            <?= htmlspecialchars($testimoni['ulasan']) ?>
-        </p>
+        <?php if ($jumlahTestimoni > 0) : ?>
 
-        <!-- Footer dengan Rating & Info -->
-        <div class="mt-auto">
-            <!-- Rating Bintang -->
-            <div class="mb-2">
-                <?php
-                for ($i = 1; $i <= 5; $i++) {
-                    if ($i <= $testimoni['nilai']) {
-                        echo '<i class="bi bi-star-fill text-warning"></i>';
-                    } else {
-                        echo '<i class="bi bi-star text-warning"></i>';
-                    }
-                }
-                ?>
-            </div>
-            <small class="text-muted d-block" style="font-size: 0.85rem; margin-bottom: 0.3rem;">
-                <i class="bi bi-box-seam"></i> <?= htmlspecialchars($testimoni['produk']) ?>
-            </small>
-            <small class="text-muted d-block" style="font-size: 0.85rem;">
-                <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($testimoni['alamat']) ?>
-            </small>
-        </div>
-    </div>
-</div>
+            <div class="testimoni-scroll-container" id="testimoniContainer">
+                <div class="testimoni-scroll-wrapper">
+                    <?php
+                    $modalIndex = 1;
+                    while ($testimoni = mysqli_fetch_assoc($resultTestimoni)) :
+                    ?>
+                        <div class="testimoni-scroll-item">
+                            <div class="p-4 h-100 testimoni-card" style="background-color: #FFED64; border-radius: 15px; color: #333; cursor: pointer; display: flex; flex-direction: column;" data-bs-toggle="modal" data-bs-target="#testimoniModal<?= $modalIndex ?>">
 
-                            <!-- Modal Detail Testimoni -->
-                            <div class="modal fade" id="testimoniModal<?= $modalIndex ?>" tabindex="-1" aria-labelledby="modalLabel<?= $modalIndex ?>" aria-hidden="true">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="asset/img/testimoni/<?= htmlspecialchars($testimoni['gambar']) ?>" alt="<?= htmlspecialchars($testimoni['nama']) ?>" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #333;" onerror="this.src='asset/img/default-avatar.png'">
+                                    <h6 class="ms-2 fw-bold m-0"><?= htmlspecialchars($testimoni['nama']) ?></h6>
+                                </div>
+
+                                <p class="review-preview" style="font-size: 0.95rem; line-height: 1.5; margin-bottom: 1rem; flex-grow: 1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
+                                    <?= htmlspecialchars($testimoni['ulasan']) ?>
+                                </p>
+
+                                <div class="mt-auto">
+                                    <div class="mb-2">
+                                        <?php
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            if ($i <= $testimoni['nilai']) {
+                                                echo '<i class="bi bi-star-fill text-warning"></i>';
+                                            } else {
+                                                echo '<i class="bi bi-star text-warning"></i>';
+                                            }
+                                        }
+                                        ?>
+                                    </div>
+                                    <small class="text-muted d-block" style="font-size: 0.85rem; margin-bottom: 0.3rem;">
+                                        <i class="bi bi-box-seam"></i> <?= htmlspecialchars($testimoni['produk']) ?>
+                                    </small>
+                                    <small class="text-muted d-block" style="font-size: 0.85rem;">
+                                        <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($testimoni['alamat']) ?>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal Detail Testimoni -->
+                        <div class="modal fade" id="testimoniModal<?= $modalIndex ?>" tabindex="-1" aria-labelledby="modalLabel<?= $modalIndex ?>" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                     <div class="modal-content border-0" style="border-radius: 20px; overflow: hidden;">
 
