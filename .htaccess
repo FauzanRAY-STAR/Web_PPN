@@ -1,5 +1,11 @@
 <IfModule mod_rewrite.c>
-    RewriteEngine On 
+    RewriteEngine On
+
+    # Hilangkan ekstensi .php
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.+)$ $1.php [L]
+
+    # Router utama
     RewriteRule ^([a-zA-Z0-9_-]+)$ page.php?mod=$1
     RewriteRule ^admin/([^/\.]+)/?$ admin/page.php?mod=$1
 </IfModule>

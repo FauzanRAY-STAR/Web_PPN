@@ -1,5 +1,12 @@
+<?php
+include __DIR__ . '/../config/config.php';
+include __DIR__ . '/../config/koneksi.php';
+?>
+
+
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +14,7 @@
 
     <!-- Favicon -->
     <link href="../asset/img/LogoIco.ico" rel="icon">
-    
+
     <!-- Favicon -->
     <link href="asset/img/LogoIco.ico" rel="icon">
 
@@ -15,8 +22,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="../asset/style/shop.css">
+
+    <link rel="stylesheet" href="/Web_PPN/asset/style/shop.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -25,38 +33,44 @@
         * {
             font-family: 'Poppins', sans-serif;
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             font-weight: 400;
         }
-        
-        h1, h2, h3, h4, h5, h6 {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
         }
-        
+
         .fw-bold {
             font-weight: 700 !important;
         }
-        
+
         .fw-semibold {
             font-weight: 600 !important;
         }
-        
+
         .fw-normal {
             font-weight: 400 !important;
         }
-        
+
         .fw-light {
             font-weight: 300 !important;
         }
     </style>
-    
+
 </head>
+
 <body>
     <!-- Navbar -->
-    <?php include '../admin/template/navbar.php'; ?>
+    <?php include __DIR__ . '/../admin/template/navbar.php'; ?>
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -90,7 +104,7 @@
                     <div class="card-glow"></div>
                     <div class="card-content">
                         <div class="logo-wrapper">
-                            <img src="../asset/img/tiktokshop.png" alt="TikTok Shop" class="platform-logo">
+                            <img src="/Web_PPN/asset/img/tiktokshop.png" alt="TikTok Shop" class="platform-logo">
                         </div>
                         <h3 class="platform-name fw-bold">TikTok Shop</h3>
                         <p class="platform-desc fw-normal">Belanja sambil nonton video seru</p>
@@ -110,7 +124,7 @@
                     <div class="card-glow"></div>
                     <div class="card-content">
                         <div class="logo-wrapper">
-                            <img src="../asset/img/tokopedia.png" alt="Tokopedia" class="platform-logo">
+                            <img src="/Web_PPN/asset/img/tokopedia.png" alt="Tokopedia" class="platform-logo">
                         </div>
                         <h3 class="platform-name fw-bold">Tokopedia</h3>
                         <p class="platform-desc fw-normal">Mulai aja dulu, #MulaiAjaDulu</p>
@@ -130,7 +144,7 @@
                     <div class="card-glow"></div>
                     <div class="card-content">
                         <div class="logo-wrapper">
-                            <img src="../asset/img/shopee.png" alt="Shopee" class="platform-logo">
+                            <img src="/Web_PPN/asset/img/shopee.png" alt="Shopee" class="platform-logo">
                         </div>
                         <h3 class="platform-name fw-bold">Shopee</h3>
                         <p class="platform-desc fw-normal">Gratis ongkir & voucher setiap hari</p>
@@ -150,7 +164,7 @@
                     <div class="card-glow"></div>
                     <div class="card-content">
                         <div class="logo-wrapper">
-                            <img src="../asset/img/lazada.png" alt="Lazada" class="platform-logo">
+                            <img src="/Web_PPN/asset/img/lazada.png" alt="Lazada" class="platform-logo">
                         </div>
                         <h3 class="platform-name fw-bold">Lazada</h3>
                         <p class="platform-desc fw-normal">Belanja online terlengkap</p>
@@ -206,11 +220,13 @@
     </section>
 
     <!-- WA Float -->
-    <?php include '../admin/template/whatsapp_float.php'; ?>
+    <?php include __DIR__ . '/../admin/template/whatsapp_float.php'; ?>
+
 
     <!-- Footer -->
-    <?php include '../admin/template/footer.php'; ?>
+    <?php include __DIR__ . '/../admin/template/footer.php'; ?>
 
     <script src="../asset/js/shop.js"></script>
 </body>
+
 </html>

@@ -26,6 +26,8 @@ $result_carousel = mysqli_query($conn, $query_carousel);
     <link rel="stylesheet" href="asset/style/fab.css">
     <link rel="stylesheet" href="asset/style/beranda.css">
     <link rel="stylesheet" href="asset/style/ulasan_beranda.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+
 
     <style>
         * {
@@ -245,14 +247,19 @@ $result_carousel = mysqli_query($conn, $query_carousel);
     <!-- ============================================ -->
     <!-- PRODUK KAMI SECTION (DYNAMIC) -->
     <!-- ============================================ -->
-    <div class="container my-5 py-5">
-        <h3 class="text-center fw-bold" style="color: #2B8D4C;">PRODUK KAMI</h3>
-        <div class="d-flex justify-content-center align-items-center mb-4">
+    <div class="container my-5 py-5" data-aos="fade-up">
+        <h3 class="text-center fw-bold" style="color: #2B8D4C;" data-aos="fade-down">
+            PRODUK KAMI
+        </h3>
+
+        <div class="d-flex justify-content-center align-items-center mb-4" data-aos="zoom-in">
             <div style="width: 100px; height: 2px; background-color: #2B8D4C; margin: 0 10px;"></div>
         </div>
 
         <?php if ($result_produk && mysqli_num_rows($result_produk) > 0): ?>
-            <div id="produkCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div id="produkCarousel" class="carousel slide" data-bs-ride="carousel"
+                data-aos="fade-up">
+
                 <div class="carousel-inner text-center">
                     <?php
                     $index = 0;
@@ -261,13 +268,17 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                     ?>
                         <div class="carousel-item <?= $active_class ?>">
                             <div class="row align-items-center justify-content-center">
-                                <div class="col-md-5">
+
+                                <div class="col-md-5" data-aos="fade-right">
                                     <img src="asset/img/<?= htmlspecialchars($produk['gambar']) ?>"
                                         class="carousel-product-img"
                                         alt="<?= htmlspecialchars($produk['nama']) ?>"
                                         onerror="this.src='asset/img/placeholder.png'">
                                 </div>
-                                <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
+
+                                <div class="col-md-5 text-md-start text-center mt-4 mt-md-0"
+                                    data-aos="fade-left">
+
                                     <h4 class="fw-bold" style="color: #2B8D4C;">
                                         <?= htmlspecialchars($produk['nama']) ?>
                                     </h4>
@@ -308,10 +319,12 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                                     </p>
 
                                     <a href="page/detail_produk.php?id=<?= $produk['id'] ?>"
-                                        class="btn-selengkapnya mt-2">
+                                        class="btn-selengkapnya mt-2"
+                                        data-aos="zoom-in">
                                         Selengkapnya
                                     </a>
                                 </div>
+
                             </div>
                         </div>
                     <?php
@@ -320,10 +333,13 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                     ?>
                 </div>
 
-                <!-- NAVIGATION PREVIEW -->
-                <div class="d-flex justify-content-center align-items-center mt-5 position-relative">
-                    <button class="btn btn-prev" type="button" data-bs-target="#produkCarousel" data-bs-slide="prev" style="background: none; border: none;">
-                        <div style="width: 0; height: 0; border-top: 25px solid transparent; border-bottom: 25px solid transparent; border-right: 25px solid #FFED64;"></div>
+                <div class="d-flex justify-content-center align-items-center mt-5 position-relative"
+                    data-aos="fade-up">
+                    <button class="btn btn-prev" type="button" data-bs-target="#produkCarousel" data-bs-slide="prev"
+                        style="background: none; border: none;">
+                        <div style="width: 0; height: 0; border-top: 25px solid transparent;
+                                border-bottom: 25px solid transparent;
+                                border-right: 25px solid #FFED64;"></div>
                     </button>
 
                     <div class="d-flex mx-3 gap-3" id="thumbnailContainer">
@@ -336,6 +352,7 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                             <div class="thumb bg-secondary bg-opacity-10 rounded <?= $active_thumb ?>"
                                 data-bs-target="#produkCarousel"
                                 data-bs-slide-to="<?= $thumb_index ?>"
+                                data-aos="zoom-in"
                                 style="width: 120px; height: 120px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;">
                                 <img src="asset/img/<?= htmlspecialchars($produk['gambar_kecil'] ?? $produk['gambar']) ?>"
                                     class="w-100 h-100"
@@ -349,19 +366,24 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                         ?>
                     </div>
 
-                    <button class="btn btn-next" type="button" data-bs-target="#produkCarousel" data-bs-slide="next" style="background: none; border: none;">
-                        <div style="width: 0; height: 0; border-top: 25px solid transparent; border-bottom: 25px solid transparent; border-left: 25px solid #FFED64;"></div>
+                    <button class="btn btn-next" type="button" data-bs-target="#produkCarousel" data-bs-slide="next"
+                        style="background: none; border: none;">
+                        <div style="width: 0; height: 0; border-top: 25px solid transparent;
+                                border-bottom: 25px solid transparent;
+                                border-left: 25px solid #FFED64;"></div>
                     </button>
                 </div>
             </div>
 
         <?php else: ?>
-            <div class="text-center py-5">
+            <div class="text-center py-5" data-aos="fade-up">
                 <p class="text-muted">Belum ada produk yang dipajang saat ini.</p>
                 <a href="produk" class="btn btn-success mt-3">Lihat Semua Produk</a>
             </div>
         <?php endif; ?>
     </div>
+
+
 
     <!-- ============================================ -->
     <!-- KALKULATOR TANI SECTION -->
@@ -922,8 +944,9 @@ $result_carousel = mysqli_query($conn, $query_carousel);
 
         <div class="container cards-container">
             <div class="row g-4 justify-content-center">
+
                 <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card-modern">
+                    <div class="hasil-card-modern" data-aos="zoom-in">
                         <div class="card-icon-wrapper">
                             <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
                         </div>
@@ -933,7 +956,7 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card-modern">
+                    <div class="hasil-card-modern" data-aos="zoom-in">
                         <div class="card-icon-wrapper">
                             <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
                         </div>
@@ -943,7 +966,7 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card-modern">
+                    <div class="hasil-card-modern" data-aos="zoom-in">
                         <div class="card-icon-wrapper">
                             <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
                         </div>
@@ -953,7 +976,7 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card-modern">
+                    <div class="hasil-card-modern" data-aos="zoom-in">
                         <div class="card-icon-wrapper">
                             <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
                         </div>
@@ -963,7 +986,7 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card-modern">
+                    <div class="hasil-card-modern" data-aos="zoom-in">
                         <div class="card-icon-wrapper">
                             <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
                         </div>
@@ -973,7 +996,7 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <div class="hasil-card-modern">
+                    <div class="hasil-card-modern" data-aos="zoom-in">
                         <div class="card-icon-wrapper">
                             <img src="asset/img/IconBenefit.png" alt="Icon" class="icon-benefit">
                         </div>
@@ -981,6 +1004,7 @@ $result_carousel = mysqli_query($conn, $query_carousel);
                         <p class="card-description">Membantu aerasi dan penyerapan nutrisi tanah jadi lebih baik.</p>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -1431,6 +1455,17 @@ $result_carousel = mysqli_query($conn, $query_carousel);
             }
         });
     </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: false, // aktifkan animasi saat scroll atas & bawah
+            easing: 'ease-out-cubic'
+        });
+    </script>
+
+
 
     <!-- WA Float Button -->
     <?php include('admin/template/whatsapp_float.php'); ?>

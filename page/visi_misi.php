@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,14 @@
 
     <!-- Favicon -->
     <link href="asset/img/LogoIco.ico" rel="icon">
-    
+
     <!-- Google Fonts - Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="../asset/style/visi_misi.css">
+
+    <link rel="stylesheet" href="/Web_PPN/asset/style/visi_misi.css?v=10">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Custom Poppins Styling -->
@@ -21,29 +23,34 @@
         * {
             font-family: 'Poppins', sans-serif;
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             font-weight: 400;
         }
-        
-        h1, h2, h3, h4, h5, h6 {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
         }
-        
+
         .fw-bold {
             font-weight: 700 !important;
         }
-        
+
         .fw-semibold {
             font-weight: 600 !important;
         }
-        
+
         .fw-normal {
             font-weight: 400 !important;
         }
-        
+
         .fw-light {
             font-weight: 300 !important;
         }
@@ -130,9 +137,12 @@
         }
 
         @keyframes bounce {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0);
             }
+
             50% {
                 transform: translateY(-10px);
             }
@@ -140,10 +150,10 @@
     </style>
 
 </head>
+
 <body>
 
-    <?php include '../admin/template/navbar.php'; ?>
-
+    <?php include __DIR__ . '/../admin/template/navbar.php'; ?>
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-overlay"></div>
@@ -163,7 +173,7 @@
                 <span class="section-label fw-semibold">Visi Kami</span>
                 <h2 class="section-title fw-bold">Menjadi Perusahaan Pupuk Terdepan</h2>
             </div>
-            
+
             <div class="visi-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="visi-icon">
                     <i class="fas fa-eye"></i>
@@ -243,13 +253,22 @@
         </div>
     </section>
 
-<!-- WA -->
-<?php include ('../admin/template/whatsapp_float.php'); ?>
+    <!-- WA -->
+    <?php include __DIR__ . '/../admin/template/whatsapp_float.php'; ?>
 
-<!-- Footer -->
-<?php include '../admin/template/footer.php'; ?>
+    <!-- Footer -->
+    <?php include __DIR__ . '/../admin/template/footer.php'; ?>
 
     <script src="../asset/js/visi_misi.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS ANIMATION -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        AOS.init();
+    </script>
+
 </body>
+
 </html>

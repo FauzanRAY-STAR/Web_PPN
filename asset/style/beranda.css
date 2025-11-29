@@ -1,6 +1,6 @@
 /* === GLOBAL === */
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: #f4f5f7;
   margin: 0;
   padding: 0;
@@ -12,7 +12,7 @@ body {
   position: relative;
   width: 100%;
   height: 480px;
-  background: url('../img/banner.jpg') center/cover no-repeat;
+  background: url("../img/banner.jpg") center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,9 +21,9 @@ body {
 
 /* === KONTEN UTAMA RATA TENGAH === */
 .container-beranda {
-  max-width: 1200px; 
-  margin: 0 auto; 
-  padding: 0 30px; 
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
   box-sizing: border-box;
 }
 
@@ -66,28 +66,28 @@ body {
 
 /* thumbnails */
 .thumb {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .thumb.active {
-    border-color: #2B8D4C !important;
-    opacity: 1;
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(43, 141, 76, 0.3);
+  border-color: #2b8d4c !important;
+  opacity: 1;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(43, 141, 76, 0.3);
 }
 
 .thumb:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 /* Make thumbnail images uniform size and remove padding */
 .thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    padding: 0 !important;
-    margin: 0 !important;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 /* Remaining styles unchanged */
@@ -158,158 +158,158 @@ body {
 }
 
 /* === CARD HASIL PEMAKAIAN === */
- /* Section Layout */
-    .hasil-pupuk-section {
-        position: relative;
-        padding-bottom: 5rem;
-    }
+/* Section Layout */
+.hasil-pupuk-section {
+  position: relative;
+  padding-bottom: 5rem;
+}
 
-    /* Banner Styling */
-    .hasil-banner {
-        margin-bottom: 0;
-        position: relative;
-    }
+/* Banner Styling */
+.hasil-banner {
+  margin-bottom: 0;
+  position: relative;
+}
 
-    .banner-img {
-        height: 400px;
-        object-fit: cover;
-        width: 100%;
-    }
+.banner-img {
+  height: 400px;
+  object-fit: cover;
+  width: 100%;
+}
 
-    /* Cards Container - Overlapping Banner */
-    .cards-container {
-        position: relative;
-        margin-top: -120px;
-        z-index: 10;
-        padding-bottom: 3rem;
-    }
+/* Cards Container - Overlapping Banner */
+.cards-container {
+  position: relative;
+  margin-top: -120px;
+  z-index: 10;
+  padding-bottom: 3rem;
+}
 
-    /* Modern Card Styling - Vertikal */
-    .hasil-card-modern {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 2.5rem 1.5rem;
-        text-align: center;
-        position: relative;
-        overflow: visible;
-        box-shadow: 8px 8px 0px 0px rgba(255, 237, 100, 0.8);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 2px solid rgba(255, 237, 100, 0.3);
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        min-height: 380px;
-    }
+/* Modern Card Styling - Vertikal */
+.hasil-card-modern {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: visible;
+  box-shadow: 8px 8px 0px 0px rgba(255, 237, 100, 0.8);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(255, 237, 100, 0.3);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 380px;
+}
 
-    .hasil-card-modern:hover {
-        background: #FFED64;
-        transform: translateY(-10px);
-        box-shadow: 12px 12px 0px 0px rgba(255, 237, 100, 1);
-        border-color: #FFED64;
-    }
+.hasil-card-modern:hover {
+  background: #ffed64;
+  transform: translateY(-10px);
+  box-shadow: 12px 12px 0px 0px rgba(255, 237, 100, 1);
+  border-color: #ffed64;
+}
 
-    /* Icon Wrapper - No Box */
-    .card-icon-wrapper {
-        margin: 0 auto 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.4s ease;
-    }
+/* Icon Wrapper - No Box */
+.card-icon-wrapper {
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+}
 
-    .hasil-card-modern:hover .card-icon-wrapper {
-        transform: scale(1.1);
-    }
+.hasil-card-modern:hover .card-icon-wrapper {
+  transform: scale(1.1);
+}
 
-    .icon-benefit {
-        width: 60px;
-        height: 60px;
-        object-fit: contain;
-        transition: transform 0.4s ease;
-    }
+.icon-benefit {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
 
-    /* Card Title */
-    .hasil-card-modern .card-title {
-        color: #2B8D4C;
-        font-weight: 700;
-        font-size: 1.1rem;
-        margin-bottom: 1rem;
-        line-height: 1.5;
-        min-height: 70px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: color 0.3s ease;
-    }
+/* Card Title */
+.hasil-card-modern .card-title {
+  color: #2b8d4c;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
 
-    /* Card Description */
-    .hasil-card-modern .card-description {
-        color: #2B8D4C;
-        font-size: 0.9rem;
-        line-height: 1.6;
-        margin-bottom: 0;
-        flex-grow: 1;
-        transition: color 0.3s ease;
-    }
+/* Card Description */
+.hasil-card-modern .card-description {
+  color: #2b8d4c;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+  flex-grow: 1;
+  transition: color 0.3s ease;
+}
 
-    /* Responsive Adjustments */
-    @media (max-width: 992px) {
-        .cards-container {
-            margin-top: -80px;
-        }
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .cards-container {
+    margin-top: -80px;
+  }
 
-        .banner-img {
-            height: 300px;
-        }
+  .banner-img {
+    height: 300px;
+  }
 
-        .hasil-card-modern {
-            min-height: 350px;
-        }
-    }
+  .hasil-card-modern {
+    min-height: 350px;
+  }
+}
 
-    @media (max-width: 768px) {
-        .cards-container {
-            margin-top: -60px;
-        }
+@media (max-width: 768px) {
+  .cards-container {
+    margin-top: -60px;
+  }
 
-        .banner-img {
-            height: 250px;
-        }
+  .banner-img {
+    height: 250px;
+  }
 
-        .hasil-card-modern {
-            padding: 2rem 1.5rem;
-            min-height: 320px;
-        }
+  .hasil-card-modern {
+    padding: 2rem 1.5rem;
+    min-height: 320px;
+  }
 
-        .icon-benefit {
-            width: 70px;
-            height: 70px;
-        }
+  .icon-benefit {
+    width: 70px;
+    height: 70px;
+  }
 
-        .hasil-card-modern .card-title {
-            font-size: 1rem;
-            min-height: 60px;
-        }
+  .hasil-card-modern .card-title {
+    font-size: 1rem;
+    min-height: 60px;
+  }
 
-        .hasil-card-modern .card-description {
-            font-size: 0.85rem;
-        }
+  .hasil-card-modern .card-description {
+    font-size: 0.85rem;
+  }
 
-        .banner-text h2 {
-            font-size: 1.5rem;
-            padding: 0 1rem;
-        }
-    }
+  .banner-text h2 {
+    font-size: 1.5rem;
+    padding: 0 1rem;
+  }
+}
 
-    @media (max-width: 576px) {
-        .cards-container {
-            margin-top: -40px;
-        }
+@media (max-width: 576px) {
+  .cards-container {
+    margin-top: -40px;
+  }
 
-        .banner-img {
-            height: 200px;
-        }
-    }
+  .banner-img {
+    height: 200px;
+  }
+}
 /* === Responsif untuk Mobile === */
 @media (max-width: 768px) {
   .banner-img {
@@ -333,7 +333,6 @@ body {
     font-size: 14px;
   }
 }
-
 
 /* ===== GALERI SECTION ===== */
 .galeri-section {
@@ -380,22 +379,22 @@ body {
   background-color: #fff;
 }
 
-  .testimoni-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+.testimoni-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    .testimoni-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
+.testimoni-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
 
-    .modal-content {
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    }
+.modal-content {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
 
-    .text-justify {
-        text-align: justify;
-    }
+.text-justify {
+  text-align: justify;
+}
 
 /* ===== FOOTER ===== */
 footer {
@@ -430,7 +429,7 @@ footer {
   border-radius: 30px;
   font-weight: 600;
   color: #fff;
-  background: linear-gradient(90deg, #2B8D4C 0%, #D5D44B 100%);
+  background: linear-gradient(90deg, #2b8d4c 0%, #d5d44b 100%);
   text-decoration: none;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -440,4 +439,24 @@ footer {
   background: linear-gradient(90deg, #1f6e3b 0%, #c9c84d 100%);
   transform: translateY(-2px);
   color: #fff;
+}
+
+/* ANIMASI SLIDE MASUK */
+.carousel-item .anim-wrap {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.7s ease;
+}
+
+.carousel-item.active .anim-wrap {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Jika ingin gambar dan text berbeda kecepatannya */
+.carousel-item .img-anim {
+  transition-delay: 0.1s;
+}
+.carousel-item .text-anim {
+  transition-delay: 0.25s;
 }
