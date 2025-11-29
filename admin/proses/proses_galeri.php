@@ -39,8 +39,8 @@ if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        if ($file['size'] > 5 * 1024 * 1024) {
-            echo json_encode(['success' => false, 'message' => 'Ukuran file terlalu besar']);
+        if ($file['size'] > 10 * 1024 * 1024) {
+            echo json_encode(['success' => false, 'message' => 'Ukuran file terlalu besar (Max 10MB)']);
             exit;
         }
 
@@ -166,8 +166,8 @@ elseif ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
 
-            if ($file['size'] > 5 * 1024 * 1024) {
-                echo json_encode(['success' => false, 'message' => 'Ukuran file terlalu besar']);
+            if ($file['size'] > 10 * 1024 * 1024) {
+                echo json_encode(['success' => false, 'message' => 'Ukuran file terlalu besar (Max 10MB)']);
                 exit;
             }
 

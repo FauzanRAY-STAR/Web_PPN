@@ -31,6 +31,55 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
         .fw-normal { font-weight: 400 !important; }
         .fw-light { font-weight: 300 !important; }
 
+        /* ============================================ */
+        /* FADE IN ANIMATION - DARI BAWAH KE ATAS */
+        /* ============================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .fade-in-item {
+            opacity: 0;
+            animation: fadeInScale 0.6s ease-out forwards;
+        }
+
+        /* Delay untuk title */
+        .fade-in-section { animation-delay: 0.1s; }
+
+        /* Delay untuk gallery items */
+        .gallery-item-wrapper:nth-child(1) { animation-delay: 0.2s; }
+        .gallery-item-wrapper:nth-child(2) { animation-delay: 0.3s; }
+        .gallery-item-wrapper:nth-child(3) { animation-delay: 0.4s; }
+        .gallery-item-wrapper:nth-child(4) { animation-delay: 0.5s; }
+        .gallery-item-wrapper:nth-child(5) { animation-delay: 0.6s; }
+        .gallery-item-wrapper:nth-child(6) { animation-delay: 0.7s; }
+        .gallery-item-wrapper:nth-child(7) { animation-delay: 0.8s; }
+        .gallery-item-wrapper:nth-child(8) { animation-delay: 0.9s; }
+        .gallery-item-wrapper:nth-child(n+9) { animation-delay: 1s; }
+
         /* Galeri Title dengan Garis Rapi */
         .galeri-title-container {
             margin-bottom: 3rem;
@@ -67,6 +116,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
             max-width: 636px;
             margin-left: auto;
             margin-right: auto;
+            animation: fadeInScale 0.6s ease-out forwards;
         }
 
         .gallery-img {
@@ -98,6 +148,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
             font-family: 'Poppins', sans-serif;
             background-color: #F5FAF6;
             border-radius: 20px;
+            animation: fadeInUp 0.5s ease-out;
         }
 
         .modal-header {
@@ -139,6 +190,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
             max-height: 400px;
             object-fit: contain;
             width: 100%;
+            animation: fadeInScale 0.5s ease-out;
         }
 
         /* Empty State */
@@ -146,12 +198,18 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
             text-align: center;
             padding: 5rem 0;
             color: #999;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .empty-state i {
             font-size: 4rem;
             opacity: 0.3;
             margin-bottom: 1rem;
+        }
+
+        /* Loading Spinner Animation */
+        .spinner-border {
+            animation: fadeInUp 0.5s ease-out;
         }
 
         /* Responsive */
@@ -208,12 +266,14 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
     <!-- Galeri -->
     <div class="container-fluid py-5 mt-4">
         <div class="container">
-            <div class="text-center galeri-title-container">
+            <!-- Title dengan Fade In Animation -->
+            <div class="text-center galeri-title-container fade-in-section">
                 <div class="galeri-line"></div>
                 <h1 class="galeri-title-line">Galeri</h1>
                 <div class="galeri-line"></div>
             </div>
 
+            <!-- Gallery Container dengan Fade In Animation -->
             <div class="row g-4" id="galleryContainer">
                 <!-- Data akan dimuat dari database via JavaScript -->
                 <div class="col-12 text-center">
@@ -283,7 +343,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
                             });
 
                             const itemHtml = `
-                                <div class="gallery-item-wrapper">
+                                <div class="gallery-item-wrapper fade-in-item">
                                     <img src="asset/img/${item.gambar}" 
                                          class="gallery-img shadow"
                                          alt="${item.judul}"
@@ -307,6 +367,11 @@ include($_SERVER['DOCUMENT_ROOT'] . '/WEB_PPN/config/koneksi.php');
                         rightCol += '</div>';
                         
                         container.innerHTML = leftCol + rightCol;
+
+                        // Apply animation delays to gallery items
+                        document.querySelectorAll('.gallery-item-wrapper').forEach((wrapper, index) => {
+                            wrapper.style.animationDelay = `${0.2 + (index * 0.1)}s`;
+                        });
 
                         // Attach click listeners to images
                         document.querySelectorAll('.gallery-img').forEach(img => {

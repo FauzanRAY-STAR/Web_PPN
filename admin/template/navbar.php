@@ -47,37 +47,36 @@ if (!isset($base_url)) {
                 <span class="fa fa-bars" style="color: #2b8d4c"></span>
             </button>
 
-            <!-- NAV LINKS -->
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item">
-                        <a href="<?= $base_url ?>beranda" class="nav-link active">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="<?= $base_url ?>page/shop.php" class="nav-link">Shop</a>
-                    </li>
-
-                    <!-- Dropdown Tentang Kami -->
-                    <li class="nav-item dropdown position-static">
-                        <a href="<?= $base_url ?>page/tentang_kami.php" class="nav-link dropdown-toggle"
-                            id="tentangKamiDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Tentang Kami
-                        </a>
-                        <div class="dropdown-menu w-100 mt-0 p-4" aria-labelledby="tentangKamiDropdown"
-                            style="background-color: #fff">
-                            <div class="container">
-                                <div class="col-lg-3 col-md-12 mb-3 text-center text-lg-start">
-                                    <h4 class="fw-bold mb-0" style="color: #2b8d4c">TENTANG<br />KAMI</h4>
-                                </div>
-                                <div class="dropdown-divider-vert"></div>
-                                <div class="col-lg-6 col-md-12">
-                                    <a href="<?= $base_url ?>page/tentang_kami.php" class="d-block py-2 fw-semibold text-link">
-                                        Sekilas Pramudita Pupuk Nusantara
-                                    </a>
-                                    <a href="<?= $base_url ?>page/visi_misi.php" class="d-block py-2 fw-semibold text-link">
-                                        Visi & Misi
-                                    </a>
-                                </div>
+        <!-- NAV LINKS -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                <li class="nav-item">
+                    <a href="<?= $base_url ?>beranda" class="nav-link active">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= $base_url ?>page/shop.php" class="nav-link">Shop</a>
+                </li>
+                
+                <!-- Dropdown Tentang Kami -->
+                <li class="nav-item dropdown position-static">
+                    <a href="<?= $base_url ?>page/tentang_kami.php" class="nav-link dropdown-toggle" 
+                       id="tentangKamiDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Tentang Kami
+                    </a>
+                    <div class="dropdown-menu w-100 mt-0 p-4" aria-labelledby="tentangKamiDropdown" 
+                         style="background-color: #fff">
+                        <div class="container">
+                            <div class="col-lg-3 col-md-12 mb-3 text-center text-lg-start">
+                                <h4 class="fw-bold mb-0" style="color: #2b8d4c">TENTANG<br />KAMI</h4>
+                            </div>
+                            <div class="dropdown-divider-vert"></div>
+                            <div class="col-lg-6 col-md-12">
+                                <a href="<?= $base_url ?>page/tentang_kami.php" class="d-block py-2 fw-semibold text-link">
+                                    Sekilas Pramudita Pupuk Nusantara
+                                </a>
+                                <a href="<?= $base_url ?>page/visi_misi.php" class="d-block py-2 fw-semibold text-link">
+                                    Visi & Misi
+                                </a>
                             </div>
                         </div>
                     </li>

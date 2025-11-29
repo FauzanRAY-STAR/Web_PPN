@@ -179,7 +179,7 @@
 
       <label class="fw-semibold mb-1 mt-3">Unggah Gambar</label>
       <input type="file" class="form-control border-success mb-3" id="gambarInput" accept="image/*">
-      <small class="text-muted">Format: JPG, PNG, GIF (Max 5MB) | Rekomendasi: 1920x1080px</small>
+      <small class="text-muted">Format: JPG, PNG, GIF (Max 10MB) | Rekomendasi: 1920x1080px</small>
       <div id="previewContainer" class="mt-2 mb-3" style="display:none;">
         <img id="previewImg" src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px;">
       </div>
@@ -200,7 +200,7 @@
     <div class="modal-content p-4 rounded-4 text-center">
       <img src="/WEB_PPN/asset/img/logo.png" alt="Logo" width="120" class="mb-3">
       <i class="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
-      <h5 class="fw-semibold mt-3 mb-4">Apakah Anda yakin ingin menghapus <span id="deleteCount">data</span> ini?</h5>
+      <h5 class="fw-semibold mt-3 mb-4">Apakah Anda yakin ingin menghapus <span id="deleteCount">data</span></h5>
       <button class="btn text-white w-100 fw-semibold" id="btnKonfirmasiHapus" style="background-color: #C0392B; border-radius: 12px;">Hapus</button>
     </div>
   </div>
