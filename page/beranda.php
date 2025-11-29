@@ -99,20 +99,16 @@ $result_carousel = mysqli_query($conn, $query_carousel);
             line-height: 1.6;
         }
 
-        /* Carousel Controls */
-        .carousel-control-prev,
-        .carousel-control-next {
-            width: 5%;
-            opacity: 1 !important;
-            transition: all 0.3s ease;
-            z-index: 100 !important;
-            pointer-events: auto !important;
-        }
+            /* Carousel Controls */
+            .carousel-control-prev,
+            .carousel-control-next {
+                display: none !important;
+            }
 
-        .carousel-control-prev:hover,
-        .carousel-control-next:hover {
-            opacity: 1 !important;
-        }
+            .carousel-control-prev:hover,
+            .carousel-control-next:hover {
+                opacity: 1;
+            }
 
         .carousel-control-prev-icon,
         .carousel-control-next-icon {
@@ -316,10 +312,72 @@ $result_carousel = mysqli_query($conn, $query_carousel);
     <?php endif; ?>
 </div>
 
-<?php
-$query_produk = "SELECT * FROM produk WHERE status = 'Dipajang' ORDER BY tanggal DESC LIMIT 5";
-$result_produk = mysqli_query($conn, $query_produk);
-?>
+    <?php
+    // Query untuk mengambil produk yang dipajang (maksimal 5 produk)
+    $query_produk = "SELECT * FROM produk WHERE status = 'Dipajang' ORDER BY tanggal DESC LIMIT 5";
+    $result_produk = mysqli_query($conn, $query_produk);
+    ?>
+
+    <!-- ============================================ -->
+    <!-- PRODUK KAMI SECTION (DYNAMIC) -->
+    <!-- ============================================ -->
+    <div class="container my-5 py-5">
+        <h3 class="text-center fw-bold" style="color: #2B8D4C;">PRODUK KAMI</h3>
+        <div class="d-flex justify-content-center align-items-center mb-4">
+            <div style="width: 100px; height: 2px; background-color: #2B8D4C; margin: 0 10px;"></div>
+        </div>
+
+        <?php if ($result_produk && mysqli_num_rows($result_produk) > 0): ?>
+            <div id="produkCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner text-center">
+                    <?php
+                    $index = 0;
+                    while ($produk = mysqli_fetch_assoc($result_produk)):
+                        $active_class = ($index === 0) ? 'active' : '';
+                    ?>
+                        <div class="carousel-item <?= $active_class ?>">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-md-5">
+<img src="asset/img/<?= htmlspecialchars($produk['gambar']) ?>"
+    class="carousel-product-img"
+    alt="<?= htmlspecialchars($produk['nama']) ?>"
+    onerror="this.src='asset/img/placeholder.png'">
+                                </div>
+                                <div class="col-md-5 text-md-start text-center mt-4 mt-md-0">
+                                    <h4 class="fw-bold" style="color: #2B8D4C;">
+                                        <?= htmlspecialchars($produk['nama']) ?>
+                                    </h4>
+
+                                    <?php if (!empty($produk['atribut'])): ?>
+                                        <div class="mb-2">
+                                            <?php
+                                            $atribut_array = explode(' ', $produk['atribut']);
+                                            foreach ($atribut_array as $atribut):
+                                                $badge_class = '';
+                                                switch ($atribut) {
+                                                    case 'Baru':
+                                                        $badge_class = 'bg-primary';
+                                                        break;
+                                                    case 'Laris':
+                                                        $badge_class = 'bg-warning text-dark';
+                                                        break;
+                                                    case 'Promo':
+                                                        $badge_class = 'bg-success';
+                                                        break;
+                                                    case 'Bonus':
+                                                        $badge_class = 'bg-info text-dark';
+                                                        break;
+                                                    case 'Habis':
+                                                        $badge_class = 'bg-danger';
+                                                        break;
+                                                }
+                                            ?>
+                                                <span class="badge <?= $badge_class ?> me-1">
+                                                    <?= htmlspecialchars($atribut) ?>
+                                                </span>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
 
 <!-- ============================================ -->
 <!-- PRODUK KAMI SECTION -->
@@ -401,22 +459,27 @@ $result_produk = mysqli_query($conn, $query_produk);
                 <div style="width: 0; height: 0; border-top: 25px solid transparent; border-bottom: 25px solid transparent; border-right: 25px solid #FFED64;"></div>
             </button>
 
-            <div class="d-flex mx-3 gap-3" id="thumbnailContainer">
-                <?php 
-                mysqli_data_seek($result_produk, 0);
-                $thumb_index = 0;
-                while ($produk = mysqli_fetch_assoc($result_produk)): 
-                    $active_thumb = ($thumb_index === 0) ? 'active' : '';
-                ?>
-                    <div class="thumb bg-secondary bg-opacity-10 rounded <?= $active_thumb ?>" 
-                         data-bs-target="#produkCarousel" 
-                         data-bs-slide-to="<?= $thumb_index ?>" 
-                         style="width: 120px; height: 120px; cursor: pointer; border: 3px solid <?= $active_thumb ? '#2B8D4C' : 'transparent' ?>; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;">
-                        <img src="asset/img/<?= htmlspecialchars($produk['gambar_kecil'] ?? $produk['gambar']) ?>" 
-                             class="p-3" 
-                             style="max-width: 100%; max-height: 100%; object-fit: contain;"
-                             alt="<?= htmlspecialchars($produk['nama']) ?>"
-                             onerror="this.src='asset/img/placeholder.png'">
+                    <div class="d-flex mx-3 gap-3" id="thumbnailContainer">
+                        <?php
+                        mysqli_data_seek($result_produk, 0);
+                        $thumb_index = 0;
+                        while ($produk = mysqli_fetch_assoc($result_produk)):
+                            $active_thumb = ($thumb_index === 0) ? 'active' : '';
+                        ?>
+                            <div class="thumb bg-secondary bg-opacity-10 rounded <?= $active_thumb ?>"
+                                data-bs-target="#produkCarousel"
+                                data-bs-slide-to="<?= $thumb_index ?>"
+                                style="width: 120px; height: 120px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease;">
+<img src="asset/img/<?= htmlspecialchars($produk['gambar_kecil'] ?? $produk['gambar']) ?>"
+    class="w-100 h-100"
+    style="object-fit: contain;"
+    alt="<?= htmlspecialchars($produk['nama']) ?>"
+    onerror="this.src='asset/img/placeholder.png'">
+                            </div>
+                        <?php
+                            $thumb_index++;
+                        endwhile;
+                        ?>
                     </div>
                 <?php 
                     $thumb_index++;
@@ -1158,49 +1221,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
                 keyboard: true
             });
 
-            // Force manual control untuk tombol prev/next dengan multiple event types
-            var prevBtn = document.querySelector('#heroCarousel .carousel-control-prev');
-            var nextBtn = document.querySelector('#heroCarousel .carousel-control-next');
+    <!-- ============================================ -->
+    <!-- JAVASCRIPT LIBRARIES -->
+    <!-- ============================================ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="asset/js/anima.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-            if (prevBtn) {
-                prevBtn.style.pointerEvents = 'auto';
-                prevBtn.style.cursor = 'pointer';
-                
-                prevBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    carousel.prev();
-                    console.log('Prev clicked');
-                }, true);
-
-                prevBtn.addEventListener('mousedown', function(e) {
-                    e.stopPropagation();
-                }, true);
-            }
-
-            if (nextBtn) {
-                nextBtn.style.pointerEvents = 'auto';
-                nextBtn.style.cursor = 'pointer';
-                
-                nextBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    carousel.next();
-                    console.log('Next clicked');
-                }, true);
-
-                nextBtn.addEventListener('mousedown', function(e) {
-                    e.stopPropagation();
-                }, true);
-            }
-
-            // Keyboard navigation
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowLeft') {
-                    carousel.prev();
-                } else if (e.key === 'ArrowRight') {
-                    carousel.next();
-                }
+    <!-- ============================================ -->
+    <!-- CUSTOM JAVASCRIPT -->
+    <!-- ============================================ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            var heroCarousel = document.querySelector('#heroCarousel');
+            if (heroCarousel) {
+            var carousel = new bootstrap.Carousel(heroCarousel, {
+                interval: 5000, 
+                ride: 'carousel',
+                pause: 'hover',
+                wrap: true // Loop terus menerus
             });
 
             // Swipe gesture support untuk mobile
@@ -1209,33 +1251,52 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['hitung'])) {
 
             heroCarousel.addEventListener('touchstart', function(e) {
                 touchStartX = e.changedTouches[0].screenX;
-            }, { passive: true });
+            });
 
             heroCarousel.addEventListener('touchend', function(e) {
                 touchEndX = e.changedTouches[0].screenX;
                 handleSwipe();
-            }, { passive: true });
+            });
 
             function handleSwipe() {
                 if (touchEndX < touchStartX - 50) {
+                    // Swipe left - next
                     carousel.next();
                 }
                 if (touchEndX > touchStartX + 50) {
+                    // Swipe right - prev
                     carousel.prev();
                 }
             }
-        }
+            
+            // Add click event listener on left/right half of carousel for navigation
+            heroCarousel.addEventListener('click', function(event) {
+                const rect = heroCarousel.getBoundingClientRect();
+                const clickX = event.clientX - rect.left; // x position within element
+                const elementWidth = rect.width;
 
-        // Initialize produk carousel dengan interval 5 detik
-        var produkCarousel = document.querySelector('#produkCarousel');
-        if (produkCarousel) {
-            var carouselProduk = new bootstrap.Carousel(produkCarousel, {
-                interval: 5000,
-                ride: 'carousel',
-                pause: 'hover',
-                wrap: true,
-                keyboard: true
+                if (clickX < elementWidth / 2) {
+                    // Clicked on left half - prev slide
+                    carousel.prev();
+                } else {
+                    // Clicked on right half - next slide
+                    carousel.next();
+                }
             });
+            }
+
+            
+            var produkCarousel = document.querySelector('#produkCarousel');
+            if (produkCarousel) {
+                var carouselProduk = new bootstrap.Carousel(produkCarousel, {
+                    interval: 5000, 
+                    ride: 'carousel',
+                    pause: 'hover',
+                    wrap: true
+                });
+
+                // Thumbnail active state sync
+                const thumbs = document.querySelectorAll('.thumb');
 
             // Manual control untuk tombol prev/next produk
             var prevBtnProduk = document.querySelector('#produkCarousel .carousel-control-prev');

@@ -57,21 +57,40 @@ body {
   object-fit: cover;
 }
 
-    .thumb {
-        opacity: 0.5;
-    }
-    
-    .thumb.active {
-        border-color: #2B8D4C !important;
-        opacity: 1;
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(43, 141, 76, 0.3);
-    }
-    
-    .thumb:hover {
-        opacity: 0.8;
-    }
+/* New class for uniform product carousel images */
+.carousel-product-img {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+}
 
+/* thumbnails */
+.thumb {
+    opacity: 0.5;
+}
+
+.thumb.active {
+    border-color: #2B8D4C !important;
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(43, 141, 76, 0.3);
+}
+
+.thumb:hover {
+    opacity: 0.8;
+}
+
+/* Make thumbnail images uniform size and remove padding */
+.thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Remaining styles unchanged */
 /* ===== KALKULATOR SECTION ===== */
 .kalkulator-section {
   background-color: #fff;
@@ -422,4 +441,3 @@ footer {
   transform: translateY(-2px);
   color: #fff;
 }
-
