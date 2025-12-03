@@ -27,4 +27,25 @@ switch ($_GET['mod']) {
     case 'visi_misi':
         include "page/visi_misi.php";
         break;
+    case 'carousel':
+        include "admin/page/carousel.php";
+        break;
+
+    case 'faq':
+        include "admin/page/faq.php";
+        break;
+
+    case 'produk':
+        include "admin/page/produk.php";
+        break;
+
+    case 'ulasan':
+        include "admin/page/ulasan.php";
+        break;
+    case 'galeri':
+        include "admin/page/galeri.php";
+        break;
+    case 'logbook':
+        include "admin/page/logbook.php";
+        break;
 }

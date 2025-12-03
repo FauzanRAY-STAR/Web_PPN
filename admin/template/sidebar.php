@@ -27,7 +27,12 @@
     font-weight: 400;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
   }
@@ -146,22 +151,22 @@
   <!-- MENU -->
   <div class="p-3">
     <p class="text-secondary small fw-semibold">Menu</p>
-    <div class="menu-item" data-link="/WEB_PPN/admin/page/produk.php" data-keywords="manajemen produk product">
+    <div class="menu-item" data-link="produk" data-keywords="manajemen produk product">
       <i class="bi bi-box-seam"></i><span>Manajemen Produk</span>
     </div>
-    <div class="menu-item" data-link="/WEB_PPN/admin/page/logbook.php" data-keywords="logbook log book catatan">
+    <div class="menu-item" data-link="logbook" data-keywords="logbook log book catatan">
       <i class="bi bi-journal-text"></i><span>Logbook</span>
     </div>
-    <div class="menu-item" data-link="/WEB_PPN/admin/page/ulasan.php" data-keywords="testimoni ulasan review">
+    <div class="menu-item" data-link="ulasan" data-keywords="testimoni ulasan review">
       <i class="bi bi-chat-dots"></i><span>Testimoni</span>
     </div>
-    <div class="menu-item" data-link="/WEB_PPN/admin/page/carousel.php" data-keywords="carousel slider banner beranda hero">
+    <div class="menu-item" data-link="carousel" data-keywords="carousel slider banner beranda hero">
       <i class="bi bi-image"></i><span>Foto Beranda</span>
     </div>
-    <div class="menu-item" data-link="/WEB_PPN/admin/page/galeri.php" data-keywords="galeri gallery gambar foto">
+    <div class="menu-item" data-link="galeri" data-keywords="galeri gallery gambar foto">
       <i class="bi bi-image"></i><span>Galeri</span>
     </div>
-    <div class="menu-item" data-link="/WEB_PPN/admin/page/faq.php" data-keywords="faq pertanyaan question">
+    <div class="menu-item" data-link="faq" data-keywords="faq pertanyaan question">
       <i class="bi bi-question-circle"></i><span>FAQ</span>
     </div>
   </div>
@@ -179,8 +184,8 @@
     </div>
 
     <!-- Dropup Menu -->
-    <div class="dropup-menu bg-white shadow rounded-3 p-2 position-absolute" 
-         style="bottom: 50px; left: 0; right: 0; text-align: center; display: none;">
+    <div class="dropup-menu bg-white shadow rounded-3 p-2 position-absolute"
+      style="bottom: 50px; left: 0; right: 0; text-align: center; display: none;">
       <button class="btn btn-danger w-100 py-1" id="logoutBtn">
         <i class="bi bi-box-arrow-right"></i> Logout
       </button>
