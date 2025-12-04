@@ -21,8 +21,15 @@
 <?php
 include '../../config/koneksi.php';
 
-// Fetch FAQ data
-$query = "SELECT * FROM faq ORDER BY tanggal DESC";
+// Handle search
+$search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+
+// Fetch FAQ data with search
+$query = "SELECT * FROM faq WHERE 1=1";
+if (!empty($search)) {
+  $query .= " AND (judul LIKE '%$search%' OR deskripsi LIKE '%$search%' OR status LIKE '%$search%')";
+}
+$query .= " ORDER BY tanggal DESC";
 $result = mysqli_query($conn, $query);
 $faqs = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
@@ -35,10 +42,15 @@ $faqs = mysqli_fetch_all($result, MYSQLI_ASSOC);
       <!-- SEARCH BAR -->
       <div class="search-bar-top">
         <div class="left-col">
-          <div class="search-box">
-            <i class="bi bi-search"></i>
-            <input type="text" placeholder="Search" id="searchInput">
-          </div>
+          <form method="GET" class="d-flex gap-2">
+            <div class="search-box">
+              <i class="bi bi-search"></i>
+              <input type="text" name="search" placeholder="Search" value="<?= htmlspecialchars($search) ?>">
+            </div>
+            <button type="submit" class="search-btn" style="background-color: #4E8E55;">
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
         </div>
         <div class="right-col">
           <button class="search-btn" id="btnTambah" style="background-color: #4E8E55;">
@@ -287,7 +299,8 @@ $faqs = mysqli_fetch_all($result, MYSQLI_ASSOC);
       rows.forEach(row => {
         const judul = row.cells[0].textContent.toLowerCase();
         const deskripsi = row.cells[1].textContent.toLowerCase();
-        if (judul.includes(searchTerm) || deskripsi.includes(searchTerm)) {
+        const status = row.cells[2].textContent.toLowerCase();
+        if (judul.includes(searchTerm) || deskripsi.includes(searchTerm) || status.includes(searchTerm)) {
           row.style.display = '';
         } else {
           row.style.display = 'none';
